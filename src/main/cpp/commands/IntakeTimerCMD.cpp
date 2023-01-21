@@ -2,33 +2,42 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-#include "commands/IntakeCMD.h"
+#include "commands/IntakeTimerCMD.h"
 
-IntakeCMD::IntakeCMD(IntakeSub* pIntake, bool setOpen)
+IntakeTimerCMD::IntakeTimerCMD(IntakeSub *pIntake, bool set, double waitTime)
 {
   m_pIntake = pIntake;
-  m_setOpen = setOpen;
+  m_setOpen = set;
+  m_waitTime = waitTime;
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements(m_pIntake);
 }
 
 // Called when the command is initially scheduled.
-void IntakeCMD::Initialize() {}
+void IntakeTimerCMD::Initialize()
+{
+  m_timer.Start();
+  m_timer.Reset();
+}
 
 // Called repeatedly when this Command is scheduled to run
-void IntakeCMD::Execute()
+void IntakeTimerCMD::Execute()
 {
   m_pIntake->SetIntake(m_setOpen);
 }
 
 // Called once the command ends or is interrupted.
-void IntakeCMD::End(bool interrupted) 
+void IntakeTimerCMD::End(bool interrupted) 
 {
   m_pIntake->SetIntake(false);
 }
 
 // Returns true when the command should end.
-bool IntakeCMD::IsFinished() {
-  
+bool IntakeTimerCMD::IsFinished() 
+{
+  if((double)m_timer.Get() > m_waitTime)
+  {
+    return true;
+  }
   return false;
 }

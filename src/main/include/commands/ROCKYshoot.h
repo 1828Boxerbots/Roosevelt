@@ -10,7 +10,6 @@
 #include "subsystems/IntakeSub.h"
 
 #include <frc/Timer.h>
-#include "Util.h"
 
 /**
  * An example command.
@@ -19,10 +18,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class IntakeCMD
-    : public frc2::CommandHelper<frc2::CommandBase, IntakeCMD> {
+class ROCKYshoot
+    : public frc2::CommandHelper<frc2::CommandBase, ROCKYshoot> {
  public:
-  IntakeCMD(IntakeSub* pIntake, bool setOpen);
+  ROCKYshoot(IntakeSub *pIntake, double speed);
 
   void Initialize() override;
 
@@ -32,10 +31,8 @@ class IntakeCMD
 
   bool IsFinished() override;
 
- private:
   IntakeSub* m_pIntake;
+  double m_speed;
 
-  bool m_setOpen;
-
-  frc::Timer m_timer;
+  frc::Timer m_time;
 };

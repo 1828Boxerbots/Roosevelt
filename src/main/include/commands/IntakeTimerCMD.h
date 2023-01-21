@@ -10,7 +10,6 @@
 #include "subsystems/IntakeSub.h"
 
 #include <frc/Timer.h>
-#include "Util.h"
 
 /**
  * An example command.
@@ -19,10 +18,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class IntakeCMD
-    : public frc2::CommandHelper<frc2::CommandBase, IntakeCMD> {
+class IntakeTimerCMD
+    : public frc2::CommandHelper<frc2::CommandBase, IntakeTimerCMD> {
  public:
-  IntakeCMD(IntakeSub* pIntake, bool setOpen);
+  IntakeTimerCMD(IntakeSub *pIntake, bool set, double waitTime = 2);
 
   void Initialize() override;
 
@@ -32,10 +31,8 @@ class IntakeCMD
 
   bool IsFinished() override;
 
- private:
   IntakeSub* m_pIntake;
-
   bool m_setOpen;
-
+  double m_waitTime;
   frc::Timer m_timer;
 };

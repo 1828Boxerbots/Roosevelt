@@ -11,6 +11,11 @@
 
 #include "rev/ColorSensorV3.h"
 
+// ROCKY TEST
+#include <frc/motorcontrol/Spark.h>
+
+#include "Util.h"
+
 class IntakeSub : public frc2::SubsystemBase {
  public:
   IntakeSub();
@@ -25,6 +30,8 @@ class IntakeSub : public frc2::SubsystemBase {
    */
   void Periodic() override;
 
+  void Init();
+
   // MOTOR FUNCTIONS
   void SetIntake(bool setOpen);
   frc2::CommandPtr IntakeOpen();
@@ -32,6 +39,9 @@ class IntakeSub : public frc2::SubsystemBase {
 
   // COLOR SENSOR FUNCTIONS
   ColorTargets GetColorTarget();
+
+  //ROCKY TEST
+  void SetShoot(double speed);
 
  private:
   frc::DoubleSolenoid m_intake{frc::PneumaticsModuleType::CTREPCM, 0, 1};
@@ -45,6 +55,9 @@ class IntakeSub : public frc2::SubsystemBase {
   double m_CubeDead = 0.05;
   double m_ConeDead = 0.035;
 
+  // ROCKY TEST
+  frc::Spark m_shoot{5};
+  frc::Spark m_load{9};
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
 };

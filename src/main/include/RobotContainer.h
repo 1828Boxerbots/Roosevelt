@@ -11,12 +11,16 @@
 #include "subsystems/ExampleSubsystem.h"
 
 #include <frc/XboxController.h>
+#include <frc/DigitalInput.h>
 
 #include "commands/DriveCMD.h"
 #include "commands/IntakeCMD.h"
+#include "commands/ROCKYshoot.h"
+#include "commands/BalanceCMD.h"
 
 #include "subsystems/DriveSub.h"
 #include "subsystems/IntakeSub.h"
+
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -42,8 +46,13 @@ class RobotContainer {
   void ConfigureBindings();
   void Init();
 
+  int GetDPDT();
+
   frc::XboxController m_XboxOne{OperatorConstants::kDriverControllerPort};
   frc::XboxController m_XboxTwo{1};
+
+  frc::DigitalInput m_topDPDT{2};
+  frc::DigitalInput m_bottomDPDT{3};
 
   DriveSub m_Drive;
   IntakeSub m_Intake;
@@ -51,4 +60,7 @@ class RobotContainer {
   DriveCMD* m_pDriveCMD = nullptr;
   IntakeCMD* m_pIntakeOpen = nullptr;
   IntakeCMD* m_pIntakeClose = nullptr;
+  BalanceCMD* m_pBalance = nullptr;
+
+  ROCKYshoot* m_pshoot = nullptr;
 };

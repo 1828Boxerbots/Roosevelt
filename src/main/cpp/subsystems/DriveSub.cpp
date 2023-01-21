@@ -12,6 +12,8 @@ void DriveSub::Periodic() {}
 void DriveSub::Init()
 {
     m_rightDrive.SetInverted(true);
+    m_leftEncoder.SetDistancePerPulse((8.0*M_PI) / 7560.0);
+    m_rightEncoder.SetDistancePerPulse((8.0*M_PI) / 7560.0);
     m_leftEncoder.Reset();
     m_rightEncoder.Reset();
 }
@@ -26,19 +28,33 @@ void DriveSub::MoveTank(double left, double right)
 
 void DriveSub::MoveRC(double horizontal, double vertical)
 {
-    MoveTank(horizontal+vertical, horizontal-vertical);
+    MoveTank(vertical+horizontal, vertical-horizontal);
 }
 
 // ENCODER FUNCTIONS
 
-int DriveSub::GetLeftDist()
+double DriveSub::GetLeftDist()
 {
+    Util::Log("DriveLeft Dist", m_leftEncoder.GetDistance());
     return m_leftEncoder.GetDistance();
 }
 
-int DriveSub::GetRightDist()
+double DriveSub::GetRightDist()
 {
+    Util::Log("DriveRight Dist", m_rightEncoder.GetDistance());
     return m_rightEncoder.GetDistance();
+}
+
+double DriveSub::GetLeftVelocity()
+{
+    Util::Log("DriveLeft Rate", m_leftEncoder.GetRate());
+    return m_leftEncoder.GetRate();
+}
+
+double DriveSub::GetRightVelocity()
+{
+    Util::Log("DriveRight Rate", m_rightEncoder.GetRate());
+    return m_rightEncoder.GetRate();
 }
 
 void DriveSub::ResetEncoders()
@@ -51,15 +67,18 @@ void DriveSub::ResetEncoders()
 
 double DriveSub::GetXAngle()
 {
+    Util::Log("IMU X Angle", (double)m_imu.GetGyroAngleX());
     return (double)m_imu.GetGyroAngleX();
 }
 
 double DriveSub::GetYAngle()
 {
+    Util::Log("IMU Y Angle", (double)m_imu.GetGyroAngleY());
     return (double)m_imu.GetGyroAngleY();
 }
 
 double DriveSub::GetZAngle()
 {
+    Util::Log("Gyro Z", (double)m_imu.GetGyroAngleZ());
     return (double)m_imu.GetGyroAngleZ();
 }

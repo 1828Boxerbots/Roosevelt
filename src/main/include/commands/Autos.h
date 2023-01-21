@@ -5,12 +5,27 @@
 #pragma once
 
 #include <frc2/command/CommandPtr.h>
+#include <frc2/command/SequentialCommandGroup.h>
 
 #include "subsystems/ExampleSubsystem.h"
+
+#include "commands/IntakeCMD.h"
+#include "commands/ROCKYshoot.h"
+#include "commands/ForwardFeetAbsolute.h"
+#include "commands/IntakeTimerCMD.h"
+#include "commands/BalanceCMD.h"
+
+#include "subsystems/IntakeSub.h"
+#include "subsystems/DriveSub.h"
 
 namespace autos {
 /**
  * Example static factory for an autonomous command.
  */
-frc2::CommandPtr ExampleAuto(ExampleSubsystem* subsystem);
+    frc2::CommandPtr ExampleAuto(ExampleSubsystem* subsystem);
+
+    frc2::CommandPtr ForwardLoadAuto(IntakeSub* pIntake, DriveSub* pDrive);
+
+    frc2::CommandPtr BalanceAuto(IntakeSub* pIntake, DriveSub* pDrive);
+
 }  // namespace autos

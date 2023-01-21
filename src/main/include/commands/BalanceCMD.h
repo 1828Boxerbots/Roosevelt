@@ -9,6 +9,7 @@
 
 #include "subsystems/DriveSub.h"
 #include <frc/controller/PIDController.h>
+#include <frc/Timer.h>
 
 /**
  * An example command.
@@ -20,7 +21,7 @@
 class BalanceCMD
     : public frc2::CommandHelper<frc2::CommandBase, BalanceCMD> {
  public:
-  BalanceCMD(DriveSub* pDrive, double pidTolerance = 1.5);
+  BalanceCMD(DriveSub* pDrive, bool onControl = true, double pidTolerance = 1.5, double waitTime = 0.5);
 
   void Initialize() override;
 
@@ -36,4 +37,8 @@ class BalanceCMD
   frc::PIDController m_pid{0.01, 0, 0};
 
   double m_pidTolerance;
+  double m_waitTime;
+  bool m_onControl;
+
+  frc::Timer m_timer;
 };

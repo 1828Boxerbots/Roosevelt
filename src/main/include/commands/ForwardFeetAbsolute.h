@@ -10,6 +10,9 @@
 #include "subsystems/DriveSub.h"
 #include <frc/controller/PIDController.h>
 
+#include <frc/Timer.h>
+#include "Util.h"
+
 /**
  * An example command.
  *
@@ -20,7 +23,7 @@
 class ForwardFeetAbsolute
     : public frc2::CommandHelper<frc2::CommandBase, ForwardFeetAbsolute> {
  public:
-  ForwardFeetAbsolute(DriveSub *pDrive, double distance);
+  ForwardFeetAbsolute(DriveSub *pDrive, double distance, double tolerance);
 
   void Initialize() override;
 
@@ -34,6 +37,10 @@ class ForwardFeetAbsolute
   DriveSub* m_pDrive;
   double m_distance;
 
-  frc::PIDController m_forwardPID{0.1, 0, 0};
-  frc::PIDController m_allignPID{0.1, 0, 0};
+  frc::PIDController m_forwardPID{0.4, 0, 0};
+  frc::PIDController m_allignPID{0.15, 0, 0.1};
+
+  frc::Timer m_timer;
+  double m_yesTime = 0.0;
+  bool m_isFinished = false;
 };

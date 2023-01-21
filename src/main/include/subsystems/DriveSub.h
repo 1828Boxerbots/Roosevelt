@@ -10,6 +10,8 @@
 #include <frc/Encoder.h>
 #include <frc/ADIS16448_IMU.h>
 
+#include "Util.h"
+
 class DriveSub : public frc2::SubsystemBase {
 
  public:
@@ -29,9 +31,11 @@ class DriveSub : public frc2::SubsystemBase {
   void MoveRC(double horizontal, double vertical);
 
   // Encoder Functions
-  int GetLeftDist();
-  int GetRightDist();
+  double GetLeftDist();
+  double GetRightDist();
   void ResetEncoders();
+  double GetLeftVelocity();
+  double GetRightVelocity();
 
   // IMU FUNCTIONS
   double GetXAngle();
@@ -41,11 +45,11 @@ class DriveSub : public frc2::SubsystemBase {
   void Periodic() override;
 
  private:
-  frc::Spark m_leftDrive{1};
-  frc::Spark m_rightDrive{0};
+  frc::Spark m_leftDrive{0};
+  frc::Spark m_rightDrive{1};
 
-  frc::Encoder m_leftEncoder{0, 1};
-  frc::Encoder m_rightEncoder{2, 3};
+  frc::Encoder m_leftEncoder{8, 9, true};
+  frc::Encoder m_rightEncoder{0, 1, true};
 
   frc::ADIS16448_IMU m_imu;
 };

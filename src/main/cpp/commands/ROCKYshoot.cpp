@@ -2,33 +2,40 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-#include "commands/IntakeCMD.h"
+#include "commands/ROCKYshoot.h"
 
-IntakeCMD::IntakeCMD(IntakeSub* pIntake, bool setOpen)
+ROCKYshoot::ROCKYshoot(IntakeSub *pIntake, double speed)
 {
   m_pIntake = pIntake;
-  m_setOpen = setOpen;
+  m_speed = speed;
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements(m_pIntake);
 }
 
 // Called when the command is initially scheduled.
-void IntakeCMD::Initialize() {}
+void ROCKYshoot::Initialize() 
+{
+  m_time.Start();
+  m_time.Reset();
+}
 
 // Called repeatedly when this Command is scheduled to run
-void IntakeCMD::Execute()
+void ROCKYshoot::Execute()
 {
-  m_pIntake->SetIntake(m_setOpen);
+  m_pIntake->SetShoot(m_speed);
 }
 
 // Called once the command ends or is interrupted.
-void IntakeCMD::End(bool interrupted) 
+void ROCKYshoot::End(bool interrupted)
 {
-  m_pIntake->SetIntake(false);
+  m_pIntake->SetShoot(0.0);
 }
 
 // Returns true when the command should end.
-bool IntakeCMD::IsFinished() {
-  
+bool ROCKYshoot::IsFinished() {
+  if((double)m_time.Get() > 1)
+  {
+    return true;
+  }
   return false;
 }
