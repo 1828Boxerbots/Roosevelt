@@ -7,6 +7,9 @@
 #include <frc2/command/SubsystemBase.h>
 
 #include <frc/motorcontrol/Spark.h>
+#include <frc/motorcontrol/VictorSP.h>
+#include <ctre/phoenix/motorcontrol/can/WPI_VictorSPX.h>
+
 #include <frc/Encoder.h>
 #include <frc/ADIS16448_IMU.h>
 #include <frc/ADIS16470_IMU.h>
@@ -48,6 +51,8 @@ class DriveSub : public frc2::SubsystemBase {
  private:
   frc::Spark m_leftDrive{1};
   frc::Spark m_rightDrive{0};
+
+  ctre::phoenix::motorcontrol::can::WPI_VictorSPX m_victor {0};
 
   frc::Encoder m_leftEncoder{8, 9, true};
   frc::Encoder m_rightEncoder{0, 1, true};
