@@ -17,10 +17,10 @@
 #include "commands/IntakeCMD.h"
 #include "commands/ROCKYshoot.h"
 #include "commands/BalanceCMD.h"
+#include "commands/ForwardFeetAbsolute.h"
 
 #include "subsystems/DriveSub.h"
 #include "subsystems/IntakeSub.h"
-
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -61,6 +61,8 @@ class RobotContainer {
   IntakeCMD* m_pIntakeOpen = nullptr;
   IntakeCMD* m_pIntakeClose = nullptr;
   BalanceCMD* m_pBalance = nullptr;
+  ForwardFeetAbsolute* m_pForward = nullptr;
+  ForwardFeetAbsolute* m_pBack = nullptr;
 
   ROCKYshoot* m_pshoot = nullptr;
 };

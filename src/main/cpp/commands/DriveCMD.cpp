@@ -21,6 +21,9 @@ void DriveCMD::Initialize() {}
 // Called repeatedly when this Command is scheduled to run
 void DriveCMD::Execute()
 {
+  m_pDrive->GetYAngle();
+  m_pDrive->GetXAngle();
+
   m_LeftX = m_pXbox->GetLeftX() * m_scale;
   m_LeftY = -m_pXbox->GetLeftY() * m_scale;
   m_RightX = m_pXbox->GetRightX() * m_scale;

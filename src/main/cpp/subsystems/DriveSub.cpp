@@ -22,6 +22,9 @@ void DriveSub::Init()
 
 void DriveSub::MoveTank(double left, double right)
 {
+    Util::Log("LeftPower", left);
+    Util::Log("RightPower", right);
+    Util::Log("Left-Right pwr", left-right);
     m_leftDrive.Set(left);
     m_rightDrive.Set(right);
 }
@@ -68,13 +71,16 @@ void DriveSub::ResetEncoders()
 double DriveSub::GetXAngle()
 {
     Util::Log("IMU X Angle", (double)m_imu.GetGyroAngleX());
+    Util::Log("new IMU GetAngle", (double)m_newIMU.GetAngle());
     return (double)m_imu.GetGyroAngleX();
 }
 
 double DriveSub::GetYAngle()
 {
     Util::Log("IMU Y Angle", (double)m_imu.GetGyroAngleY());
-    return (double)m_imu.GetGyroAngleY();
+    //return (double)m_imu.GetGyroAngleY();
+    Util::Log("new IMU GetYComplementaryAngle", (double)m_newIMU.GetYComplementaryAngle());
+    return (double)m_newIMU.GetYComplementaryAngle(); 
 }
 
 double DriveSub::GetZAngle()

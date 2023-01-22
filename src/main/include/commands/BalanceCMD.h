@@ -34,7 +34,7 @@ class BalanceCMD
  private:
   DriveSub *m_pDrive;
 
-  frc::PIDController m_pid{0.01, 0, 0};
+  frc::PIDController m_pid{0.05, 0, 0};
 
   double m_pidTolerance;
   double m_waitTime;

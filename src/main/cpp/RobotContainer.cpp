@@ -17,6 +17,8 @@ RobotContainer::RobotContainer() {
   //m_pIntakeClose = new IntakeCMD(&m_Intake, false);
   m_pBalance = new BalanceCMD(&m_Drive);
 
+  m_pForward = new ForwardFeetAbsolute(&m_Drive, 10.0, 0.1);
+  m_pBack = new ForwardFeetAbsolute(&m_Drive, 0.0, 0.1);
   // Configure the button bindings
   ConfigureBindings();
   Init();
@@ -41,6 +43,8 @@ void RobotContainer::ConfigureBindings() {
   m_driverController.B().WhileTrue(m_pshoot);
 
   m_driverController.X().WhileTrue(m_pBalance);
+
+  m_driverController.Y().WhileTrue(m_pForward);
 }
 
 void RobotContainer::Init()
