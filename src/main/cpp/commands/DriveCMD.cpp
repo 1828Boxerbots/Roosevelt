@@ -10,7 +10,7 @@ DriveCMD::DriveCMD(DriveSub* pDrive, frc::XboxController *pXbox, double scale)
   m_pXbox = pXbox;
   m_scale = scale;
 
-  m_style = kDriveStyle;
+  m_style = m_pDrive->kDriveStyle;
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements(m_pDrive);
 }
@@ -23,6 +23,7 @@ void DriveCMD::Execute()
 {
   m_pDrive->GetYAngle();
   m_pDrive->GetXAngle();
+  m_pDrive->GetZAngle();
 
   m_LeftX = m_pXbox->GetLeftX() * m_scale;
   m_LeftY = -m_pXbox->GetLeftY() * m_scale;

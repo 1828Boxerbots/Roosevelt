@@ -5,16 +5,13 @@
 #pragma once
 
 #include <frc2/command/SubsystemBase.h>
-#include <frc/DoubleSolenoid.h>
+#include "Constants.h"
+#include "Util.h"
 
-#include <frc2/command/CommandPtr.h>
+#include <frc/DoubleSolenoid.h>
+#include <frc/Compressor.h>
 
 #include "rev/ColorSensorV3.h"
-
-// ROCKY TEST
-#include <frc/motorcontrol/Spark.h>
-
-#include "Util.h"
 
 class IntakeSub : public frc2::SubsystemBase {
  public:
@@ -25,27 +22,19 @@ class IntakeSub : public frc2::SubsystemBase {
     CONE, CUBE, NOTHING=0
   };
 
-  /**
-   * Will be called periodically whenever the CommandScheduler runs.
-   */
-  void Periodic() override;
-
   void Init();
 
   // MOTOR FUNCTIONS
-  void SetIntake(bool setOpen);
-  frc2::CommandPtr IntakeOpen();
-  frc2::CommandPtr IntakeClose();
+  void SetIntake(bool isOpen);
 
   // COLOR SENSOR FUNCTIONS
-  ColorTargets GetColorTarget();
+  ColorTargets GetHeldObject();
 
-  //ROCKY TEST
-  void SetShoot(double speed);
+  // LED INDICATOR
+  void SetLED();
 
  private:
-  frc::DoubleSolenoid m_intake{frc::PneumaticsModuleType::CTREPCM, 0, 1};
-
+  frc::DoubleSolenoid m_intake{0, frc::PneumaticsModuleType::CTREPCM, kForwardChannel, kBackwardChannel};
   rev::ColorSensorV3 m_colorSensor{frc::I2C::kOnboard};
 
   // Color Values
@@ -54,10 +43,4 @@ class IntakeSub : public frc2::SubsystemBase {
 
   double m_CubeDead = 0.05;
   double m_ConeDead = 0.035;
-
-  // ROCKY TEST
-  frc::Spark m_shoot{5};
-  frc::Spark m_load{9};
-  // Components (e.g. motor controllers and sensors) should generally be
-  // declared private and exposed only through public methods.
 };

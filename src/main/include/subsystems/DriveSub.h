@@ -5,6 +5,8 @@
 #pragma once
 
 #include <frc2/command/SubsystemBase.h>
+#include <frc2/command/CommandPtr.h>
+#include "Constants.h"
 
 #include <frc/motorcontrol/Spark.h>
 #include <frc/motorcontrol/VictorSP.h>
@@ -37,7 +39,6 @@ class DriveSub : public frc2::SubsystemBase {
   // Encoder Functions
   double GetLeftDist();
   double GetRightDist();
-  void ResetEncoders();
   double GetLeftVelocity();
   double GetRightVelocity();
 
@@ -46,17 +47,19 @@ class DriveSub : public frc2::SubsystemBase {
   double GetYAngle();
   double GetZAngle();
 
-  void Periodic() override;
+  const DriveStyles kDriveStyle = DriveStyles::RC_STYLE; 
 
  private:
-  frc::Spark m_leftDrive{1};
-  frc::Spark m_rightDrive{0};
+  void ResetEncoders();
+  void ResetIMU();
 
-  ctre::phoenix::motorcontrol::can::WPI_VictorSPX m_victor {0};
+  ctre::phoenix::motorcontrol::can::WPI_VictorSPX m_leftOne {kLeftDrive1};
+  ctre::phoenix::motorcontrol::can::WPI_VictorSPX m_leftTwo {kLeftDrive2};
+  ctre::phoenix::motorcontrol::can::WPI_VictorSPX m_rightOne {kRightDrive1};
+  ctre::phoenix::motorcontrol::can::WPI_VictorSPX m_rightTwo {kRightDrive2};
 
-  frc::Encoder m_leftEncoder{8, 9, true};
-  frc::Encoder m_rightEncoder{0, 1, true};
+  frc::Encoder m_leftEncoder{kLeftEncoderA, kLeftEncoderB};
+  frc::Encoder m_rightEncoder{kRightEncoderA, kRightEncoderB};
 
   frc::ADIS16448_IMU m_imu;
-  frc::ADIS16470_IMU m_newIMU;
 };

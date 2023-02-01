@@ -7,11 +7,10 @@
 #include <frc2/command/button/Trigger.h>
 
 #include "commands/Autos.h"
-#include "commands/ExampleCommand.h"
 
 RobotContainer::RobotContainer() {
   // Initialize all of your commands and subsystems here
-  m_pDriveCMD = new DriveCMD(&m_Drive, &m_XboxOne);
+  m_pDriveCMD = new DriveCMD(&m_Drive, &m_XboxOne, kDriveScale);
   m_pshoot = new ROCKYshoot(&m_Intake, 1.0);
   m_pIntakeOpen = new IntakeCMD(&m_Intake, true);
   //m_pIntakeClose = new IntakeCMD(&m_Intake, false);
@@ -28,9 +27,9 @@ void RobotContainer::ConfigureBindings() {
   // Configure your trigger bindings here
 
   // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-  frc2::Trigger([this] {
-    return m_subsystem.ExampleCondition();
-  }).OnTrue(ExampleCommand(&m_subsystem).ToPtr());
+  // frc2::Trigger([this] {
+  //   return m_subsystem.ExampleCondition();
+  // }).OnTrue(ExampleCommand(&m_subsystem).ToPtr());
 
   // Schedule `ExampleMethodCommand` when the Xbox controller's B button is
   // pressed, cancelling on release.
@@ -57,8 +56,8 @@ void RobotContainer::Init()
 
 int RobotContainer::GetDPDT()
 {
-  bool isTop = !m_topDPDT.Get();
-  bool isBottom = !m_bottomDPDT.Get();
+  bool isTop = false;//!m_topDPDT.Get();
+  bool isBottom = false;//!m_bottomDPDT.Get();
 
   int value;
 
@@ -80,16 +79,17 @@ int RobotContainer::GetDPDT()
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
   // An example command will be run in autonomous
-  int pos = GetDPDT();
-  if(pos == 1 or pos == 3)
-  {
-    Util::Log("AUTO", "ForwardLoadAuto");
-    Util::Log("DPDT Pos", pos);
-    return autos::ForwardLoadAuto(&m_Intake, &m_Drive);
-  }
-  else if(pos == 2)
-  {
-    Util::Log("AUTO", "BalanceAuto");
-    return autos::BalanceAuto(&m_Intake, &m_Drive);
-  }
+  // int pos = GetDPDT();
+  // if(pos == 1 or pos == 3)
+  // {
+  //   Util::Log("AUTO", "ForwardLoadAuto");
+  //   Util::Log("DPDT Pos", pos);
+  //   return autos::ForwardLoadAuto(&m_Intake, &m_Drive);
+  // }
+  // else if(pos == 2)
+  // {
+  //   Util::Log("AUTO", "BalanceAuto");
+  //   return autos::BalanceAuto(&m_Intake, &m_Drive);
+  // }
+  return autos::ForwardLoadAuto(&m_Intake, &m_Drive);
 }

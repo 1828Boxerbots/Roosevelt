@@ -8,7 +8,6 @@
 #include <frc2/command/button/CommandXboxController.h>
 
 #include "Constants.h"
-#include "subsystems/ExampleSubsystem.h"
 
 #include <frc/XboxController.h>
 #include <frc/DigitalInput.h>
@@ -37,22 +36,20 @@ class RobotContainer {
 
  private:
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  frc2::CommandXboxController m_driverController{
-      OperatorConstants::kDriverControllerPort};
+  frc2::CommandXboxController m_driverController{kDriverControllerPort};
 
   // The robot's subsystems are defined here...
-  ExampleSubsystem m_subsystem;
 
   void ConfigureBindings();
   void Init();
 
   int GetDPDT();
 
-  frc::XboxController m_XboxOne{OperatorConstants::kDriverControllerPort};
-  frc::XboxController m_XboxTwo{1};
+  frc::XboxController m_XboxOne{kDriverControllerPort};
+  frc::XboxController m_XboxTwo{kOperatorControllerPort};
 
-  frc::DigitalInput m_topDPDT{2};
-  frc::DigitalInput m_bottomDPDT{3};
+  //frc::DigitalInput m_topDPDT{2};
+  //frc::DigitalInput m_bottomDPDT{3};
 
   DriveSub m_Drive;
   IntakeSub m_Intake;

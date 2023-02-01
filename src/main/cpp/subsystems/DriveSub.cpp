@@ -6,16 +6,14 @@
 
 DriveSub::DriveSub() = default;
 
-// This method will be called once per scheduler run
-void DriveSub::Periodic() {}
 
 void DriveSub::Init()
 {
-    m_rightDrive.SetInverted(true);
-    m_leftEncoder.SetDistancePerPulse((8.0*M_PI) / 7560.0);
-    m_rightEncoder.SetDistancePerPulse((8.0*M_PI) / 7560.0);
-    m_leftEncoder.Reset();
-    m_rightEncoder.Reset();
+    m_rightOne.SetInverted(true);
+    m_rightTwo.SetInverted(true);
+
+    ResetIMU();
+    ResetEncoders();
 }
 
 // MOTOR FUNCTIONS
@@ -25,8 +23,11 @@ void DriveSub::MoveTank(double left, double right)
     Util::Log("LeftPower", left);
     Util::Log("RightPower", right);
     Util::Log("Left-Right pwr", left-right);
-    m_leftDrive.Set(left);
-    m_rightDrive.Set(right);
+
+    m_leftOne.Set(left);
+    m_leftTwo.Set(left);
+    m_rightOne.Set(right);
+    m_rightTwo.Set(right);
 }
 
 void DriveSub::MoveRC(double horizontal, double vertical)
@@ -71,20 +72,22 @@ void DriveSub::ResetEncoders()
 double DriveSub::GetXAngle()
 {
     Util::Log("IMU X Angle", (double)m_imu.GetGyroAngleX());
-    Util::Log("new IMU GetAngle", (double)m_newIMU.GetAngle());
     return (double)m_imu.GetGyroAngleX();
 }
 
 double DriveSub::GetYAngle()
 {
     Util::Log("IMU Y Angle", (double)m_imu.GetGyroAngleY());
-    //return (double)m_imu.GetGyroAngleY();
-    Util::Log("new IMU GetYComplementaryAngle", (double)m_newIMU.GetYComplementaryAngle());
-    return (double)m_newIMU.GetYComplementaryAngle(); 
+    return (double)m_imu.GetGyroAngleY();
 }
 
 double DriveSub::GetZAngle()
 {
     Util::Log("Gyro Z", (double)m_imu.GetGyroAngleZ());
     return (double)m_imu.GetGyroAngleZ();
+}
+
+void DriveSub::ResetIMU()
+{
+    m_imu.Reset();
 }

@@ -22,13 +22,13 @@ void ROCKYshoot::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void ROCKYshoot::Execute()
 {
-  m_pIntake->SetShoot(m_speed);
+  //m_pIntake->SetShoot(m_speed);
 }
 
 // Called once the command ends or is interrupted.
 void ROCKYshoot::End(bool interrupted)
 {
-  m_pIntake->SetShoot(0.0);
+  //m_pIntake->SetShoot(0.0);
 }
 
 // Returns true when the command should end.

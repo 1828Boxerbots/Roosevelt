@@ -6,12 +6,9 @@
 
 IntakeSub::IntakeSub() = default;
 
-// This method will be called once per scheduler run
-void IntakeSub::Periodic() {}
-
 void IntakeSub::Init()
 {
-    m_shoot.SetInverted(true);
+
 }
 
 void IntakeSub::SetIntake(bool setOpen)
@@ -19,35 +16,16 @@ void IntakeSub::SetIntake(bool setOpen)
     Util::Log("SetIntake", setOpen);
     if(setOpen == true)
     {
-        //m_intake.Set(frc::DoubleSolenoid::kForward);
-        m_load.Set(1.0);
+        m_intake.Set(frc::DoubleSolenoid::kForward);
     }
     else if(setOpen == false)
     {
-        //m_intake.Set(frc::DoubleSolenoid::kReverse);
-        m_load.Set(0.0);
+        m_intake.Set(frc::DoubleSolenoid::kReverse);
     }
-    //m_intake.Set(frc::DoubleSolenoid::kOff);
+    m_intake.Set(frc::DoubleSolenoid::kOff);
 }
 
-frc2::CommandPtr IntakeSub::IntakeOpen()
+IntakeSub::ColorTargets IntakeSub::GetHeldObject()
 {
-    return RunOnce([this]
-    {
-        SetIntake(true);
-    });
-}
-
-frc2::CommandPtr IntakeSub::IntakeClose()
-{
-    return RunOnce([this]
-    {
-        SetIntake(false);
-    });
-}
-
-// ROCKY TEST
-void IntakeSub::SetShoot(double speed)
-{
-    m_shoot.Set(speed);
+    return IntakeSub::CUBE;
 }

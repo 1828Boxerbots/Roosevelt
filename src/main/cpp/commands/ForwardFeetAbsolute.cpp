@@ -39,7 +39,7 @@ void ForwardFeetAbsolute::Execute()
   //m_allignPID.SetSetpoint(m_pDrive->GetLeftDist());
   Util::Log("Difference between encoder", m_pDrive->GetLeftDist()-m_pDrive->GetRightDist());
 
-  m_pDrive->MoveRC(/*m_allignPID.Calculate(m_pDrive->GetXAngle())*/0, m_forwardPID.Calculate(m_pDrive->GetRightDist()));
+  m_pDrive->MoveRC(m_allignPID.Calculate(m_pDrive->GetXAngle()), m_forwardPID.Calculate(m_pDrive->GetRightDist()));
   if(m_forwardPID.AtSetpoint() and m_allignPID.AtSetpoint())
   {
     m_timer.Start();
