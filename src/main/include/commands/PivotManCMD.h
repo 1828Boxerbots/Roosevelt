@@ -7,9 +7,10 @@
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
 
-#include "subsystems/IntakeSub.h"
+#include <frc/XboxController.h>
 
-#include <frc/Timer.h>
+#include "subsystems/PivotSub.h"
+#include "Util.h"
 
 /**
  * An example command.
@@ -18,10 +19,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class IntakeTimerCMD
-    : public frc2::CommandHelper<frc2::CommandBase, IntakeTimerCMD> {
+class PivotManCMD
+    : public frc2::CommandHelper<frc2::CommandBase, PivotManCMD> {
  public:
-  IntakeTimerCMD(IntakeSub *pIntake, bool set, double waitTime = 2);
+  PivotManCMD(PivotSub* pPivot, frc::XboxController* pXbox, double (frc::XboxController::*input)() const, double speed);
 
   void Initialize() override;
 
@@ -31,8 +32,9 @@ class IntakeTimerCMD
 
   bool IsFinished() override;
 
-  IntakeSub* m_pIntake;
-  bool m_setOpen;
-  double m_waitTime;
-  frc::Timer m_timer;
+ private:
+  PivotSub* m_pPivot = nullptr;
+  frc::XboxController* m_pXbox;
+  double (frc::XboxController::*m_Input)() const;
+  double m_speed;
 };

@@ -32,7 +32,7 @@ constexpr int kBackwardChannel = 1;
 constexpr int kPivotMotor = 13;
 
 constexpr int kPivotEncoderA = 4;
-constexpr int kPivorEncoderB = 5;
+constexpr int kPivotEncoderB = 5;
 
 // ELEVATOR CONSTANTS
 constexpr int kElevatorMotor = 12;

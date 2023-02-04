@@ -13,7 +13,11 @@ IntakeCMD::IntakeCMD(IntakeSub* pIntake, bool setOpen)
 }
 
 // Called when the command is initially scheduled.
-void IntakeCMD::Initialize() {}
+void IntakeCMD::Initialize() 
+{
+  m_timer.Reset();
+  m_timer.Start();
+}
 
 // Called repeatedly when this Command is scheduled to run
 void IntakeCMD::Execute()
@@ -22,13 +26,15 @@ void IntakeCMD::Execute()
 }
 
 // Called once the command ends or is interrupted.
-void IntakeCMD::End(bool interrupted) 
-{
-  m_pIntake->SetIntake(false);
-}
+void IntakeCMD::End(bool interrupted) {}
 
 // Returns true when the command should end.
-bool IntakeCMD::IsFinished() {
-  
-  return false;
+bool IntakeCMD::IsFinished()
+{  
+  bool value = false;
+  if((double)m_timer.Get() >= 0.5)
+  {
+    value = true;
+  }
+  return value;
 }

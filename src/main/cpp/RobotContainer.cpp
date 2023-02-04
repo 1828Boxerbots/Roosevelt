@@ -11,11 +11,10 @@
 RobotContainer::RobotContainer() {
   // Initialize all of your commands and subsystems here
   m_pDriveCMD = new DriveCMD(&m_Drive, &m_XboxOne, kDriveScale);
-  m_pshoot = new ROCKYshoot(&m_Intake, 1.0);
   m_pIntakeOpen = new IntakeCMD(&m_Intake, true);
+  m_pPivotMan = new PivotManCMD(&m_Pivot, &m_XboxOne, &frc::XboxController::GetLeftTriggerAxis, 1.0);
   //m_pIntakeClose = new IntakeCMD(&m_Intake, false);
   m_pBalance = new BalanceCMD(&m_Drive);
-
   m_pForward = new ForwardFeetAbsolute(&m_Drive, 10.0, 0.1);
   m_pBack = new ForwardFeetAbsolute(&m_Drive, 0.0, 0.1);
   // Configure the button bindings
@@ -38,8 +37,8 @@ void RobotContainer::ConfigureBindings() {
   // m_driverController.A().WhileTrue(m_Intake.IntakeOpen());
   // m_driverController.B().WhileTrue(m_Intake.IntakeClose());
 
+
   m_driverController.A().WhileTrue(m_pIntakeOpen);
-  m_driverController.B().WhileTrue(m_pshoot);
 
   m_driverController.X().WhileTrue(m_pBalance);
 
