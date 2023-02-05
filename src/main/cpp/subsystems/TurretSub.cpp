@@ -6,5 +6,25 @@
 
 TurretSub::TurretSub() = default;
 
-// This method will be called once per scheduler run
-void TurretSub::Periodic() {}
+void TurretSub::Init()
+{
+    m_turret.SetInverted(false);
+    ResetTurretEncoder();
+
+    m_encoder.SetDistancePerPulse(kTurretDistancePerPulse);
+}
+
+void TurretSub::SetTurretMotor(double speed)
+{
+    m_turret.Set(speed);
+}
+
+double TurretSub::GetTurretAngle()
+{
+    return m_encoder.Get();
+}
+
+void TurretSub::ResetTurretEncoder()
+{
+    m_encoder.Reset();
+}

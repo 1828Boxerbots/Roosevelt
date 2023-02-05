@@ -4,10 +4,9 @@
 
 #include "commands/IntakeCMD.h"
 
-IntakeCMD::IntakeCMD(IntakeSub* pIntake, bool setOpen)
+IntakeCMD::IntakeCMD(IntakeSub* pIntake)
 {
   m_pIntake = pIntake;
-  m_setOpen = setOpen;
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements(m_pIntake);
 }
@@ -22,7 +21,7 @@ void IntakeCMD::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void IntakeCMD::Execute()
 {
-  m_pIntake->SetIntake(m_setOpen);
+  m_pIntake->SetIntake(!m_pIntake->IsIntakeOpen());
 }
 
 // Called once the command ends or is interrupted.
@@ -32,7 +31,7 @@ void IntakeCMD::End(bool interrupted) {}
 bool IntakeCMD::IsFinished()
 {  
   bool value = false;
-  if((double)m_timer.Get() >= 0.5)
+  if((double)m_timer.Get() >= kIntakeFinishedTime)
   {
     value = true;
   }

@@ -6,16 +6,26 @@
 
 #include <frc2/command/SubsystemBase.h>
 
+#include <ctre/phoenix/motorcontrol/can/WPI_VictorSPX.h>
+#include <frc/Encoder.h>
+
+#include "Constants.h"
+
 class TurretSub : public frc2::SubsystemBase {
  public:
   TurretSub();
 
-  /**
-   * Will be called periodically whenever the CommandScheduler runs.
-   */
-  void Periodic() override;
+  void Init();
+
+  // MOTOR FUNCTIONS
+  void SetTurretMotor(double speed);
+
+  // ENCODER FUNCTIONS
+  double GetTurretAngle();
 
  private:
-  // Components (e.g. motor controllers and sensors) should generally be
-  // declared private and exposed only through public methods.
+  void ResetTurretEncoder();
+
+  ctre::phoenix::motorcontrol::can::WPI_VictorSPX m_turret{kTurretMotor};
+  frc::Encoder m_encoder {kTurretEncoderA, kTurretEncoderA};
 };

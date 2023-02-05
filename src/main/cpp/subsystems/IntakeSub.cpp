@@ -8,7 +8,7 @@ IntakeSub::IntakeSub() = default;
 
 void IntakeSub::Init()
 {
-
+    SetIntake(false);
 }
 
 void IntakeSub::SetIntake(bool setOpen)
@@ -23,6 +23,12 @@ void IntakeSub::SetIntake(bool setOpen)
         m_intake.Set(frc::DoubleSolenoid::kReverse);
     }
     m_intake.Set(frc::DoubleSolenoid::kOff);
+    m_isIntakeOpen = setOpen;
+}
+
+bool IntakeSub::IsIntakeOpen()
+{
+    return m_isIntakeOpen;
 }
 
 IntakeSub::ColorTargets IntakeSub::GetHeldObject()

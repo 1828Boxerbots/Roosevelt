@@ -11,9 +11,14 @@
 RobotContainer::RobotContainer() {
   // Initialize all of your commands and subsystems here
   m_pDriveCMD = new DriveCMD(&m_Drive, &m_XboxOne, kDriveScale);
-  m_pIntakeOpen = new IntakeCMD(&m_Intake, true);
-  m_pPivotMan = new PivotManCMD(&m_Pivot, &m_XboxOne, &frc::XboxController::GetLeftTriggerAxis, 1.0);
-  //m_pIntakeClose = new IntakeCMD(&m_Intake, false);
+
+  m_pIntake = new IntakeCMD(&m_Intake);
+  
+  m_pPivotManUp = new PivotManCMD(&m_Pivot, &m_XboxTwo, &frc::XboxController::GetLeftTriggerAxis, 1.0);
+  m_pPivotManDown = new PivotManCMD(&m_Pivot, &m_XboxTwo, &frc::XboxController::GetRightTriggerAxis, -1.0);
+  
+  m_pElevatorMan = new ElevatorManCMD(&m_Elevator, &m_XboxTwo, &frc::XboxController::GetRightY, 1.0);
+
   m_pBalance = new BalanceCMD(&m_Drive);
   m_pForward = new ForwardFeetAbsolute(&m_Drive, 10.0, 0.1);
   m_pBack = new ForwardFeetAbsolute(&m_Drive, 0.0, 0.1);
@@ -22,27 +27,13 @@ RobotContainer::RobotContainer() {
   Init();
 }
 
-void RobotContainer::ConfigureBindings() {
-  // Configure your trigger bindings here
+void RobotContainer::ConfigureBindings()
+{
+  // Driver Controller
 
-  // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-  // frc2::Trigger([this] {
-  //   return m_subsystem.ExampleCondition();
-  // }).OnTrue(ExampleCommand(&m_subsystem).ToPtr());
-
-  // Schedule `ExampleMethodCommand` when the Xbox controller's B button is
-  // pressed, cancelling on release.
-  //m_driverController.B().WhileTrue(m_subsystem.ExampleMethodCommand());
-
-  // m_driverController.A().WhileTrue(m_Intake.IntakeOpen());
-  // m_driverController.B().WhileTrue(m_Intake.IntakeClose());
-
-
-  m_driverController.A().WhileTrue(m_pIntakeOpen);
-
-  m_driverController.X().WhileTrue(m_pBalance);
-
-  m_driverController.Y().WhileTrue(m_pForward);
+  // Operator Controller
+  m_operatorController.LeftTrigger().WhileTrue(m_pPivotManUp);
+  m_operatorController.RightTrigger().WhileTrue(m_pPivotManDown);
 }
 
 void RobotContainer::Init()

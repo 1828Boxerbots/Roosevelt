@@ -9,6 +9,9 @@ PivotSub::PivotSub() = default;
 void PivotSub::Init()
 {
     ResetPivotEncoder();
+    m_pivot.SetInverted(false);
+
+    m_encoder.SetDistancePerPulse(kPivotDistancePerPulse);
 }
 
 void PivotSub::SetPivotMotor(double speed)
@@ -16,9 +19,9 @@ void PivotSub::SetPivotMotor(double speed)
     m_pivot.Set(speed);
 }
 
-double PivotSub::GetPivotMotor()
+double PivotSub::GetPivotAngle()
 {
-    return 0.0;
+    return m_encoder.Get();
 }
 
 void PivotSub::ResetPivotEncoder()

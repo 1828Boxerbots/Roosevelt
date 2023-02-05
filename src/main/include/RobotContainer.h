@@ -18,6 +18,7 @@
 #include "commands/BalanceCMD.h"
 #include "commands/ForwardFeetAbsolute.h"
 #include "commands/PivotManCMD.h"
+#include "commands/ElevatorManCMD.h"
 
 #include "subsystems/DriveSub.h"
 #include "subsystems/IntakeSub.h"
@@ -41,6 +42,7 @@ class RobotContainer {
  private:
   // Replace with CommandPS4Controller or CommandJoystick if needed
   frc2::CommandXboxController m_driverController{kDriverControllerPort};
+  frc2::CommandXboxController m_operatorController{kOperatorControllerPort};
 
   // The robot's subsystems are defined here...
 
@@ -63,10 +65,13 @@ class RobotContainer {
   TurretSub m_Turret;
 
   DriveCMD* m_pDriveCMD = nullptr;
-  IntakeCMD* m_pIntakeOpen = nullptr;
-  IntakeCMD* m_pIntakeClose = nullptr;
-  PivotManCMD* m_pPivotMan = nullptr;
+  IntakeCMD* m_pIntake = nullptr;
   BalanceCMD* m_pBalance = nullptr;
   ForwardFeetAbsolute* m_pForward = nullptr;
   ForwardFeetAbsolute* m_pBack = nullptr;
+
+  ElevatorManCMD* m_pElevatorMan = nullptr;
+
+  PivotManCMD* m_pPivotManUp = nullptr;
+  PivotManCMD* m_pPivotManDown = nullptr;
 };

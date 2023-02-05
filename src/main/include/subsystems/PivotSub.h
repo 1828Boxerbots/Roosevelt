@@ -18,7 +18,7 @@ class PivotSub : public frc2::SubsystemBase {
 
   void Init();
   void SetPivotMotor(double speed);
-  double GetPivotMotor();
+  double GetPivotAngle();
 
  private:
   void ResetPivotEncoder();

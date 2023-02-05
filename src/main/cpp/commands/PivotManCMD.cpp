@@ -4,10 +4,10 @@
 
 #include "commands/PivotManCMD.h"
 
-PivotManCMD::PivotManCMD(PivotSub* pPivot, frc::XboxController* pXbox, double (frc::XboxController::*input)() const, double speed)
+PivotManCMD::PivotManCMD(PivotSub* pPivot, frc::XboxController* pXbox, double (frc::XboxController::*input)() const, double scale)
 {
   m_pPivot = pPivot;
-  m_speed = speed;
+  m_scale = scale;
   m_pXbox = pXbox;
   m_Input = input;
   // Use addRequirements() here to declare subsystem dependencies.

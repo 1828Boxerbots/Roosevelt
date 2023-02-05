@@ -26,6 +26,7 @@ class IntakeSub : public frc2::SubsystemBase {
 
   // MOTOR FUNCTIONS
   void SetIntake(bool isOpen);
+  bool IsIntakeOpen();
 
   // COLOR SENSOR FUNCTIONS
   ColorTargets GetHeldObject();
@@ -43,4 +44,6 @@ class IntakeSub : public frc2::SubsystemBase {
 
   double m_CubeDead = 0.05;
   double m_ConeDead = 0.035;
+
+  bool m_isIntakeOpen;
 };

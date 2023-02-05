@@ -7,11 +7,8 @@
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
 
-#include "subsystems/IntakeSub.h"
-
-#include <frc/Timer.h>
-#include "Constants.h"
-#include "Util.h"
+#include "subsystems/ElevatorSub.h"
+#include <frc/XboxController.h>
 
 /**
  * An example command.
@@ -20,10 +17,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class IntakeCMD
-    : public frc2::CommandHelper<frc2::CommandBase, IntakeCMD> {
+class ElevatorManCMD
+    : public frc2::CommandHelper<frc2::CommandBase, ElevatorManCMD> {
  public:
-  IntakeCMD(IntakeSub* pIntake);
+  ElevatorManCMD(ElevatorSub* pElevator, frc::XboxController* pXbox, double (frc::XboxController::*pInput)() const, double scale = 1.0);
 
   void Initialize() override;
 
@@ -34,9 +31,8 @@ class IntakeCMD
   bool IsFinished() override;
 
  private:
-  IntakeSub* m_pIntake;
-
-  bool m_setOpen;
-
-  frc::Timer m_timer;
+  ElevatorSub* m_pElevator;
+  frc::XboxController* m_pXbox;
+  double (frc::XboxController::*m_pInput)() const;
+  double m_scale;
 };

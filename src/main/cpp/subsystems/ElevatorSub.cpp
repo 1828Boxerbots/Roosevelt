@@ -9,6 +9,9 @@ ElevatorSub::ElevatorSub() = default;
 void ElevatorSub::Init()
 {
     ResetElevatorEncoder();
+    m_elevator.SetInverted(false);
+
+    m_encoder.SetDistancePerPulse(kElevatorDistancePerPulse);
 }
 
 void ElevatorSub::SetElevatorMotor(double speed)
@@ -18,7 +21,7 @@ void ElevatorSub::SetElevatorMotor(double speed)
 
 double ElevatorSub::GetElevatorLength()
 {
-    return 0.0;
+    return m_encoder.Get();
 }
 
 void ElevatorSub::ResetElevatorEncoder()

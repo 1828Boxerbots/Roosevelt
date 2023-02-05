@@ -14,6 +14,9 @@ void DriveSub::Init()
 
     ResetIMU();
     ResetEncoders();
+
+    m_leftEncoder.SetDistancePerPulse(kDriveDistancePerPulse);
+    m_rightEncoder.SetDistancePerPulse(kDriveDistancePerPulse);
 }
 
 // MOTOR FUNCTIONS
