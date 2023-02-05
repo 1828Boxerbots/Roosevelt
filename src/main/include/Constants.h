@@ -42,6 +42,10 @@ constexpr int kPivotEncoderB = 5;
     // Equation/Method to get number:
 constexpr double kPivotDistancePerPulse = 360;
 
+constexpr double kPivotP = 0.01;
+constexpr double kPivotI = 0.0;
+constexpr double kPivotD = 0.0;
+
 // ELEVATOR CONSTANTS
 constexpr int kElevatorMotor = 12;
 
@@ -50,6 +54,10 @@ constexpr int kElevatorEncoderB = 7;
 
     // Equation/Method to get number:
 constexpr double kElevatorDistancePerPulse = 360;
+
+constexpr double kElevatorP = 0.01;
+constexpr double kElevatorI = 0.0;
+constexpr double kElevatorD = 0.0;
 
 // TURRET CONSTANTS
 constexpr int kTurretMotor = 14;

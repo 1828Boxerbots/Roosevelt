@@ -17,7 +17,23 @@ RobotContainer::RobotContainer() {
   m_pPivotManUp = new PivotManCMD(&m_Pivot, &m_XboxTwo, &frc::XboxController::GetLeftTriggerAxis, 1.0);
   m_pPivotManDown = new PivotManCMD(&m_Pivot, &m_XboxTwo, &frc::XboxController::GetRightTriggerAxis, -1.0);
   
-  m_pElevatorMan = new ElevatorManCMD(&m_Elevator, &m_XboxTwo, &frc::XboxController::GetRightY, 1.0);
+  m_pElevatorMan = new ElevatorManCMD(&m_Elevator, &m_XboxTwo, &frc::XboxController::GetLeftY, 1.0);
+  m_pTurretMan = new TurretManCMD(&m_Turret, &m_XboxTwo, &frc::XboxController::GetRightX, 1.0);
+
+  // PID COMMANDS
+  m_pPivotPIDUp = new PivotPIDCMD{&m_Pivot, 90.0};
+  m_pPivotPIDTop = new PivotPIDCMD{&m_Pivot, 90.0};
+  m_pPivotPIDMid = new PivotPIDCMD{&m_Pivot, 90.0};
+  m_pPivotPIDHybrid = new PivotPIDCMD{&m_Pivot, 90.0};
+  m_pPivotPIDGround = new PivotPIDCMD{&m_Pivot, 90.0};
+  m_pPivotPIDSubstation = new PivotPIDCMD{&m_Pivot, 90.0};
+
+  m_pElevatorPIDUp = new ElevatorPIDCMD{&m_Elevator, 0.0};
+  m_pElevatorPIDTop = new ElevatorPIDCMD{&m_Elevator, 0.0};
+  m_pElevatorPIDMid = new ElevatorPIDCMD{&m_Elevator, 0.0};
+  m_pElevatorPIDHybrid = new ElevatorPIDCMD{&m_Elevator, 0.0};
+  m_pElevatorPIDGround = new ElevatorPIDCMD{&m_Elevator, 0.0};
+  m_pElevatorPIDSubstation = new ElevatorPIDCMD{&m_Elevator, 0.0};
 
   m_pBalance = new BalanceCMD(&m_Drive);
   m_pForward = new ForwardFeetAbsolute(&m_Drive, 10.0, 0.1);
@@ -32,8 +48,29 @@ void RobotContainer::ConfigureBindings()
   // Driver Controller
 
   // Operator Controller
+  m_operatorController.LeftBumper().WhileTrue(m_pIntake);
+  m_operatorController.RightBumper().WhileTrue(m_pIntake);
+
   m_operatorController.LeftTrigger().WhileTrue(m_pPivotManUp);
   m_operatorController.RightTrigger().WhileTrue(m_pPivotManDown);
+
+  m_operatorController.LeftStick().OnTrue(m_pElevatorMan);
+  m_operatorController.RightStick().OnTrue(m_pTurretMan);
+
+  m_operatorController.A().OnTrue(frc2::cmd::Parallel(*m_pPivotPIDGround, *m_pElevatorPIDGround));
+  m_operatorController.A().OnFalse(frc2::cmd::Parallel(*m_pPivotManUp, *m_pElevatorPIDUp));
+
+  m_operatorController.B().OnTrue(frc2::cmd::Parallel(*m_pPivotPIDSubstation, *m_pElevatorPIDSubstation));
+  m_operatorController.B().OnFalse(frc2::cmd::Parallel(*m_pPivotManUp, *m_pElevatorPIDUp));
+
+  m_operatorController.X().OnTrue(frc2::cmd::Parallel(*m_pPivotPIDMid, *m_pElevatorPIDMid));
+  m_operatorController.X().OnFalse(frc2::cmd::Parallel(*m_pPivotManUp, *m_pElevatorPIDUp));
+
+  m_operatorController.Y().OnTrue(frc2::cmd::Parallel(*m_pPivotPIDTop, *m_pElevatorPIDTop));
+  m_operatorController.Y().OnFalse(frc2::cmd::Parallel(*m_pPivotManUp, *m_pElevatorPIDUp));
+
+  m_operatorController.Start().OnTrue(frc2::cmd::Parallel(*m_pPivotPIDHybrid, *m_pElevatorPIDHybrid));
+  m_operatorController.Start().OnFalse(frc2::cmd::Parallel(*m_pPivotManUp, *m_pElevatorPIDUp));
 }
 
 void RobotContainer::Init()

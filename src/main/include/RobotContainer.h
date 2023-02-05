@@ -7,6 +7,9 @@
 #include <frc2/command/CommandPtr.h>
 #include <frc2/command/button/CommandXboxController.h>
 
+#include <frc2/command/ParallelCommandGroup.h>
+#include <frc2/command/Commands.h>
+
 #include "Constants.h"
 
 #include <frc/XboxController.h>
@@ -17,8 +20,13 @@
 #include "commands/IntakeCMD.h"
 #include "commands/BalanceCMD.h"
 #include "commands/ForwardFeetAbsolute.h"
+
 #include "commands/PivotManCMD.h"
 #include "commands/ElevatorManCMD.h"
+#include "commands/TurretManCMD.h"
+
+#include "commands/PivotPIDCMD.h"
+#include "commands/ElevatorPIDCMD.h"
 
 #include "subsystems/DriveSub.h"
 #include "subsystems/IntakeSub.h"
@@ -71,6 +79,21 @@ class RobotContainer {
   ForwardFeetAbsolute* m_pBack = nullptr;
 
   ElevatorManCMD* m_pElevatorMan = nullptr;
+  TurretManCMD* m_pTurretMan = nullptr;
+
+  PivotPIDCMD* m_pPivotPIDUp = nullptr;
+  PivotPIDCMD* m_pPivotPIDTop = nullptr;
+  PivotPIDCMD* m_pPivotPIDMid = nullptr;
+  PivotPIDCMD* m_pPivotPIDHybrid = nullptr;
+  PivotPIDCMD* m_pPivotPIDGround = nullptr;
+  PivotPIDCMD* m_pPivotPIDSubstation = nullptr;
+
+  ElevatorPIDCMD* m_pElevatorPIDUp = nullptr;
+  ElevatorPIDCMD* m_pElevatorPIDTop = nullptr;
+  ElevatorPIDCMD* m_pElevatorPIDMid = nullptr;
+  ElevatorPIDCMD* m_pElevatorPIDHybrid = nullptr;
+  ElevatorPIDCMD* m_pElevatorPIDGround = nullptr;
+  ElevatorPIDCMD* m_pElevatorPIDSubstation = nullptr;
 
   PivotManCMD* m_pPivotManUp = nullptr;
   PivotManCMD* m_pPivotManDown = nullptr;
