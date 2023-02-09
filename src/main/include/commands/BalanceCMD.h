@@ -8,6 +8,7 @@
 #include <frc2/command/CommandHelper.h>
 
 #include "subsystems/DriveSub.h"
+#include "subsystems/TurretSub.h"
 #include <frc/controller/PIDController.h>
 #include <frc/Timer.h>
 
@@ -21,7 +22,7 @@
 class BalanceCMD
     : public frc2::CommandHelper<frc2::CommandBase, BalanceCMD> {
  public:
-  BalanceCMD(DriveSub* pDrive, bool onControl = true, double pidTolerance = 1.5, double waitTime = 0.5);
+  BalanceCMD(DriveSub* pDrive, TurretSub* pTurret, bool useIsFinished = false, double pidTolerance = 1.5, double waitTime = 0.5);
 
   void Initialize() override;
 
@@ -33,12 +34,13 @@ class BalanceCMD
   
  private:
   DriveSub *m_pDrive;
+  TurretSub* m_pTurret;
 
   frc::PIDController m_pid{0.05, 0, 0};
 
   double m_pidTolerance;
   double m_waitTime;
-  bool m_onControl;
+  bool m_useIsFinished;
 
   frc::Timer m_timer;
 };

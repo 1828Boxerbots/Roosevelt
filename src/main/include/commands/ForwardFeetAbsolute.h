@@ -8,6 +8,7 @@
 #include <frc2/command/CommandHelper.h>
 
 #include "subsystems/DriveSub.h"
+#include "subsystems/TurretSub.h"
 #include <frc/controller/PIDController.h>
 
 #include <frc/Timer.h>
@@ -23,7 +24,7 @@
 class ForwardFeetAbsolute
     : public frc2::CommandHelper<frc2::CommandBase, ForwardFeetAbsolute> {
  public:
-  ForwardFeetAbsolute(DriveSub *pDrive, double distance, double tolerance);
+  ForwardFeetAbsolute(DriveSub *pDrive, TurretSub* pTurret, double distance, double tolerance);
 
   void Initialize() override;
 
@@ -35,6 +36,7 @@ class ForwardFeetAbsolute
 
  private:
   DriveSub* m_pDrive;
+  TurretSub* m_pTurret;
   double m_distance;
 
   frc::PIDController m_forwardPID{0.4, 0, 0};

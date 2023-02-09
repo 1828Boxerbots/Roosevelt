@@ -9,6 +9,7 @@ constexpr int kDriverControllerPort = 0;
 constexpr int kOperatorControllerPort = 1;
 
 constexpr int kDriveScale = 1.0;
+constexpr int kSlowDriveScale = 0.5;
 
 constexpr int kTopDPDT = 9;
 constexpr int kBottomDPDT = 10;
@@ -67,3 +68,7 @@ constexpr int kTurretEncoderB = 9;
 
     // Equation/Method to get number:
 constexpr double kTurretDistancePerPulse = 360;
+
+constexpr double kTurretP = 0.1;
+constexpr double kTurretI = 0.0;
+constexpr double kTurretD = 0.0;

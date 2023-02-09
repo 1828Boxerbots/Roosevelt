@@ -7,11 +7,13 @@
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
 
-#include <frc/Timer.h>
 #include <frc/controller/PIDController.h>
-#include "subsystems/PivotSub.h"
-
+#include <frc/Timer.h>
+#include "Util.h"
 #include "Constants.h"
+
+#include "subsystems/TurretSub.h"
+#include "subsystems/DriveSub.h"
 
 /**
  * An example command.
@@ -20,10 +22,11 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class PivotPIDCMD
-    : public frc2::CommandHelper<frc2::CommandBase, PivotPIDCMD> {
+class TurretPIDCMD
+    : public frc2::CommandHelper<frc2::CommandBase, TurretPIDCMD> {
  public:
-  PivotPIDCMD(PivotSub* pPivot, double setAngle, double* pTuretAngle, bool useIsFinished = false, double holdtime = 0.5, double threshold = 0.1);
+  TurretPIDCMD(TurretSub* pTurret, double angle, bool isFieldOriented, double* pPivotAngle, bool useIsFinished = false, 
+                double tolerance = 0.5, double waitTime = 0.5);
 
   void Initialize() override;
 
@@ -33,14 +36,12 @@ class PivotPIDCMD
 
   bool IsFinished() override;
  private:
-  PivotSub* m_pPivot;
-  double m_setAngle;
-  double* m_pTurretAngle;
+  TurretSub* m_pTurret;
+  bool m_isFieldOriented;
+  double* m_pPivotAngle;
   bool m_useIsFinished;
-  double m_holdTime;
-  double m_threshold;
-
-  frc::PIDController m_pid{kPivotP, kPivotI, kPivotD};
+  double m_waitTime;
 
   frc::Timer m_timer;
+  frc::PIDController m_pid {kTurretP, kTurretI, kTurretD};
 };

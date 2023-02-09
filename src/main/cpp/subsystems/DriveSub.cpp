@@ -12,7 +12,6 @@ void DriveSub::Init()
     m_rightOne.SetInverted(true);
     m_rightTwo.SetInverted(true);
 
-    ResetIMU();
     ResetEncoders();
 
     m_leftEncoder.SetDistancePerPulse(kDriveDistancePerPulse);
@@ -68,29 +67,4 @@ void DriveSub::ResetEncoders()
 {
     m_leftEncoder.Reset();
     m_rightEncoder.Reset();
-}
-
-// IMU FUNCTIONS
-
-double DriveSub::GetXAngle()
-{
-    Util::Log("IMU X Angle", (double)m_imu.GetGyroAngleX());
-    return (double)m_imu.GetGyroAngleX();
-}
-
-double DriveSub::GetYAngle()
-{
-    Util::Log("IMU Y Angle", (double)m_imu.GetGyroAngleY());
-    return (double)m_imu.GetGyroAngleY();
-}
-
-double DriveSub::GetZAngle()
-{
-    Util::Log("Gyro Z", (double)m_imu.GetGyroAngleZ());
-    return (double)m_imu.GetGyroAngleZ();
-}
-
-void DriveSub::ResetIMU()
-{
-    m_imu.Reset();
 }

@@ -4,7 +4,18 @@
 
 #include "subsystems/PivotSub.h"
 
-PivotSub::PivotSub() = default;
+PivotSub::PivotSub(double* pPivotAngle)
+{
+    m_pPivotAngle = pPivotAngle;
+}
+
+void PivotSub::Periodic()
+{
+    if(m_pPivotAngle != nullptr)
+    {
+        *m_pPivotAngle = GetPivotAngle();
+    }
+}
 
 void PivotSub::Init()
 {

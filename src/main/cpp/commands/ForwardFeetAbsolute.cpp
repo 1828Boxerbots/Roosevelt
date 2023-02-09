@@ -4,9 +4,10 @@
 
 #include "commands/ForwardFeetAbsolute.h"
 
-ForwardFeetAbsolute::ForwardFeetAbsolute(DriveSub *pDrive, double distance, double tolerance)
+ForwardFeetAbsolute::ForwardFeetAbsolute(DriveSub *pDrive, TurretSub* pTurret, double distance, double tolerance)
 {
   m_pDrive = pDrive;
+  m_pTurret = pTurret;
   m_distance = distance;
 
   m_forwardPID.SetSetpoint(distance);
@@ -26,7 +27,7 @@ void ForwardFeetAbsolute::Initialize()
   m_forwardPID.Reset();
   m_allignPID.Reset();
   m_isFinished = false;
-  m_allignPID.SetSetpoint(m_pDrive->GetXAngle());
+  m_allignPID.SetSetpoint(m_pTurret->GetXAngle());
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -39,7 +40,7 @@ void ForwardFeetAbsolute::Execute()
   //m_allignPID.SetSetpoint(m_pDrive->GetLeftDist());
   Util::Log("Difference between encoder", m_pDrive->GetLeftDist()-m_pDrive->GetRightDist());
 
-  m_pDrive->MoveRC(m_allignPID.Calculate(m_pDrive->GetXAngle()), m_forwardPID.Calculate(m_pDrive->GetRightDist()));
+  m_pDrive->MoveRC(m_allignPID.Calculate(m_pTurret->GetXAngle()), m_forwardPID.Calculate(m_pDrive->GetRightDist()));
   if(m_forwardPID.AtSetpoint() and m_allignPID.AtSetpoint())
   {
     m_timer.Start();

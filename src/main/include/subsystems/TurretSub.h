@@ -6,16 +6,21 @@
 
 #include <frc2/command/SubsystemBase.h>
 
+#include <frc/ADIS16448_IMU.h>
+#include <frc/ADIS16470_IMU.h>
 #include <ctre/phoenix/motorcontrol/can/WPI_VictorSPX.h>
 #include <frc/Encoder.h>
 
 #include "Constants.h"
+#include "Util.h"
 
 class TurretSub : public frc2::SubsystemBase {
  public:
-  TurretSub();
+  TurretSub(double* pTurretAngle);
 
   void Init();
+
+  void Periodic() override;
 
   // MOTOR FUNCTIONS
   void SetTurretMotor(double speed);
@@ -23,9 +28,20 @@ class TurretSub : public frc2::SubsystemBase {
   // ENCODER FUNCTIONS
   double GetTurretAngle();
 
+  // IMU FUNCTIONS
+  double GetXAngle();
+  double GetYAngle();
+  double GetZAngle();
+
  private:
   void ResetTurretEncoder();
+  void ResetIMU();
 
   ctre::phoenix::motorcontrol::can::WPI_VictorSPX m_turret{kTurretMotor};
   frc::Encoder m_encoder {kTurretEncoderA, kTurretEncoderA};
+
+  double* m_pTurretAngle = nullptr;
+
+  //frc::ADIS16448_IMU m_imu;
+  frc::ADIS16470_IMU m_imu;
 };

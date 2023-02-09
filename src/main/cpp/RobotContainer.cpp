@@ -8,9 +8,11 @@
 
 #include "commands/Autos.h"
 
-RobotContainer::RobotContainer() {
+RobotContainer::RobotContainer()
+{
   // Initialize all of your commands and subsystems here
   m_pDriveCMD = new DriveCMD(&m_Drive, &m_XboxOne, kDriveScale);
+  m_pDriveCMD = new DriveCMD(&m_Drive, &m_XboxOne, kSlowDriveScale);
 
   m_pIntake = new IntakeCMD(&m_Intake);
   
@@ -20,13 +22,15 @@ RobotContainer::RobotContainer() {
   m_pElevatorMan = new ElevatorManCMD(&m_Elevator, &m_XboxTwo, &frc::XboxController::GetLeftY, 1.0);
   m_pTurretMan = new TurretManCMD(&m_Turret, &m_XboxTwo, &frc::XboxController::GetRightX, 1.0);
 
+  m_pBalance = new BalanceCMD(&m_Drive, &m_Turret);
+  
   // PID COMMANDS
-  m_pPivotPIDUp = new PivotPIDCMD{&m_Pivot, 90.0};
-  m_pPivotPIDTop = new PivotPIDCMD{&m_Pivot, 90.0};
-  m_pPivotPIDMid = new PivotPIDCMD{&m_Pivot, 90.0};
-  m_pPivotPIDHybrid = new PivotPIDCMD{&m_Pivot, 90.0};
-  m_pPivotPIDGround = new PivotPIDCMD{&m_Pivot, 90.0};
-  m_pPivotPIDSubstation = new PivotPIDCMD{&m_Pivot, 90.0};
+  m_pPivotPIDUp = new PivotPIDCMD{&m_Pivot, 90.0, &m_turretAngle};
+  m_pPivotPIDTop = new PivotPIDCMD{&m_Pivot, 90.0, &m_turretAngle};
+  m_pPivotPIDMid = new PivotPIDCMD{&m_Pivot, 90.0, &m_turretAngle};
+  m_pPivotPIDHybrid = new PivotPIDCMD{&m_Pivot, 90.0, &m_turretAngle};
+  m_pPivotPIDGround = new PivotPIDCMD{&m_Pivot, 90.0, &m_turretAngle};
+  m_pPivotPIDSubstation = new PivotPIDCMD{&m_Pivot, 90.0, &m_turretAngle};
 
   m_pElevatorPIDUp = new ElevatorPIDCMD{&m_Elevator, 0.0};
   m_pElevatorPIDTop = new ElevatorPIDCMD{&m_Elevator, 0.0};
@@ -35,9 +39,13 @@ RobotContainer::RobotContainer() {
   m_pElevatorPIDGround = new ElevatorPIDCMD{&m_Elevator, 0.0};
   m_pElevatorPIDSubstation = new ElevatorPIDCMD{&m_Elevator, 0.0};
 
-  m_pBalance = new BalanceCMD(&m_Drive);
-  m_pForward = new ForwardFeetAbsolute(&m_Drive, 10.0, 0.1);
-  m_pBack = new ForwardFeetAbsolute(&m_Drive, 0.0, 0.1);
+  m_pTurretPIDFront = new TurretPIDCMD{&m_Turret, 0.0, true, &m_pivotAngle};
+  m_pTurretPIDLeft = new TurretPIDCMD{&m_Turret, -90.0, true, &m_pivotAngle};
+  m_pTurretPIDRight = new TurretPIDCMD{&m_Turret, 90.0, true, &m_pivotAngle};
+  m_pTurretPIDBack = new TurretPIDCMD{&m_Turret, 180.0, true, &m_pivotAngle};
+
+  m_pForward = new ForwardFeetAbsolute(&m_Drive, &m_Turret, 10.0, 0.1);
+  m_pBack = new ForwardFeetAbsolute(&m_Drive, &m_Turret, 0.0, 0.1);
   // Configure the button bindings
   ConfigureBindings();
   Init();
@@ -46,6 +54,9 @@ RobotContainer::RobotContainer() {
 void RobotContainer::ConfigureBindings()
 {
   // Driver Controller
+  m_driverController.A().OnTrue(m_pBalance);
+  m_driverController.LeftTrigger().OnTrue(m_pSlowDriveCMD);
+  
 
   // Operator Controller
   m_operatorController.LeftBumper().WhileTrue(m_pIntake);

@@ -27,6 +27,7 @@
 
 #include "commands/PivotPIDCMD.h"
 #include "commands/ElevatorPIDCMD.h"
+#include "commands/TurretPIDCMD.h"
 
 #include "subsystems/DriveSub.h"
 #include "subsystems/IntakeSub.h"
@@ -64,15 +65,19 @@ class RobotContainer {
 
   //frc::DigitalInput m_topDPDT{2};
   //frc::DigitalInput m_bottomDPDT{3};
-  //frc::DigitalOutput m_arduino;
+
+  double m_pivotAngle = 0.0;
+  double m_turretAngle = 0.0;
 
   DriveSub m_Drive;
   IntakeSub m_Intake;
-  PivotSub m_Pivot;
+  PivotSub m_Pivot{&m_pivotAngle};
   ElevatorSub m_Elevator;
-  TurretSub m_Turret;
+  TurretSub m_Turret{&m_turretAngle};
 
   DriveCMD* m_pDriveCMD = nullptr;
+  DriveCMD* m_pSlowDriveCMD = nullptr;
+
   IntakeCMD* m_pIntake = nullptr;
   BalanceCMD* m_pBalance = nullptr;
   ForwardFeetAbsolute* m_pForward = nullptr;
@@ -94,6 +99,11 @@ class RobotContainer {
   ElevatorPIDCMD* m_pElevatorPIDHybrid = nullptr;
   ElevatorPIDCMD* m_pElevatorPIDGround = nullptr;
   ElevatorPIDCMD* m_pElevatorPIDSubstation = nullptr;
+
+  TurretPIDCMD* m_pTurretPIDFront = nullptr;
+  TurretPIDCMD* m_pTurretPIDLeft = nullptr;
+  TurretPIDCMD* m_pTurretPIDRight = nullptr;
+  TurretPIDCMD* m_pTurretPIDBack = nullptr;
 
   PivotManCMD* m_pPivotManUp = nullptr;
   PivotManCMD* m_pPivotManDown = nullptr;

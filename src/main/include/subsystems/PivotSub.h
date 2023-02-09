@@ -14,7 +14,9 @@
 
 class PivotSub : public frc2::SubsystemBase {
  public:
-  PivotSub();
+  PivotSub(double* pPivotAngle);
+
+  void Periodic() override;
 
   void Init();
   void SetPivotMotor(double speed);
@@ -24,6 +26,8 @@ class PivotSub : public frc2::SubsystemBase {
   void ResetPivotEncoder();
 
   ctre::phoenix::motorcontrol::can::WPI_VictorSPX m_pivot{kPivotMotor};
+
+  double* m_pPivotAngle = nullptr;
 
   frc::Encoder m_encoder{kPivotEncoderA, kPivotEncoderB};
 };

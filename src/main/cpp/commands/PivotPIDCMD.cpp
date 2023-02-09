@@ -4,9 +4,10 @@
 
 #include "commands/PivotPIDCMD.h"
 
-PivotPIDCMD::PivotPIDCMD(PivotSub* pPivot, double setAngle, bool useIsFinished, double holdtime, double threshold)
+PivotPIDCMD::PivotPIDCMD(PivotSub* pPivot, double setAngle, double* pTurretAngle, bool useIsFinished, double holdtime, double threshold)
 {
   m_pPivot = pPivot;
+  m_pTurretAngle = pTurretAngle;
   m_setAngle = setAngle;
   m_useIsFinished = useIsFinished;
   m_holdTime = holdtime;
@@ -53,7 +54,7 @@ void PivotPIDCMD::End(bool interrupted)
 bool PivotPIDCMD::IsFinished()
 {
   bool value = false;
-  if((double)m_timer.Get() >= m_holdTime and m_useIsFinished)
+  if(((double)m_timer.Get() >= m_holdTime) and m_useIsFinished)
   {
     value = true;
   }

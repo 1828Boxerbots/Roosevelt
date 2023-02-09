@@ -21,9 +21,6 @@ void DriveCMD::Initialize() {}
 // Called repeatedly when this Command is scheduled to run
 void DriveCMD::Execute()
 {
-  m_pDrive->GetYAngle();
-  m_pDrive->GetXAngle();
-  m_pDrive->GetZAngle();
 
   m_LeftX = m_pXbox->GetLeftX() * m_scale;
   m_LeftY = -m_pXbox->GetLeftY() * m_scale;
@@ -49,7 +46,10 @@ void DriveCMD::Execute()
 }
 
 // Called once the command ends or is interrupted.
-void DriveCMD::End(bool interrupted) {}
+void DriveCMD::End(bool interrupted)
+{
+  m_pDrive->MoveTank(0.0, 0.0);
+}
 
 // Returns true when the command should end.
 bool DriveCMD::IsFinished() {

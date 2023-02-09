@@ -42,16 +42,10 @@ class DriveSub : public frc2::SubsystemBase {
   double GetLeftVelocity();
   double GetRightVelocity();
 
-  // IMU FUNCTIONS
-  double GetXAngle();
-  double GetYAngle();
-  double GetZAngle();
-
   const DriveStyles kDriveStyle = DriveStyles::RC_STYLE; 
 
  private:
   void ResetEncoders();
-  void ResetIMU();
 
   ctre::phoenix::motorcontrol::can::WPI_VictorSPX m_leftOne {kLeftDrive1};
   ctre::phoenix::motorcontrol::can::WPI_VictorSPX m_leftTwo {kLeftDrive2};
@@ -60,6 +54,4 @@ class DriveSub : public frc2::SubsystemBase {
 
   frc::Encoder m_leftEncoder{kLeftEncoderA, kLeftEncoderB};
   frc::Encoder m_rightEncoder{kRightEncoderA, kRightEncoderB};
-
-  frc::ADIS16448_IMU m_imu;
 };
