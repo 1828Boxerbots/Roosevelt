@@ -4,11 +4,12 @@
 
 #include "commands/TurretManCMD.h"
 
-TurretManCMD::TurretManCMD(TurretSub* pTurret, frc::XboxController* pXbox, double (frc::XboxController::*pInput)() const, double scale)
+TurretManCMD::TurretManCMD(TurretSub* pTurret, frc::XboxController* pXbox, double (frc::XboxController::*pInput)() const, double* pPivotAngle, double scale)
 {
   m_pTurret = pTurret;
   m_pXbox = pXbox;
   m_pInput = pInput;
+  m_pPivotAngle = pPivotAngle;
   m_scale = scale;
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements(m_pTurret);
@@ -20,7 +21,29 @@ void TurretManCMD::Initialize() {}
 // Called repeatedly when this Command is scheduled to run
 void TurretManCMD::Execute()
 {
-  m_pTurret->SetTurretMotor((m_pXbox->*m_pInput)() * m_scale);
+  double speed = (m_pXbox->*m_pInput)() * m_scale;
+
+  if(speed > 0 and m_pTurret->GetTurretAngle() >= kTurretAngleLimit)
+  {
+    // Turn Turret to -135
+    m_pTurret->SetTurretMotor(0.0);
+  }
+  else if(speed < 0 and m_pTurret->GetTurretAngle() <= -kTurretAngleLimit)
+  {
+    // Turn Turret to 135
+    m_pTurret->SetTurretMotor(0.0);
+  }
+
+  if((speed > 0 and *m_pPivotAngle > kBatteryPivotAngleLimit and m_pTurret->GetTurretAngle() > kBatteryTurretAngleLimit)
+      or (speed < 0 and *m_pPivotAngle > kBatteryPivotAngleLimit and m_pTurret->GetTurretAngle() < -kBatteryTurretAngleLimit))
+  {
+    m_pTurret->SetTurretMotor(0.0);
+    // Flash Red and yell at drivers
+  }
+  else
+  {
+    m_pTurret->SetTurretMotor(speed);
+  }
 }
 
 // Called once the command ends or is interrupted.

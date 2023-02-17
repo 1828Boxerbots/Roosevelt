@@ -37,6 +37,7 @@ class TurretPIDCMD
   bool IsFinished() override;
  private:
   TurretSub* m_pTurret;
+  double m_angle;
   bool m_isFieldOriented;
   double* m_pPivotAngle;
   bool m_useIsFinished;

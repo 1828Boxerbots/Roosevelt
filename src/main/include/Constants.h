@@ -43,6 +43,8 @@ constexpr int kPivotEncoderB = 5;
     // Equation/Method to get number:
 constexpr double kPivotDistancePerPulse = 360;
 
+constexpr double kBatteryPivotAngleLimit = 60.0;
+
 constexpr double kPivotP = 0.01;
 constexpr double kPivotI = 0.0;
 constexpr double kPivotD = 0.0;
@@ -68,6 +70,9 @@ constexpr int kTurretEncoderB = 9;
 
     // Equation/Method to get number:
 constexpr double kTurretDistancePerPulse = 360;
+
+constexpr double kTurretAngleLimit = 225.0;
+constexpr double kBatteryTurretAngleLimit = 125.0;
 
 constexpr double kTurretP = 0.1;
 constexpr double kTurretI = 0.0;

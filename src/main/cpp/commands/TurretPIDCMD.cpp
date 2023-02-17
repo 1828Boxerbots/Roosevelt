@@ -8,6 +8,7 @@ TurretPIDCMD::TurretPIDCMD(TurretSub* pTurret, double angle, bool isFieldOriente
                 double tolerance, double waitTime)
 {
   m_pTurret = pTurret;
+  m_angle = angle;
   m_isFieldOriented = isFieldOriented;
   m_pPivotAngle = pPivotAngle;
   m_useIsFinished = useIsFinished;
@@ -31,7 +32,25 @@ void TurretPIDCMD::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void TurretPIDCMD::Execute()
 {
-  m_pTurret->SetTurretMotor(m_pid.Calculate(m_pTurret->GetTurretAngle()));
+  if((*m_pPivotAngle >= kBatteryPivotAngleLimit) and (m_pTurret->GetTurretAngle() > kBatteryTurretAngleLimit) and ((m_angle >= 170) and (m_angle <= 190)))
+  {
+    m_pTurret->SetTurretMotor(0.0);
+    // Flash red and yell at drivers
+  }
+  else
+  {
+    m_pTurret->SetTurretMotor(m_pid.Calculate(m_pTurret->GetTurretAngle()));
+  }
+
+  if(m_pid.AtSetpoint())
+  {
+    m_timer.Start();
+  }
+  else
+  {
+    m_timer.Stop();
+    m_timer.Reset();
+  }
 }
 
 // Called once the command ends or is interrupted.

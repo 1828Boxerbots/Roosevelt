@@ -9,6 +9,8 @@
 
 #include <frc/XboxController.h>
 #include "subsystems/TurretSub.h"
+#include "Constants.h"
+#include "Util.h"
 
 /**
  * An example command.
@@ -20,7 +22,7 @@
 class TurretManCMD
     : public frc2::CommandHelper<frc2::CommandBase, TurretManCMD> {
  public:
-  TurretManCMD(TurretSub* pTurret, frc::XboxController* pXbox, double (frc::XboxController::*pInput)() const, double scale = 1.0);
+  TurretManCMD(TurretSub* pTurret, frc::XboxController* pXbox, double (frc::XboxController::*pInput)() const, double* pPivotAngle, double scale = 1.0);
 
   void Initialize() override;
 
@@ -33,5 +35,6 @@ class TurretManCMD
   TurretSub* m_pTurret;
   frc::XboxController* m_pXbox;
   double (frc::XboxController::*m_pInput)()const;
+  double* m_pPivotAngle;
   double m_scale;
 };

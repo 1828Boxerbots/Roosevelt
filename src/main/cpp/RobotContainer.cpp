@@ -16,11 +16,11 @@ RobotContainer::RobotContainer()
 
   m_pIntake = new IntakeCMD(&m_Intake);
   
-  m_pPivotManUp = new PivotManCMD(&m_Pivot, &m_XboxTwo, &frc::XboxController::GetLeftTriggerAxis, 1.0);
-  m_pPivotManDown = new PivotManCMD(&m_Pivot, &m_XboxTwo, &frc::XboxController::GetRightTriggerAxis, -1.0);
+  m_pPivotManUp = new PivotManCMD(&m_Pivot, &m_XboxTwo, &frc::XboxController::GetLeftTriggerAxis, &m_turretAngle, 1.0);
+  m_pPivotManDown = new PivotManCMD(&m_Pivot, &m_XboxTwo, &frc::XboxController::GetRightTriggerAxis, &m_turretAngle, -1.0);
   
   m_pElevatorMan = new ElevatorManCMD(&m_Elevator, &m_XboxTwo, &frc::XboxController::GetLeftY, 1.0);
-  m_pTurretMan = new TurretManCMD(&m_Turret, &m_XboxTwo, &frc::XboxController::GetRightX, 1.0);
+  m_pTurretMan = new TurretManCMD(&m_Turret, &m_XboxTwo, &frc::XboxController::GetRightX, &m_pivotAngle, 1.0);
 
   m_pBalance = new BalanceCMD(&m_Drive, &m_Turret);
   
@@ -82,6 +82,11 @@ void RobotContainer::ConfigureBindings()
 
   m_operatorController.Start().OnTrue(frc2::cmd::Parallel(*m_pPivotPIDHybrid, *m_pElevatorPIDHybrid));
   m_operatorController.Start().OnFalse(frc2::cmd::Parallel(*m_pPivotManUp, *m_pElevatorPIDUp));
+
+  m_operatorController.POVUp(frc2::CommandScheduler::GetInstance().GetDefaultButtonLoop()).CastTo<frc2::Trigger>().OnTrue(m_pTurretPIDFront);
+  m_operatorController.POVDown(frc2::CommandScheduler::GetInstance().GetDefaultButtonLoop()).CastTo<frc2::Trigger>().OnTrue(m_pTurretPIDBack);
+  m_operatorController.POVLeft(frc2::CommandScheduler::GetInstance().GetDefaultButtonLoop()).CastTo<frc2::Trigger>().OnTrue(m_pTurretPIDLeft);
+  m_operatorController.POVRight(frc2::CommandScheduler::GetInstance().GetDefaultButtonLoop()).CastTo<frc2::Trigger>().OnTrue(m_pTurretPIDRight);
 }
 
 void RobotContainer::Init()

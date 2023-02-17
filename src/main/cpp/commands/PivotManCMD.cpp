@@ -4,12 +4,13 @@
 
 #include "commands/PivotManCMD.h"
 
-PivotManCMD::PivotManCMD(PivotSub* pPivot, frc::XboxController* pXbox, double (frc::XboxController::*input)() const, double scale)
+PivotManCMD::PivotManCMD(PivotSub* pPivot, frc::XboxController* pXbox, double (frc::XboxController::*input)() const, double* pTurretAngle, double scale)
 {
   m_pPivot = pPivot;
   m_scale = scale;
   m_pXbox = pXbox;
   m_Input = input;
+  m_pTurretAngle = pTurretAngle;
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements(m_pPivot);
 }
@@ -20,7 +21,17 @@ void PivotManCMD::Initialize() {}
 // Called repeatedly when this Command is scheduled to run
 void PivotManCMD::Execute()
 {
-  m_pPivot->SetPivotMotor((m_pXbox->*m_Input)());
+  double speed = (m_pXbox->*m_Input)();
+  if((speed > 0 and m_pPivot->GetPivotAngle() > kBatteryPivotAngleLimit and *m_pTurretAngle > kBatteryTurretAngleLimit)
+      or (speed < 0 and m_pPivot->GetPivotAngle() > kBatteryPivotAngleLimit and *m_pTurretAngle < -kBatteryTurretAngleLimit))
+  {
+    m_pPivot->SetPivotMotor(0.0);
+    // Flash Red and yell at drivers
+  }
+  else
+  {
+    m_pPivot->SetPivotMotor(speed);
+  }
 }
 
 // Called once the command ends or is interrupted.

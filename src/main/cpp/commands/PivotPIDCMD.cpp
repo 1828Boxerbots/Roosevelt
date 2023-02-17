@@ -31,6 +31,13 @@ void PivotPIDCMD::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void PivotPIDCMD::Execute()
 {
+  if(((*m_pTurretAngle >= kBatteryTurretAngleLimit) or (*m_pTurretAngle <= -kBatteryTurretAngleLimit)) and
+      (m_pPivot->GetPivotAngle() > kBatteryPivotAngleLimit) and ((m_setAngle >= 80.0)))
+  {
+    m_pid.SetSetpoint(m_pPivot->GetPivotAngle());
+    // Flash red and yell at drivers
+  }
+  
   m_pPivot->SetPivotMotor(m_pid.Calculate(m_pPivot->GetPivotAngle()));
 
   if(m_pid.AtSetpoint())

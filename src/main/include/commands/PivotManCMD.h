@@ -11,6 +11,7 @@
 
 #include "subsystems/PivotSub.h"
 #include "Util.h"
+#include "Constants.h"
 
 /**
  * An example command.
@@ -22,7 +23,7 @@
 class PivotManCMD
     : public frc2::CommandHelper<frc2::CommandBase, PivotManCMD> {
  public:
-  PivotManCMD(PivotSub* pPivot, frc::XboxController* pXbox, double (frc::XboxController::*input)() const, double scale);
+  PivotManCMD(PivotSub* pPivot, frc::XboxController* pXbox, double (frc::XboxController::*input)() const, double* pTurretAngle, double scale);
 
   void Initialize() override;
 
@@ -36,5 +37,6 @@ class PivotManCMD
   PivotSub* m_pPivot = nullptr;
   frc::XboxController* m_pXbox;
   double (frc::XboxController::*m_Input)() const;
+  double* m_pTurretAngle;
   double m_scale;
 };
