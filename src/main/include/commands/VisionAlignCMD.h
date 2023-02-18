@@ -35,6 +35,6 @@ class VisionAlignCMD : public frc2::CommandHelper<frc2::CommandBase, VisionAlign
   DriveSub* m_pDriveSub = nullptr;
   VisionSub::Pipelines  m_pipeline;
   double m_speed;
-  double kDeadzone = 0.1;
+  double kDeadzone = 5.0;
   bool m_isFinished = false;
 };

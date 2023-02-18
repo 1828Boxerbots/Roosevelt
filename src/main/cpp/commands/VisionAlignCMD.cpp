@@ -44,7 +44,10 @@ void VisionAlignCMD::Execute()
 }
 
 // Called once the command ends or is interrupted.
-void VisionAlignCMD::End(bool interrupted) {}
+void VisionAlignCMD::End(bool interrupted) 
+{
+  m_pDriveSub->MoveTank(0.0, 0.0);
+}
 
 // Returns true when the command should end.
 bool VisionAlignCMD::IsFinished() {
