@@ -7,13 +7,13 @@
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
 
-#include <frc/Timer.h>
 #include <frc/controller/PIDController.h>
 
-#include "Util.h"
-#include "Constants.h"
-#include "subsystems/ElevatorSub.h"
 #include "subsystems/PivotSub.h"
+#include "subsystems/ElevatorSub.h"
+
+#include "Constants.h"
+#include "Util.h"
 
 /**
  * An example command.
@@ -22,11 +22,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class ArmCMD
-    : public frc2::CommandHelper<frc2::CommandBase, ArmCMD> {
+class ArmPIDCMD
+    : public frc2::CommandHelper<frc2::CommandBase, ArmPIDCMD> {
  public:
-  ArmCMD(PivotSub* pPivot, ElevatorSub* pElevator, double height, double distance, double* pTurretAngle,
-          bool useIsFinished = false, double holdtime = 0.5, double thresholdPivot = 0.1, double thresholdElevator = 0.1);
+  ArmPIDCMD(PivotSub* pPivot, ElevatorSub* pElevate, double* pTurretAngle, double pivotAngle, double elevateLength);
 
   void Initialize() override;
 
@@ -38,20 +37,11 @@ class ArmCMD
 
  private:
   PivotSub* m_pPivot;
-  ElevatorSub* m_pElevator;
-  double m_height;
-  double m_distance;
+  ElevatorSub* m_pElevate;
   double* m_pTurretAngle;
-  bool m_useIsFinished;
-  double m_holdTime;
-  double m_thresholdPivot;
-  double m_thresholdElevator;
-
   double m_pivotAngle;
-  double m_elevatorLength;
+  double m_elevateLength;
 
   frc::PIDController m_pivotPID{kPivotP, kPivotI, kPivotD};
-  frc::PIDController m_elevatorPID{kElevatorP, kElevatorI, kElevatorD};
-
-  frc::Timer m_timer;
+  frc::PIDController m_elevatePID{kElevatorP, kElevatorI, kElevatorD};
 };

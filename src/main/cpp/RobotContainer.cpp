@@ -11,41 +11,41 @@
 RobotContainer::RobotContainer()
 {
   // Initialize all of your commands and subsystems here
-  m_pDriveCMD = new DriveCMD(&m_Drive, &m_XboxOne, kDriveScale);
-  m_pDriveCMD = new DriveCMD(&m_Drive, &m_XboxOne, kSlowDriveScale);
+  m_pDriveCMD = new DriveCMD(&m_DriveSub, &m_XboxOne, kDriveScale);
+  m_pDriveCMD = new DriveCMD(&m_DriveSub, &m_XboxOne, kSlowDriveScale);
 
-  m_pIntake = new IntakeCMD(&m_Intake);
+  m_pIntake = new IntakeCMD(&m_IntakeSub);
   
-  m_pPivotManUp = new PivotManCMD(&m_Pivot, &m_XboxTwo, &frc::XboxController::GetLeftTriggerAxis, &m_turretAngle, 1.0);
-  m_pPivotManDown = new PivotManCMD(&m_Pivot, &m_XboxTwo, &frc::XboxController::GetRightTriggerAxis, &m_turretAngle, -1.0);
+  m_pPivotManUp = new PivotManCMD(&m_PivotSub, &m_XboxTwo, &frc::XboxController::GetLeftTriggerAxis, &m_turretAngle, 1.0);
+  m_pPivotManDown = new PivotManCMD(&m_PivotSub, &m_XboxTwo, &frc::XboxController::GetRightTriggerAxis, &m_turretAngle, -1.0);
   
-  m_pElevatorMan = new ElevatorManCMD(&m_Elevator, &m_XboxTwo, &frc::XboxController::GetLeftY, 1.0);
-  m_pTurretMan = new TurretManCMD(&m_Turret, &m_XboxTwo, &frc::XboxController::GetRightX, &m_pivotAngle, 1.0);
+  m_pElevatorMan = new ElevatorManCMD(&m_ElevatorSub, &m_XboxTwo, &frc::XboxController::GetLeftY, 1.0);
+  m_pTurretMan = new TurretManCMD(&m_TurretSub, &m_XboxTwo, &frc::XboxController::GetRightX, &m_pivotAngle, 1.0);
 
-  m_pBalance = new BalanceCMD(&m_Drive, &m_Turret);
+  m_pBalance = new BalanceCMD(&m_DriveSub, &m_TurretSub);
   
   // PID COMMANDS
-  m_pPivotPIDUp = new PivotPIDCMD{&m_Pivot, 90.0, &m_turretAngle};
-  m_pPivotPIDTop = new PivotPIDCMD{&m_Pivot, 90.0, &m_turretAngle};
-  m_pPivotPIDMid = new PivotPIDCMD{&m_Pivot, 90.0, &m_turretAngle};
-  m_pPivotPIDHybrid = new PivotPIDCMD{&m_Pivot, 90.0, &m_turretAngle};
-  m_pPivotPIDGround = new PivotPIDCMD{&m_Pivot, 90.0, &m_turretAngle};
-  m_pPivotPIDSubstation = new PivotPIDCMD{&m_Pivot, 90.0, &m_turretAngle};
+  m_pPivotPIDUp = new PivotPIDCMD{&m_PivotSub, 90.0, &m_turretAngle};
+  m_pPivotPIDTop = new PivotPIDCMD{&m_PivotSub, 90.0, &m_turretAngle};
+  m_pPivotPIDMid = new PivotPIDCMD{&m_PivotSub, 90.0, &m_turretAngle};
+  m_pPivotPIDHybrid = new PivotPIDCMD{&m_PivotSub, 90.0, &m_turretAngle};
+  m_pPivotPIDGround = new PivotPIDCMD{&m_PivotSub, 90.0, &m_turretAngle};
+  m_pPivotPIDSubstation = new PivotPIDCMD{&m_PivotSub, 90.0, &m_turretAngle};
 
-  m_pElevatorPIDUp = new ElevatorPIDCMD{&m_Elevator, 0.0};
-  m_pElevatorPIDTop = new ElevatorPIDCMD{&m_Elevator, 0.0};
-  m_pElevatorPIDMid = new ElevatorPIDCMD{&m_Elevator, 0.0};
-  m_pElevatorPIDHybrid = new ElevatorPIDCMD{&m_Elevator, 0.0};
-  m_pElevatorPIDGround = new ElevatorPIDCMD{&m_Elevator, 0.0};
-  m_pElevatorPIDSubstation = new ElevatorPIDCMD{&m_Elevator, 0.0};
+  m_pElevatorPIDUp = new ElevatorPIDCMD{&m_ElevatorSub, 0.0};
+  m_pElevatorPIDTop = new ElevatorPIDCMD{&m_ElevatorSub, 0.0};
+  m_pElevatorPIDMid = new ElevatorPIDCMD{&m_ElevatorSub, 0.0};
+  m_pElevatorPIDHybrid = new ElevatorPIDCMD{&m_ElevatorSub, 0.0};
+  m_pElevatorPIDGround = new ElevatorPIDCMD{&m_ElevatorSub, 0.0};
+  m_pElevatorPIDSubstation = new ElevatorPIDCMD{&m_ElevatorSub, 0.0};
 
-  m_pTurretPIDFront = new TurretPIDCMD{&m_Turret, 0.0, true, &m_pivotAngle};
-  m_pTurretPIDLeft = new TurretPIDCMD{&m_Turret, -90.0, true, &m_pivotAngle};
-  m_pTurretPIDRight = new TurretPIDCMD{&m_Turret, 90.0, true, &m_pivotAngle};
-  m_pTurretPIDBack = new TurretPIDCMD{&m_Turret, 180.0, true, &m_pivotAngle};
+  m_pTurretPIDFront = new TurretPIDCMD{&m_TurretSub, 0.0, true, &m_pivotAngle};
+  m_pTurretPIDLeft = new TurretPIDCMD{&m_TurretSub, -90.0, true, &m_pivotAngle};
+  m_pTurretPIDRight = new TurretPIDCMD{&m_TurretSub, 90.0, true, &m_pivotAngle};
+  m_pTurretPIDBack = new TurretPIDCMD{&m_TurretSub, 180.0, true, &m_pivotAngle};
 
-  m_pForward = new ForwardFeetAbsolute(&m_Drive, &m_Turret, 10.0, 0.1);
-  m_pBack = new ForwardFeetAbsolute(&m_Drive, &m_Turret, 0.0, 0.1);
+  m_pForward = new ForwardFeetAbsolute(&m_DriveSub, &m_TurretSub, 10.0, 0.1);
+  m_pBack = new ForwardFeetAbsolute(&m_DriveSub, &m_TurretSub, 0.0, 0.1);
   // Configure the button bindings
   ConfigureBindings();
   Init();
@@ -56,7 +56,6 @@ void RobotContainer::ConfigureBindings()
   // Driver Controller
   m_driverController.A().OnTrue(m_pBalance);
   m_driverController.LeftTrigger().OnTrue(m_pSlowDriveCMD);
-  
 
   // Operator Controller
   m_operatorController.LeftBumper().WhileTrue(m_pIntake);
@@ -91,10 +90,13 @@ void RobotContainer::ConfigureBindings()
 
 void RobotContainer::Init()
 {
-  m_Drive.Init();
-  m_Intake.Init();
-  m_Drive.SetDefaultCommand(*m_pDriveCMD);
-  //m_Intake.SetDefaultCommand(*m_pIntakeOpen);
+  m_DriveSub.Init();
+  m_IntakeSub.Init();
+  m_ElevatorSub.Init();
+  m_PivotSub.Init();
+  m_TurretSub.Init();
+  m_DriveSub.SetDefaultCommand(*m_pDriveCMD);
+  //m_IntakeSub.SetDefaultCommand(*m_pIntakeOpen);
 }
 
 int RobotContainer::GetDPDT()
@@ -127,12 +129,12 @@ frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
   // {
   //   Util::Log("AUTO", "ForwardLoadAuto");
   //   Util::Log("DPDT Pos", pos);
-  //   return autos::ForwardLoadAuto(&m_Intake, &m_Drive);
+  //   return autos::ForwardLoadAuto(&m_IntakeSub, &m_DriveSub);
   // }
   // else if(pos == 2)
   // {
   //   Util::Log("AUTO", "BalanceAuto");
-  //   return autos::BalanceAuto(&m_Intake, &m_Drive);
+  //   return autos::BalanceAuto(&m_IntakeSub, &m_DriveSub);
   // }
-  return autos::ForwardLoadAuto(&m_Intake, &m_Drive);
+  return autos::ForwardLoadAuto(&m_IntakeSub, &m_DriveSub);
 }
