@@ -77,3 +77,8 @@ constexpr double kBatteryTurretAngleLimit = 125.0;
 constexpr double kTurretP = 0.1;
 constexpr double kTurretI = 0.0;
 constexpr double kTurretD = 0.0;
+
+//VISION CONSTANTS:
+constexpr double kVisionP = 0.01;
+constexpr double kVisionI = 0.0;
+constexpr double kVisionD = 0.0;

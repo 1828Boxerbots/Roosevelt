@@ -6,7 +6,9 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include "subsystems/DriveSub.h"
+#include <frc/controller/PIDController.h>
+#include "Constants.h"
+#include "subsystems/TurretSub.h"
 #include "subsystems/VisionSub.h"
 
 
@@ -20,7 +22,7 @@
 class VisionAlignCMD : public frc2::CommandHelper<frc2::CommandBase, VisionAlignCMD> 
 {
  public:
-  VisionAlignCMD(VisionSub *pVisionSub,   DriveSub *pDriveSub, VisionSub::Pipelines pipeline, double speed = 0.1);
+  VisionAlignCMD(VisionSub *pVisionSub, TurretSub *pTurretSub, VisionSub::Pipelines pipeline, double speed = 0.1);
 
   void Initialize() override;
 
@@ -31,10 +33,19 @@ class VisionAlignCMD : public frc2::CommandHelper<frc2::CommandBase, VisionAlign
   bool IsFinished() override;
 
   private:
+  //Subsystems:
   VisionSub* m_pVisionSub = nullptr;
-  DriveSub* m_pDriveSub = nullptr;
-  VisionSub::Pipelines  m_pipeline;
+  TurretSub* m_pTurretSub = nullptr;
+
+  //Pipeline:
+  VisionSub::Pipelines m_pipeline;
+
+  //PIDs:
+  frc::PIDController  m_pidController{kVisionP, kVisionI, kVisionD};
+
+  //Command Variables:
   double m_speed;
+  double m_stop = 0.0;
   double kDeadzone = 5.0;
   bool m_isFinished = false;
 };

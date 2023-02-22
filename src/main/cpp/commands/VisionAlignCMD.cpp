@@ -4,41 +4,51 @@
 
 #include "commands/VisionAlignCMD.h"
 
-VisionAlignCMD::VisionAlignCMD(VisionSub *pVisionSub, DriveSub *pDriveSub, VisionSub::Pipelines pipeline, double speed) 
+VisionAlignCMD::VisionAlignCMD(VisionSub *pVisionSub, TurretSub *pTurretSub, VisionSub::Pipelines pipeline, double speed) 
 {
   m_pVisionSub = pVisionSub;
-  m_pDriveSub = pDriveSub;
+  //m_pTurretSub = pTurretSub;
+  m_pTurretSub = pTurretSub;
   m_pipeline = pipeline;
   m_speed = speed;
 
   // Use addRequirements() here to declare subsystem dependencies.
-  AddRequirements(m_pDriveSub);
+  AddRequirements(m_pTurretSub);
   //AddRequirements(m_pVisionSub);
 }
 
 // Called when the command is initially scheduled.
 void VisionAlignCMD::Initialize() 
 {
+  //Set Pipeline:
   m_pVisionSub ->SetPipeline(m_pipeline);
+  //Reset PIDs:
+  m_pidController.Reset();
 }
 
 // Called repeatedly when this Command is scheduled to run
 void VisionAlignCMD::Execute() 
 {
-  if(m_pVisionSub->GetHasTarget() == true)
+  //If Target is Spotted:
+  if(m_pVisionSub->HasTarget() == true)
   {
-    //If Camera Faces Right Side of Target
-    if(m_pVisionSub->GetYaw() < kDeadzone and m_pVisionSub->GetYaw() > -kDeadzone)
+    //If Camera Faces Center of Target:
+    if(m_pVisionSub->Yaw() < kDeadzone and m_pVisionSub->Yaw() > -kDeadzone)
     {
+      //End Execution:
       m_isFinished = true;
     }
-    else if (m_pVisionSub->GetYaw() < 0.0)
+    //If Camera Faces Right Side of Target:
+    else if (m_pVisionSub->Yaw() < 0.0)
     {
-      m_pDriveSub->MoveTank(m_speed, -m_speed);
+      //Move Left:
+      m_pTurretSub->SetTurretMotor(m_speed); //Needs Testing.
     }
-    else if (m_pVisionSub->GetYaw() > 0.0)
+    //If Camera Faces Left Side of Target:
+    else if (m_pVisionSub->Yaw() > 0.0)
     {
-      m_pDriveSub->MoveTank(-m_speed, m_speed);
+      //Move Right:
+      m_pTurretSub->SetTurretMotor(-m_speed); //Needs Testing.
     }
   }   
 }
@@ -46,7 +56,8 @@ void VisionAlignCMD::Execute()
 // Called once the command ends or is interrupted.
 void VisionAlignCMD::End(bool interrupted) 
 {
-  m_pDriveSub->MoveTank(0.0, 0.0);
+  //Stop Robot:
+  m_pTurretSub->SetTurretMotor(m_stop);
 }
 
 // Returns true when the command should end.

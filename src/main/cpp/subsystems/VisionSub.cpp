@@ -6,12 +6,14 @@
 
 VisionSub::VisionSub() = default;
 
+//Periodic:
 // This method will be called once per scheduler run
 void VisionSub::Periodic() 
 {
    ShowData();
 }
 
+//Initialize:
 void VisionSub::Init()
 {
     SetPipeline(AprilTags);
@@ -26,208 +28,198 @@ void VisionSub::ShowData()
     bool hastargets = result.HasTargets();
     double drivemode = m_camera.GetDriverMode();
 
+    //If Target is Detected:
     if(hastargets == true)
     {
-        
+        //Best Target Variables:
         photonlib::PhotonTrackedTarget besttarget = result.GetBestTarget();
         std::vector<std::pair<double, double>> besttargetcorners = besttarget.GetDetectedCorners();
-        frc::SmartDashboard::PutNumber("Targetbestcorners Size", besttargetcorners.size());
+
+        frc::SmartDashboard::PutNumber("TargetBest corners Size", besttargetcorners.size());
+
+        //If Target Size has Value:
         if (besttargetcorners.size() > 1)
         {
-            // maybe top left? of blob
+            //Top Left of Blob (Possibly):
             double x1 = besttargetcorners[0].first;
             double y1 = besttargetcorners[0].second;
-            // maybe bottom right? of blob
+
+            frc::SmartDashboard::PutNumber("TargetBest corners x1", x1);
+            frc::SmartDashboard::PutNumber("TargetBest corners y1", y1);
+
+            //Bottom Right of Blob (Possibly):
             double x2 = besttargetcorners[1].first;
             double y2 = besttargetcorners[1].second;
-            // center of blob
+
+            frc::SmartDashboard::PutNumber("TargetBest corners x2", x2);
+            frc::SmartDashboard::PutNumber("TargetBest corners y2", y2);
+
+            //Center of Blob:
             double x3 = x1 + 0.5 * (x2 - x1);
             double y3 = y1 + 0.5 * (y2 - y1);
-            frc::SmartDashboard::PutNumber("Targetbestcorners x1", x1);
-            frc::SmartDashboard::PutNumber("Targetbestcorners y1", y1);
-            frc::SmartDashboard::PutNumber("Targetbestcorners x2", x2);
-            frc::SmartDashboard::PutNumber("Targetbestcorners y2", y2);
-            frc::SmartDashboard::PutNumber("Targetbestcorners x3", x3);
-            frc::SmartDashboard::PutNumber("Targetbestcorners y3", y3);
+
+            frc::SmartDashboard::PutNumber("TargetBest corners x3", x3);
+            frc::SmartDashboard::PutNumber("TargetBest corners y3", y3);
         }
 
-        units::meter_t range = photonlib::PhotonUtils::CalculateDistanceToTarget(
-            kCameraHeight, m_targetHeight, kCameraPitch,
-           units::degree_t{besttarget.GetPitch()});
+        //Other Best Target Data Variables:
+        frc::SmartDashboard::PutNumber("TargetBest Area", besttarget.GetArea());
+        frc::SmartDashboard::PutNumber("TargetBest Pitch", besttarget.GetPitch());
+        frc::SmartDashboard::PutNumber("TargetBest Pose", besttarget.GetPoseAmbiguity());
+        frc::SmartDashboard::PutNumber("TargetBest Skew", besttarget.GetSkew());
 
-        frc::SmartDashboard::PutNumber("targetbest targetheight: ", (double) m_targetHeight);
-        frc::SmartDashboard::PutNumber("targetbest Range", (double)((units::inch_t) range));
-        frc::SmartDashboard::PutNumber("targetbest Area", besttarget.GetArea());
-        frc::SmartDashboard::PutNumber("targetbest Pitch", besttarget.GetPitch());
-        frc::SmartDashboard::PutNumber("targetbest Pose", besttarget.GetPoseAmbiguity());
-        frc::SmartDashboard::PutNumber("targetbest Skew", besttarget.GetSkew());
-
-        
+        //For General Amount of Targets Detected:
         for(int i = 0; i<numtargets; i++)
         {
+            //General Target Variables and Initialization:
             photonlib::PhotonTrackedTarget target = result.GetTargets()[i];
+            std::vector<std::pair<double, double>> targetcorners = target.GetDetectedCorners();
             char message[256];
 
-            //rawbytes:
-            sprintf(message, "target[%d] Area", i);
+            //Rawbytes:
+            sprintf(message, "Target[%d] Area", i);
             frc::SmartDashboard::PutNumber(message, target.GetArea());
 
-            sprintf(message, "target[%d] Pitch", i);
+            sprintf(message, "Target[%d] Pitch", i);
             frc::SmartDashboard::PutNumber(message, target.GetPitch());
 
-            sprintf(message, "target[%d] Pose", i);
+            sprintf(message, "Target[%d] Pose", i);
             frc::SmartDashboard::PutNumber(message, target.GetPoseAmbiguity());
 
-            sprintf(message, "target[%d] Skew", i);
+            sprintf(message, "Target[%d] Skew", i);
             frc::SmartDashboard::PutNumber(message, target.GetSkew());
 
-            sprintf(message, "target[%d] Yaw", i);
+            sprintf(message, "Target[%d] Yaw", i);
             frc::SmartDashboard::PutNumber(message, target.GetYaw());
 
-            range = photonlib::PhotonUtils::CalculateDistanceToTarget(
-             kCameraHeight, m_targetHeight, kCameraPitch,
-             units::degree_t{target.GetPitch()});
-
-           sprintf(message, "target[%d] Range", i);
-           frc::SmartDashboard::PutNumber(message, (double)((units::inch_t) range));
-
-            std::vector<std::pair<double, double>> targetcorners = target.GetDetectedCorners();
-            sprintf(message, "target[%d] corners size");
+            sprintf(message, "Target[%d] Corners Size");
             frc::SmartDashboard::PutNumber(message, targetcorners.size());
+
+            //If Target Size has Value:
             if (targetcorners.size() > 1)
             {
-                // maybe top left? of blob
+                //Top Left of Blob (Possibly):
                 double x1 = targetcorners[0].first;
                 double y1 = targetcorners[0].second;
-                // maybe bottom right? of blob
+
+                sprintf(message, "Target[%d] Corners x1");
+                frc::SmartDashboard::PutNumber(message, x1);
+                sprintf(message, "Target[%d] Corners y1");
+                frc::SmartDashboard::PutNumber(message, y1);
+
+                //Bottom Right of Blob (Possibly):
                 double x2 = targetcorners[1].first;
                 double y2 = targetcorners[1].second;
+
+                sprintf(message, "Target[%d] Corners x2");
+                frc::SmartDashboard::PutNumber(message, x2);
+                sprintf(message, "Target[%d] Corners y2");
+                frc::SmartDashboard::PutNumber(message, y2);
+
                 // center of blob
                 double x3 = x1 + 0.5 * (x2 - x1);
                 double y3 = y1 + 0.5 * (y2 - y1);
-                sprintf(message, "target[%d] corners x1");
-                frc::SmartDashboard::PutNumber(message, x1);
-                sprintf(message, "target[%d] corners y1");
-                frc::SmartDashboard::PutNumber(message, y1);
-                sprintf(message, "target[%d] corners x2");
-                frc::SmartDashboard::PutNumber(message, x2);
-                sprintf(message, "target[%d] corners y2");
-                frc::SmartDashboard::PutNumber(message, y2);
-                sprintf(message, "target[%d] corners x3");
+
+                sprintf(message, "Target[%d] Corners x3");
                 frc::SmartDashboard::PutNumber(message, x3);
-                sprintf(message, "target[%d] corners y3");
+                sprintf(message, "Target[%d] Corners y3");
                 frc::SmartDashboard::PutNumber(message, y3);
             }
         }
-
     }
 
     //Display Data:
     frc::SmartDashboard::PutBoolean("Driver Mode: ", drivemode);
     frc::SmartDashboard::PutBoolean("Has Targets: ", hastargets);
-    frc::SmartDashboard::PutNumber("Number of Targets ", numtargets);
-    frc::SmartDashboard::PutNumber("pipelineIndex", pipelineindex);
+    frc::SmartDashboard::PutNumber("Number of Targets: ", numtargets);
+    frc::SmartDashboard::PutNumber("Pipeline Index: ", pipelineindex);
 }
 
+//Set Pipeline:
 void VisionSub::SetPipeline(Pipelines pipeline)
 {
+    //Determines Pipeline Mode:
     switch(pipeline)
     {
         case ReflectiveTapeBottom:
             m_camera.SetPipelineIndex(kPipelineReflectiveTapeBottom);
-
-            m_targetHeight = kTargetHeightReflectiveTape;
-
             break;
 
         case ReflectiveTapeTop:
             m_camera.SetPipelineIndex(kPipelineReflectiveTapeTop);
-
-            m_targetHeight = kTargetHeightReflectiveTape;
-
             break;
 
         case PseudoReflectiveTape:
             m_camera.SetPipelineIndex(kPipelinePseudoRT);
-
-            m_targetHeight = kTargetHeightPRT;
-
             break;
 
         case Cone:
             m_camera.SetPipelineIndex(kPipelineIndexCone);
-
-            m_targetHeight = kTargetHeightCone;
-
             break;
 
         case Cube:
             m_camera.SetPipelineIndex(kPipelineIndexCube);
-
-            m_targetHeight = kTargetHeightCube;
-
             break;
 
         case AprilTags:
         default:
             m_camera.SetPipelineIndex(kPipelineAprilTags);
-
-            m_targetHeight = kTargetHeightAprilTag;
-
             break;
     }
 }
 
-void VisionSub::FindTargetDistance()
-{
-    if (GetHasTarget()) 
-    {
-    // Calculate Range:
-    units::meter_t m_targetRange = photonlib::PhotonUtils::CalculateDistanceToTarget
-    (kCameraHeight, m_targetHeight, kCameraPitch,
-    units::degree_t{});
-
-    frc::SmartDashboard::PutNumber("Target Range: ", (double) m_targetRange);
-    }
-}
-
-
+//Data Functions:
 int VisionSub::GetPipelineIndex()
 {
+    //Displays Current Pipeline:
     return m_camera.GetPipelineIndex();
 }
 
-bool VisionSub::GetHasTarget()
+bool VisionSub::HasTarget()
 {
+    //Has Target Variables:
     photonlib::PhotonPipelineResult result = m_camera.GetLatestResult();
     bool hasTarget = result.HasTargets();
+
+    //Has Target Data:
     frc::SmartDashboard::PutBoolean("Has Target:  ", hasTarget);
+
     return hasTarget;
 }
 
-double VisionSub::GetYaw()
+double VisionSub::Yaw()
 {
+    //Yaw Variable:
     double yaw = 0.0;
 
-    if(GetHasTarget() == true)
+    //If Target is Detected:
+    if(HasTarget() == true)
     {
+        //Variables:
         photonlib::PhotonPipelineResult result = m_camera.GetLatestResult();
         photonlib::PhotonTrackedTarget besttarget = result.GetBestTarget();
-        yaw = besttarget.GetPitch(); //90 Degrees
+    
+        //Pitch 90 Degrees Sideways:
+        yaw = besttarget.GetPitch();
     }
 
     return yaw;
 }
 
-double VisionSub::GetPitch()
+double VisionSub::Pitch()
 {
+    //Pitch Variable:
     double pitch = 0.0;
 
-    if(GetHasTarget() == true)
+    //If Target is Detected:
+    if(HasTarget() == true)
     {
+        //Variables:
         photonlib::PhotonPipelineResult result = m_camera.GetLatestResult();
         photonlib::PhotonTrackedTarget besttarget = result.GetBestTarget();
-        pitch = besttarget.GetYaw(); //90 Degrees
+
+        //Yaw 90 Degrees Sideways:
+        pitch = besttarget.GetYaw();
     }
 
     return pitch;
