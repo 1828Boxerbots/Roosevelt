@@ -25,7 +25,7 @@ constexpr int kLeftEncoderB = 1;
 constexpr int kRightEncoderA = 2;
 constexpr int kRightEncoderB = 3;
 
-    // Equation/Method to get number:
+//------------Equation/Method to get number:
 constexpr double kDriveDistancePerPulse = 360;
 
 // INTAKE CONSTANTS
@@ -40,7 +40,7 @@ constexpr int kPivotMotor = 13;
 constexpr int kPivotEncoderA = 4;
 constexpr int kPivotEncoderB = 5;
 
-    // Equation/Method to get number:
+//------------Equation/Method to get number:
 constexpr double kPivotDistancePerPulse = 360;
 
 constexpr double kBatteryPivotAngleLimit = 60.0;
@@ -48,15 +48,23 @@ constexpr double kBatteryPivotAngleLimit = 60.0;
 constexpr double kPivotP = 0.01;
 constexpr double kPivotI = 0.0;
 constexpr double kPivotD = 0.0;
-
+    
 // ELEVATOR CONSTANTS
 constexpr int kElevatorMotor = 12;
 
 constexpr int kElevatorEncoderA = 6;
 constexpr int kElevatorEncoderB = 7;
 
-    // Equation/Method to get number:
+//------------Equation/Method to get number:
 constexpr double kElevatorDistancePerPulse = 360;
+
+//------------Max height is 78 inches, robot base to turret is ~9in, 43 inch long arm by default (when GetLength = 0)
+  // 78 - 9 - 43 = 26 - 5 (buffer) = 21.0
+constexpr double kHeightLimit = 21.0; // Inches
+
+//------------Max distance is 48 inches outside frame perminitar, frame to middle of robot is 14.125 inches, 43 inch long arm by default (when GetLength = 0)
+    // (48+14.125)-43 = 19.125 - 5 (buffer) = 14.125
+constexpr double kDistanceLimit = 14.125; // Inches
 
 constexpr double kElevatorP = 0.01;
 constexpr double kElevatorI = 0.0;
@@ -68,7 +76,7 @@ constexpr int kTurretMotor = 14;
 constexpr int kTurretEncoderA = 8;
 constexpr int kTurretEncoderB = 9;
 
-    // Equation/Method to get number:
+//------------Equation/Method to get number:
 constexpr double kTurretDistancePerPulse = 360;
 
 constexpr double kTurretAngleLimit = 225.0;

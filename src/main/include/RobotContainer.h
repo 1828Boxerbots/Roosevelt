@@ -69,11 +69,11 @@ class RobotContainer {
   double m_pivotAngle = 0.0;
   double m_turretAngle = 0.0;
 
-  DriveSub m_Drive;
-  IntakeSub m_Intake;
-  PivotSub m_Pivot{&m_pivotAngle};
-  ElevatorSub m_Elevator;
-  TurretSub m_Turret{&m_turretAngle};
+  DriveSub m_DriveSub;
+  IntakeSub m_IntakeSub;
+  PivotSub m_PivotSub{&m_pivotAngle};
+  ElevatorSub m_ElevatorSub;
+  TurretSub m_TurretSub{&m_turretAngle};
 
   DriveCMD* m_pDriveCMD = nullptr;
   DriveCMD* m_pSlowDriveCMD = nullptr;
