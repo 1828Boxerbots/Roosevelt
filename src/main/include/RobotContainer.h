@@ -29,6 +29,9 @@
 #include "commands/ElevatorPIDCMD.h"
 #include "commands/TurretPIDCMD.h"
 
+#include "commands/ArmManCMD.h"
+#include "commands/ArmPIDCMD.h"
+
 #include "subsystems/DriveSub.h"
 #include "subsystems/IntakeSub.h"
 #include "subsystems/IntakeSub.h"
@@ -49,50 +52,59 @@ class RobotContainer {
   frc2::CommandPtr GetAutonomousCommand();
 
  private:
-  // Replace with CommandPS4Controller or CommandJoystick if needed
+  // COMMAND CONTROLLERS
   frc2::CommandXboxController m_driverController{kDriverControllerPort};
   frc2::CommandXboxController m_operatorController{kOperatorControllerPort};
 
-  // The robot's subsystems are defined here...
+  // CONTROLLERS
+  frc::XboxController m_XboxOne{kDriverControllerPort};
+  frc::XboxController m_XboxTwo{kOperatorControllerPort};
 
   void ConfigureBindings();
   void Init();
 
   int GetDPDT();
 
-  frc::XboxController m_XboxOne{kDriverControllerPort};
-  frc::XboxController m_XboxTwo{kOperatorControllerPort};
-
+  // AUTO SWITCH
   //frc::DigitalInput m_topDPDT{2};
   //frc::DigitalInput m_bottomDPDT{3};
 
+  // Pointer Variables
   double m_pivotAngle = 0.0;
   double m_turretAngle = 0.0;
 
+  // SUBSYSTEMS
   DriveSub m_DriveSub;
   IntakeSub m_IntakeSub;
   PivotSub m_PivotSub{&m_pivotAngle};
   ElevatorSub m_ElevatorSub;
   TurretSub m_TurretSub{&m_turretAngle};
 
+  // DRIVE CMD
   DriveCMD* m_pDriveCMD = nullptr;
   DriveCMD* m_pSlowDriveCMD = nullptr;
 
+  // INTAKE CMD
   IntakeCMD* m_pIntake = nullptr;
+
+  // AUTO CMDs
   BalanceCMD* m_pBalance = nullptr;
   ForwardFeetAbsolute* m_pForward = nullptr;
   ForwardFeetAbsolute* m_pBack = nullptr;
 
+  // MANUAL CMDS
+  PivotManCMD* m_pPivotManUp = nullptr;
+  PivotManCMD* m_pPivotManDown = nullptr;
   ElevatorManCMD* m_pElevatorMan = nullptr;
   TurretManCMD* m_pTurretMan = nullptr;
 
+  // OLD---ELEVATOR AND PIVOT PID
   PivotPIDCMD* m_pPivotPIDUp = nullptr;
   PivotPIDCMD* m_pPivotPIDTop = nullptr;
   PivotPIDCMD* m_pPivotPIDMid = nullptr;
   PivotPIDCMD* m_pPivotPIDHybrid = nullptr;
   PivotPIDCMD* m_pPivotPIDGround = nullptr;
   PivotPIDCMD* m_pPivotPIDSubstation = nullptr;
-
   ElevatorPIDCMD* m_pElevatorPIDUp = nullptr;
   ElevatorPIDCMD* m_pElevatorPIDTop = nullptr;
   ElevatorPIDCMD* m_pElevatorPIDMid = nullptr;
@@ -100,11 +112,18 @@ class RobotContainer {
   ElevatorPIDCMD* m_pElevatorPIDGround = nullptr;
   ElevatorPIDCMD* m_pElevatorPIDSubstation = nullptr;
 
+  // ARM CMD
+  ArmManCMD* m_pArmManCMD = nullptr;
+
+  ArmPIDCMD* m_pArmPIDUp = nullptr;
+  ArmPIDCMD* m_pArmPIDHigh = nullptr;
+  ArmPIDCMD* m_pArmPIDMid = nullptr;
+  ArmPIDCMD* m_pArmPIDSubstation = nullptr;
+
+  // TURRET PID
   TurretPIDCMD* m_pTurretPIDFront = nullptr;
   TurretPIDCMD* m_pTurretPIDLeft = nullptr;
   TurretPIDCMD* m_pTurretPIDRight = nullptr;
   TurretPIDCMD* m_pTurretPIDBack = nullptr;
 
-  PivotManCMD* m_pPivotManUp = nullptr;
-  PivotManCMD* m_pPivotManDown = nullptr;
 };

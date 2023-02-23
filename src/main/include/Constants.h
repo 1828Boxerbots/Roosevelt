@@ -14,6 +14,14 @@ constexpr int kSlowDriveScale = 0.5;
 constexpr int kTopDPDT = 9;
 constexpr int kBottomDPDT = 10;
 
+//------------Arm PID PivotAngle and ElevatorLength Values
+constexpr double kPivotDegHigh = 55.1;
+constexpr double kElevatorInHigh = 30.8;
+constexpr double kPivotDegMid = 55.7;
+constexpr double kElevatorInMid = 10.0;
+constexpr double kPivotDegSubstation = 29.3;
+constexpr double kElevatorInSubstation = 0.0; 
+
 // DRIVE CONSTANTS
 constexpr int kLeftDrive1 = 1;
 constexpr int kLeftDrive2 = 3;
