@@ -28,20 +28,11 @@ class TurretSub : public frc2::SubsystemBase {
   // ENCODER FUNCTIONS
   double GetTurretAngle();
 
-  // IMU FUNCTIONS
-  double GetXAngle();
-  double GetYAngle();
-  double GetZAngle();
-
  private:
   void ResetTurretEncoder();
-  void ResetIMU();
 
   ctre::phoenix::motorcontrol::can::WPI_VictorSPX m_turret{kTurretMotor};
   frc::Encoder m_encoder {kTurretEncoderA, kTurretEncoderA};
 
   double* m_pTurretAngle = nullptr;
-
-  //frc::ADIS16448_IMU m_imu;
-  frc::ADIS16470_IMU m_imu;
 };

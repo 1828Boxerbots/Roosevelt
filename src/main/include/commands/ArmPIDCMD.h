@@ -8,6 +8,7 @@
 #include <frc2/command/CommandHelper.h>
 
 #include <frc/controller/PIDController.h>
+#include <frc/Timer.h>
 
 #include "subsystems/PivotSub.h"
 #include "subsystems/ElevatorSub.h"
@@ -25,7 +26,8 @@
 class ArmPIDCMD
     : public frc2::CommandHelper<frc2::CommandBase, ArmPIDCMD> {
  public:
-  ArmPIDCMD(PivotSub* pPivot, ElevatorSub* pElevate, double* pTurretAngle, double pivotAngle, double elevateLength);
+  ArmPIDCMD(PivotSub* pPivot, ElevatorSub* pElevate, double* pTurretAngle, double pivotAngle, double elevateLength,
+            bool useIsFinished = false, double holdtime = 0.5, double threshold = 1.0);
 
   void Initialize() override;
 
@@ -41,7 +43,12 @@ class ArmPIDCMD
   double* m_pTurretAngle;
   double m_pivotAngle;
   double m_elevateLength;
+  bool m_useIsFinished;
+  double m_holdTime;
+  double m_threshold;
 
   frc::PIDController m_pivotPID{kPivotP, kPivotI, kPivotD};
   frc::PIDController m_elevatePID{kElevatorP, kElevatorI, kElevatorD};
+
+  frc::Timer m_timer;
 };

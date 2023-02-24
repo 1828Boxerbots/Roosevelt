@@ -4,10 +4,9 @@
 
 #include "commands/BalanceCMD.h"
 
-BalanceCMD::BalanceCMD(DriveSub* pDrive, TurretSub* pTurret, bool useIsFinished, double pidTolerance, double waitTime)
+BalanceCMD::BalanceCMD(DriveSub* pDrive, bool useIsFinished, double pidTolerance, double waitTime)
 {
   m_pDrive = pDrive;
-  m_pTurret = pTurret;
   m_pidTolerance = pidTolerance;
   m_waitTime = waitTime;
   m_useIsFinished = useIsFinished;
@@ -30,7 +29,7 @@ void BalanceCMD::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void BalanceCMD::Execute()
 {
-  m_pDrive->MoveRC(0.0, m_pid.Calculate(m_pTurret->GetYAngle()));
+  m_pDrive->MoveRC(0.0, m_pid.Calculate(m_pDrive->GetYAngle()));
   if(m_useIsFinished)
   {
     if(m_pid.AtSetpoint())

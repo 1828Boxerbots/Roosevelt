@@ -4,17 +4,17 @@
 
 #include "commands/TurretPIDCMD.h"
 
-TurretPIDCMD::TurretPIDCMD(TurretSub* pTurret, double angle, bool isFieldOriented, double* pPivotAngle, bool useIsFinished, 
+TurretPIDCMD::TurretPIDCMD(TurretSub* pTurret, double angle, double* pIMUAngle, bool isFieldOriented, double* pPivotAngle, bool useIsFinished, 
                 double tolerance, double waitTime)
 {
   m_pTurret = pTurret;
   m_angle = angle;
+  m_pIMUAngle = pIMUAngle;
   m_isFieldOriented = isFieldOriented;
   m_pPivotAngle = pPivotAngle;
   m_useIsFinished = useIsFinished;
   m_waitTime = waitTime;
 
-  m_pid.SetSetpoint(angle);
   m_pid.SetTolerance(tolerance);
 
   // Use addRequirements() here to declare subsystem dependencies.
@@ -27,6 +27,15 @@ void TurretPIDCMD::Initialize()
   m_timer.Stop();
   m_timer.Reset();
   m_pid.Reset();
+
+  if(m_isFieldOriented)
+  {
+    m_pid.SetSetpoint(m_angle-*m_pIMUAngle);
+  }
+  else
+  {
+    m_pid.SetSetpoint(m_angle);
+  }
 }
 
 // Called repeatedly when this Command is scheduled to run

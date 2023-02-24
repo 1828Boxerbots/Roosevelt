@@ -4,8 +4,15 @@
 
 #include "subsystems/DriveSub.h"
 
-DriveSub::DriveSub() = default;
+DriveSub::DriveSub(double* pIMUAngle)
+{
+    m_pIMUAngle = pIMUAngle;
+}
 
+void DriveSub::Periodic()
+{
+    *m_pIMUAngle = GetXAngle();
+}
 
 void DriveSub::Init()
 {
@@ -67,4 +74,38 @@ void DriveSub::ResetEncoders()
 {
     m_leftEncoder.Reset();
     m_rightEncoder.Reset();
+}
+
+// IMU FUNCTIONS
+
+double DriveSub::GetXAngle()
+{
+    //Util::Log("IMU X Angle", (double)m_imu.GetGyroAngleX());
+    //return (double)m_imu.GetGyroAngleX();
+
+    Util::Log("IMU X Angle", (double)m_imu.GetAngle());
+    return (double)m_imu.GetAngle();
+}
+
+double DriveSub::GetYAngle()
+{
+    //Util::Log("IMU Y Angle", (double)m_imu.GetGyroAngleY());
+    //return (double)m_imu.GetGyroAngleY();
+
+    Util::Log("IMU Y Angle", (double)m_imu.GetYComplementaryAngle());
+    return (double)m_imu.GetYComplementaryAngle();
+}
+
+double DriveSub::GetZAngle()
+{
+    //Util::Log("IMU Z Angle", (double)m_imu.GetGyroAngleZ());
+    //return (double)m_imu.GetGyroAngleZ();
+
+    Util::Log("IMU Z Angle", (double)m_imu.GetXComplementaryAngle());
+    return (double)m_imu.GetXComplementaryAngle();
+}
+
+void DriveSub::ResetIMU()
+{
+    m_imu.Reset();
 }

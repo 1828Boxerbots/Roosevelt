@@ -24,7 +24,7 @@
 class ForwardFeetAbsolute
     : public frc2::CommandHelper<frc2::CommandBase, ForwardFeetAbsolute> {
  public:
-  ForwardFeetAbsolute(DriveSub *pDrive, TurretSub* pTurret, double distance, double tolerance);
+  ForwardFeetAbsolute(DriveSub *pDrive, double distance, double tolerance);
 
   void Initialize() override;
 
@@ -36,7 +36,6 @@ class ForwardFeetAbsolute
 
  private:
   DriveSub* m_pDrive;
-  TurretSub* m_pTurret;
   double m_distance;
 
   frc::PIDController m_forwardPID{0.4, 0, 0};

@@ -72,9 +72,10 @@ class RobotContainer {
   // Pointer Variables
   double m_pivotAngle = 0.0;
   double m_turretAngle = 0.0;
+  double m_imuAngle = 0.0;
 
   // SUBSYSTEMS
-  DriveSub m_DriveSub;
+  DriveSub m_DriveSub{&m_imuAngle};
   IntakeSub m_IntakeSub;
   PivotSub m_PivotSub{&m_pivotAngle};
   ElevatorSub m_ElevatorSub;

@@ -4,13 +4,17 @@
 
 #include "commands/ArmPIDCMD.h"
 
-ArmPIDCMD::ArmPIDCMD(PivotSub* pPivot, ElevatorSub* pElevate, double* pTurretAngle, double pivotAngle, double elevateLength)
+ArmPIDCMD::ArmPIDCMD(PivotSub* pPivot, ElevatorSub* pElevate, double* pTurretAngle, double pivotAngle, double elevateLength,
+                      bool useIsFinished, double holdtime, double threshold)
 {
   m_pPivot = pPivot;
   m_pElevate = pElevate;
   m_pTurretAngle = pTurretAngle;
   m_pivotAngle = pivotAngle;
   m_elevateLength = elevateLength;
+  m_useIsFinished = useIsFinished;
+  m_holdTime = holdtime;
+  m_threshold = threshold;
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements(m_pPivot);
   AddRequirements(m_pElevate);
@@ -19,6 +23,9 @@ ArmPIDCMD::ArmPIDCMD(PivotSub* pPivot, ElevatorSub* pElevate, double* pTurretAng
 // Called when the command is initially scheduled.
 void ArmPIDCMD::Initialize()
 {
+  m_timer.Stop();
+  m_timer.Reset();
+
   m_elevatePID.Reset();
   m_pivotPID.Reset();
 
@@ -31,6 +38,9 @@ void ArmPIDCMD::Initialize()
     m_elevatePID.SetSetpoint(m_elevateLength);
   }
   m_pivotPID.SetSetpoint(m_pivotAngle);
+
+  m_pivotPID.SetTolerance(m_threshold);
+  m_elevatePID.SetTolerance(m_threshold);
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -62,6 +72,16 @@ void ArmPIDCMD::Execute()
 
   m_pElevate->SetElevatorMotor(elevatorSpeed);
   m_pPivot->SetPivotMotor(pivotSpeed);
+
+  if(m_elevatePID.AtSetpoint() and m_pivotPID.AtSetpoint())
+  {
+    m_timer.Start();
+  }
+  else
+  {
+    m_timer.Stop();
+    m_timer.Reset();
+  }
 }
 
 // Called once the command ends or is interrupted.
@@ -72,6 +92,16 @@ void ArmPIDCMD::End(bool interrupted)
 }
 
 // Returns true when the command should end.
-bool ArmPIDCMD::IsFinished() {
-  return false;
+bool ArmPIDCMD::IsFinished()
+{
+  bool returnValue;
+  if((double)m_timer.Get() >= m_holdTime and m_useIsFinished)
+  {
+    returnValue = true;
+  }
+  else
+  {
+    returnValue = false;
+  }
+  return returnValue;
 }

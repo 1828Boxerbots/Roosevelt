@@ -25,7 +25,7 @@ RobotContainer::RobotContainer()
   m_pTurretMan = new TurretManCMD(&m_TurretSub, &m_XboxTwo, &frc::XboxController::GetRightX, &m_pivotAngle, 1.0);
 
   // Balance CMD
-  m_pBalance = new BalanceCMD(&m_DriveSub, &m_TurretSub);
+  m_pBalance = new BalanceCMD(&m_DriveSub);
 
   // ARM CMDS
   m_pArmManCMD = new ArmManCMD{&m_PivotSub, &m_ElevatorSub, &m_turretAngle, &m_XboxTwo,
@@ -36,10 +36,10 @@ RobotContainer::RobotContainer()
   m_pArmPIDSubstation = new ArmPIDCMD{&m_PivotSub, &m_ElevatorSub, &m_turretAngle, kPivotDegSubstation, kElevatorInSubstation}; // Arm for the Double Substation -Closest you can get is 1/2 inch
 
   // Turret PID CMD
-  m_pTurretPIDFront = new TurretPIDCMD{&m_TurretSub, 0.0, true, &m_pivotAngle};
-  m_pTurretPIDLeft = new TurretPIDCMD{&m_TurretSub, -90.0, true, &m_pivotAngle};
-  m_pTurretPIDRight = new TurretPIDCMD{&m_TurretSub, 90.0, true, &m_pivotAngle};
-  m_pTurretPIDBack = new TurretPIDCMD{&m_TurretSub, 180.0, true, &m_pivotAngle};
+  m_pTurretPIDFront = new TurretPIDCMD{&m_TurretSub, 0.0, &m_imuAngle, true, &m_pivotAngle};
+  m_pTurretPIDLeft = new TurretPIDCMD{&m_TurretSub, -90.0, &m_imuAngle, true, &m_pivotAngle};
+  m_pTurretPIDRight = new TurretPIDCMD{&m_TurretSub, 90.0, &m_imuAngle, true, &m_pivotAngle};
+  m_pTurretPIDBack = new TurretPIDCMD{&m_TurretSub, 180.0, &m_imuAngle, true, &m_pivotAngle};
 
   // Configure the button bindings
   ConfigureBindings();
@@ -62,11 +62,11 @@ void RobotContainer::ConfigureBindings()
   m_operatorController.LeftBumper().WhileTrue(m_pIntake);
 
   //--Pivot Manuel Down (Left Trigger) Up (Right Trigger)
-  m_operatorController.LeftTrigger().WhileTrue(m_pPivotManUp);
-  m_operatorController.RightTrigger().WhileTrue(m_pPivotManDown);
+  m_operatorController.LeftTrigger().WhileTrue(m_pArmManCMD);
+  m_operatorController.RightTrigger().WhileTrue(m_pArmManCMD);
 
   //--Elevator Manuel (Left Stick Y)
-  m_operatorController.LeftStick().OnTrue(m_pElevatorMan);
+  m_operatorController.LeftStick().OnTrue(m_pArmManCMD);
 
   //--Turret Manuel (Right Stick X)
   m_operatorController.RightStick().OnTrue(m_pTurretMan);

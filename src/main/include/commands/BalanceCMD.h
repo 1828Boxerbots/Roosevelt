@@ -22,7 +22,7 @@
 class BalanceCMD
     : public frc2::CommandHelper<frc2::CommandBase, BalanceCMD> {
  public:
-  BalanceCMD(DriveSub* pDrive, TurretSub* pTurret, bool useIsFinished = false, double pidTolerance = 1.5, double waitTime = 0.5);
+  BalanceCMD(DriveSub* pDrive, bool useIsFinished = false, double pidTolerance = 1.5, double waitTime = 0.5);
 
   void Initialize() override;
 
@@ -34,7 +34,6 @@ class BalanceCMD
   
  private:
   DriveSub *m_pDrive;
-  TurretSub* m_pTurret;
 
   frc::PIDController m_pid{0.05, 0, 0};
 

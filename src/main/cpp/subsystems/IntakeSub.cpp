@@ -9,6 +9,7 @@ IntakeSub::IntakeSub() = default;
 void IntakeSub::Init()
 {
     m_compressor.EnableDigital();
+    m_isIntakeOpen = true;
     //SetIntake(false);
 }
 

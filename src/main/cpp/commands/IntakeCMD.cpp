@@ -4,9 +4,11 @@
 
 #include "commands/IntakeCMD.h"
 
-IntakeCMD::IntakeCMD(IntakeSub* pIntake)
+IntakeCMD::IntakeCMD(IntakeSub* pIntake, bool useIsFinished, double holdtime)
 {
   m_pIntake = pIntake;
+  m_useIsFinished = useIsFinished;
+  m_holdTime = holdtime;
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements(m_pIntake);
 }
@@ -31,7 +33,7 @@ void IntakeCMD::End(bool interrupted) {}
 bool IntakeCMD::IsFinished()
 {  
   bool value = false;
-  if((double)m_timer.Get() >= kIntakeFinishedTime)
+  if((double)m_timer.Get() >= m_holdTime and m_useIsFinished)
   {
     value = true;
   }

@@ -25,7 +25,7 @@
 class TurretPIDCMD
     : public frc2::CommandHelper<frc2::CommandBase, TurretPIDCMD> {
  public:
-  TurretPIDCMD(TurretSub* pTurret, double angle, bool isFieldOriented, double* pPivotAngle, bool useIsFinished = false, 
+  TurretPIDCMD(TurretSub* pTurret, double angle, double* pIMUAngle, bool isFieldOriented, double* pPivotAngle, bool useIsFinished = false, 
                 double tolerance = 0.5, double waitTime = 0.5);
 
   void Initialize() override;
@@ -38,6 +38,7 @@ class TurretPIDCMD
  private:
   TurretSub* m_pTurret;
   double m_angle;
+  double* m_pIMUAngle;
   bool m_isFieldOriented;
   double* m_pPivotAngle;
   bool m_useIsFinished;
