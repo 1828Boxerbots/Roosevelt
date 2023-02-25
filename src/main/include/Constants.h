@@ -15,12 +15,33 @@ constexpr int kTopDPDT = 9;
 constexpr int kBottomDPDT = 10;
 
 //------------Arm PID PivotAngle and ElevatorLength Values
+constexpr double kPivotDegUp = 0.0;
+constexpr double kElevatorInUp = 0.0;
 constexpr double kPivotDegHigh = 55.1;
 constexpr double kElevatorInHigh = 30.8;
 constexpr double kPivotDegMid = 55.7;
 constexpr double kElevatorInMid = 10.0;
 constexpr double kPivotDegSubstation = 29.3;
 constexpr double kElevatorInSubstation = 0.0; 
+constexpr double kPivotDegGround = 90.0;
+
+// AUTO CONSTANTS
+constexpr double kForwardDistFt = 13.6;
+constexpr double kBalanceDistFt = 6.6;
+constexpr double kGridDistFt = 0.0;
+constexpr double kForwardTolerance = 0.5;
+constexpr double kTurretBack = 180.0;
+constexpr double kTurretFront = 0.0;
+constexpr double kTurretTowardsObj = 28.6; //arctan(24in (vertical dist from CONE) / 44in (horizontal dist from CONE))
+constexpr double kArmHoldTime = 0.5;
+constexpr double kArmTolerance = 1.0;
+constexpr double kPivotHoldTime = 0.5;
+constexpr double kPivotTolerance = 1.0;
+constexpr double kElevatorHoldTime = 0.5;
+constexpr double kElevatorTolerance = 1.0;
+constexpr double kElevatorDistToConeInch = 5.0; // 44in (dist from CONE) - 43in (default elevator length) + 4in (half ot grabber length) = 5.0
+constexpr double kElevatorLengthToMidObj = 7.1; // sqrt( pow2(24in (vertical dist from CONE)) + pow2(44in (horizontal dist from CONE)))
+
 
 // DRIVE CONSTANTS
 constexpr int kLeftDrive1 = 1;

@@ -12,6 +12,8 @@
 #include "commands/BalanceCMD.h"
 #include "commands/TurretPIDCMD.h"
 #include "commands/ArmPIDCMD.h"
+#include "commands/PivotPIDCMD.h"
+#include "commands/ElevatorPIDCMD.h"
 
 #include "subsystems/IntakeSub.h"
 #include "subsystems/DriveSub.h"
@@ -41,6 +43,8 @@ namespace autos {
     //Ideal Autos
     frc2::CommandPtr DoubleScoreAuto(DriveSub* pDrive, TurretSub* pTurret, PivotSub* pPivot, ElevatorSub* pElevator, IntakeSub* pIntake, VisionSub* pVision,
                                         double* pPivotAngle, double* pTurretAngle, double* pIMUAngle);
+    frc2::CommandPtr DoubleScoreChargingStationAuto(DriveSub* pDrive, TurretSub* pTurret, PivotSub* pPivot, ElevatorSub* pElevator, IntakeSub* pIntake, VisionSub* pVision,
+                                                    double* pPivotAngle, double* pTurretAngle, double* pIMUAngle);
     frc2::CommandPtr DoubleScoreBalanceAuto(DriveSub* pDrive, TurretSub* pTurret, PivotSub* pPivot, ElevatorSub* pElevator, IntakeSub* pIntake, VisionSub* pVision,
                                                 double* pPivotAngle, double* pTurretAngle, double* pIMUAngle);
 
