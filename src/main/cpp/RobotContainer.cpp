@@ -46,19 +46,21 @@ RobotContainer::RobotContainer()
 
   // Configure the button bindings
   ConfigureBindings();
-  Init();
 }
 
 void RobotContainer::ConfigureBindings()
 {
+  // WhileTrue means the command will run until the button is let go
+  // OnTrue means the command will continue to run even if the button is let go
+  // Using OnTrue/OnFalse gives the same effect as WhileTrue/WhileFalse
+    // While holding the button CMD in OnTrue/WhileTrue will run and when let go OnFalse/While will run 
+
   // DRIVER CONTROLLER--------
   //--Balance (Hold A)
-  m_driverController.A().OnTrue(m_pBalance);
+  m_driverController.A().WhileTrue(m_pBalance);
 
   //--Slow Drive Speed (Hold Left Trigger)
-  m_driverController.LeftTrigger().OnTrue(m_pSlowDriveCMD);
-
-  //--Switch LEDs (Right Bumper) 
+  m_driverController.LeftTrigger().WhileTrue(m_pSlowDriveCMD);
 
   // OPERATOR CONTROLLER--------
   //--Toggle Grabber (Left Bumper)
@@ -69,13 +71,13 @@ void RobotContainer::ConfigureBindings()
   m_operatorController.RightTrigger().WhileTrue(m_pArmManCMD);
 
   //--Elevator Manuel (Left Stick Y)
-  m_operatorController.LeftStick().OnTrue(m_pArmManCMD);
+  m_operatorController.LeftStick().WhileTrue(m_pArmManCMD);
 
   //--Turret Manuel (Right Stick X)
-  m_operatorController.RightStick().OnTrue(m_pTurretMan);
+  m_operatorController.RightStick().WhileTrue(m_pTurretMan);
 
   //--Ground Arm Position (Hold A)
-  m_operatorController.A().OnTrue(new ArmPIDCMD{&m_PivotSub, &m_ElevatorSub, &m_turretAngle, 90.0, m_ElevatorSub.GetElevatorLength()});
+  m_operatorController.A().OnTrue(new ArmPIDCMD{&m_PivotSub, &m_ElevatorSub, &m_turretAngle, kPivotDegGround, m_ElevatorSub.GetElevatorLength()});
   m_operatorController.A().OnFalse(m_pArmPIDUp);
 
   //--Substation Arm Position (Hold B)
@@ -117,8 +119,8 @@ void RobotContainer::Init()
 
 int RobotContainer::GetDPDT()
 {
-  bool isTop = false;//!m_topDPDT.Get();
-  bool isBottom = false;//!m_bottomDPDT.Get();
+  bool isTop = !m_topDPDT.Get();
+  bool isBottom = !m_bottomDPDT.Get();
 
   int value;
 

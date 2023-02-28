@@ -41,15 +41,31 @@ void TurretPIDCMD::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void TurretPIDCMD::Execute()
 {
-  if((*m_pPivotAngle >= kBatteryPivotAngleLimit) and (m_pTurret->GetTurretAngle() > kBatteryTurretAngleLimit) and ((m_angle >= 170) and (m_angle <= 190)))
+  double turretAngle = m_pTurret->GetTurretAngle();
+  double speed = m_pid.Calculate(turretAngle);
+
+  // Check if Turret is gonna go over battery why Pivot is Down
+  // If so stop Turret and yell at driver
+  if((*m_pPivotAngle >= kBatteryPivotAngleLimit) and (turretAngle > kBatteryTurretAngleLimit) and
+      ((m_angle >= kLowerBackPositionAngle and m_angle <= kHigherBackPositionAngle) or (m_angle <= -kLowerBackPositionAngle and m_angle >= -kHigherBackPositionAngle)))
   {
-    m_pTurret->SetTurretMotor(0.0);
+    speed = 0.0;
     // Flash red and yell at drivers
   }
   else
   {
-    m_pTurret->SetTurretMotor(m_pid.Calculate(m_pTurret->GetTurretAngle()));
+    if((turretAngle >= kTurretAngleLimit) and (speed > 0.0))
+    {
+      m_pid.SetSetpoint(turretAngle - kTurretRotateAround);
+    }
+    else if((turretAngle <= -kTurretAngleLimit) and (speed < 0.0))
+    {
+      m_pid.SetSetpoint(turretAngle + kTurretRotateAround);
+    }
+    speed = m_pid.Calculate(turretAngle);
   }
+
+  m_pTurret->SetTurretMotor(speed);
 
   if(m_pid.AtSetpoint())
   {

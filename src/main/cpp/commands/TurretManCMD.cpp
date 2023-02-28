@@ -22,26 +22,35 @@ void TurretManCMD::Initialize() {}
 void TurretManCMD::Execute()
 {
   double speed = (m_pXbox->*m_pInput)() * m_scale;
+  double turretAngle = m_pTurret->GetTurretAngle();
 
-  if(speed > 0 and m_pTurret->GetTurretAngle() >= kTurretAngleLimit)
+  if(speed > 0.0 and turretAngle >= kTurretAngleLimit)
   {
     // Turn Turret to -135
     m_pTurret->SetTurretMotor(0.0);
   }
-  else if(speed < 0 and m_pTurret->GetTurretAngle() <= -kTurretAngleLimit)
+  else if(speed < 0 and turretAngle <= -kTurretAngleLimit)
   {
     // Turn Turret to 135
     m_pTurret->SetTurretMotor(0.0);
   }
 
-  if((speed > 0 and *m_pPivotAngle > kBatteryPivotAngleLimit and m_pTurret->GetTurretAngle() > kBatteryTurretAngleLimit)
-      or (speed < 0 and *m_pPivotAngle > kBatteryPivotAngleLimit and m_pTurret->GetTurretAngle() < -kBatteryTurretAngleLimit))
+  if((speed > 0 and *m_pPivotAngle > kBatteryPivotAngleLimit and turretAngle > kBatteryTurretAngleLimit)
+      or (speed < 0 and *m_pPivotAngle > kBatteryPivotAngleLimit and turretAngle < -kBatteryTurretAngleLimit))
   {
     m_pTurret->SetTurretMotor(0.0);
     // Flash Red and yell at drivers
   }
   else
   {
+    if(turretAngle > kTurretAngleLimit and speed > 0.0)
+    {
+      speed = 0.0;
+    }
+    else if(turretAngle < -kTurretAngleLimit and speed < 0.0)
+    {
+      speed = 0.0;
+    }
     m_pTurret->SetTurretMotor(speed);
   }
 }

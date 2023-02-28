@@ -4,11 +4,13 @@
 
 #include "commands/IntakeCMD.h"
 
-IntakeCMD::IntakeCMD(IntakeSub* pIntake, bool useIsFinished, double holdtime)
+IntakeCMD::IntakeCMD(IntakeSub* pIntake, bool useIsFinished, double holdtime, bool choseOpen, bool isOpen)
 {
   m_pIntake = pIntake;
   m_useIsFinished = useIsFinished;
   m_holdTime = holdtime;
+  m_choseOpen = choseOpen;
+  m_isOpen = isOpen;
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements(m_pIntake);
 }
@@ -23,7 +25,14 @@ void IntakeCMD::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void IntakeCMD::Execute()
 {
-  m_pIntake->SetIntake(!m_pIntake->IsIntakeOpen());
+  if(m_choseOpen)
+  {
+    m_pIntake->SetIntake(m_isOpen);
+  }
+  else
+  {
+    m_pIntake->SetIntake(!m_pIntake->IsIntakeOpen());
+  }
 }
 
 // Called once the command ends or is interrupted.

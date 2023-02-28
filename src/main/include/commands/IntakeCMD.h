@@ -23,7 +23,7 @@
 class IntakeCMD
     : public frc2::CommandHelper<frc2::CommandBase, IntakeCMD> {
  public:
-  IntakeCMD(IntakeSub* pIntake, bool useIsFinished = false, double holdtime = 0.5);
+  IntakeCMD(IntakeSub* pIntake, bool useIsFinished = false, double holdtime = 0.5, bool choseOpen = false, bool isOpen = false);
 
   void Initialize() override;
 
@@ -37,8 +37,8 @@ class IntakeCMD
   IntakeSub* m_pIntake;
   bool m_useIsFinished;
   double m_holdTime;
-
-  bool m_setOpen;
+  bool m_choseOpen;
+  bool m_isOpen;
 
   frc::Timer m_timer;
 };

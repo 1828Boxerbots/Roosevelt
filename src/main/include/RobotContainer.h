@@ -53,6 +53,7 @@ class RobotContainer {
   RobotContainer();
 
   frc2::CommandPtr GetAutonomousCommand();
+  void Init();
 
  private:
   // COMMAND CONTROLLERS
@@ -64,13 +65,12 @@ class RobotContainer {
   frc::XboxController m_XboxTwo{kOperatorControllerPort};
 
   void ConfigureBindings();
-  void Init();
 
   int GetDPDT();
 
   // AUTO SWITCH
-  //frc::DigitalInput m_topDPDT{2};
-  //frc::DigitalInput m_bottomDPDT{3};
+  frc::DigitalInput m_topDPDT{kTopDPDT};
+  frc::DigitalInput m_bottomDPDT{kBottomDPDT};
 
   // Pointer Variables
   double m_pivotAngle = 0.0;

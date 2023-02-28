@@ -17,7 +17,7 @@ frc2::CommandPtr autos::ScoreForwardAuto(DriveSub* pDrive, TurretSub* pTurret, P
   return frc2::cmd::Sequence(TurretPIDCMD(pTurret, kTurretBack, pIMUAngle, true, pPivotAngle, true), // Move Turret Toward Grid
                             /*Vision,*/ // Allign to Reflective Tape
                             ArmPIDCMD(pPivot, pElevator, pTurretAngle, kPivotDegHigh, kElevatorInHigh, true, kArmHoldTime, kArmTolerance), // Move Arm to High Pos
-                            IntakeCMD(pIntake, true), // Open Intake
+                            IntakeCMD(pIntake, true, 0.5, true, true), // Open Intake
                             ArmPIDCMD(pPivot, pElevator, pTurretAngle, kPivotDegUp, kElevatorInUp, true, kArmHoldTime, kArmTolerance), // Move Arm to Up Pos
                             frc2::cmd::Parallel( // Turn Turret to front and move out
                               TurretPIDCMD(pTurret, kTurretFront, pIMUAngle, false, pPivotAngle, true), // Turn Turret to front

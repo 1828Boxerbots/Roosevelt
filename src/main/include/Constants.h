@@ -54,8 +54,8 @@ constexpr int kLeftEncoderB = 1;
 constexpr int kRightEncoderA = 2;
 constexpr int kRightEncoderB = 3;
 
-//------------Equation/Method to get number:
-constexpr double kDriveDistancePerPulse = 360;
+//------------ CPR (360.0 on E4T-360 Encoder) / Circumfrence (6.0 inches)
+constexpr double kDriveDistancePerPulse = 360.0 / (6.0*M_PI);
 
 // INTAKE CONSTANTS
 constexpr int kForwardChannel = 0;
@@ -69,8 +69,8 @@ constexpr int kPivotMotor = 13;
 constexpr int kPivotEncoderA = 4;
 constexpr int kPivotEncoderB = 5;
 
-//------------Equation/Method to get number:
-constexpr double kPivotDistancePerPulse = 360;
+//------------Equation/Method to get number: CPR(2048.0 on REV Bore Encoder) / 360.0 Degrees (Encoder revolution is 1:1 with Pivot angle)
+constexpr double kPivotDistancePerPulse = 2048.0 / 360.0;
 
 constexpr double kBatteryPivotAngleLimit = 60.0;
 
@@ -84,8 +84,8 @@ constexpr int kElevatorMotor = 12;
 constexpr int kElevatorEncoderA = 6;
 constexpr int kElevatorEncoderB = 7;
 
-//------------Equation/Method to get number:
-constexpr double kElevatorDistancePerPulse = 360;
+//------------Equation/Method to get number: CPR (1024.0 on VersaPlanetary Integrated Encoder) / Circumfrence of shaft (0.5 inches)
+constexpr double kElevatorDistancePerPulse = 1024.0/ (0.5*M_PI);
 
 //------------Max height is 78 inches, robot base to turret is ~9in, 43 inch long arm by default (when GetLength = 0)
   // 78 - 9 - 43 = 26 - 5 (buffer) = 21.0
@@ -105,10 +105,13 @@ constexpr int kTurretMotor = 14;
 constexpr int kTurretEncoderA = 8;
 constexpr int kTurretEncoderB = 9;
 
-//------------Equation/Method to get number:
-constexpr double kTurretDistancePerPulse = 360;
+//------------Equation/Method to get number: CPR(2048.0 on REV Bore Encoder) / 360.0 Degrees (Encoder revolution is 1:1 with Turret angle)
+constexpr double kTurretDistancePerPulse = 2048.0 / 360.0;
 
 constexpr double kTurretAngleLimit = 225.0;
+constexpr double kTurretRotateAround = 360.0;
+constexpr double kLowerBackPositionAngle = 170.0;
+constexpr double kHigherBackPositionAngle = 190.0;
 constexpr double kBatteryTurretAngleLimit = 125.0;
 
 constexpr double kTurretP = 0.1;
