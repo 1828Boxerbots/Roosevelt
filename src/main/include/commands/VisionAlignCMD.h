@@ -6,10 +6,11 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
+#include <frc/XboxController.h>
 #include <frc/controller/PIDController.h>
-#include "Constants.h"
 #include "subsystems/TurretSub.h"
 #include "subsystems/VisionSub.h"
+#include "Constants.h"
 
 
 /**
@@ -22,7 +23,7 @@
 class VisionAlignCMD : public frc2::CommandHelper<frc2::CommandBase, VisionAlignCMD> 
 {
  public:
-  VisionAlignCMD(VisionSub *pVisionSub, TurretSub *pTurretSub, VisionSub::Pipelines pipeline, double speed = 0.1);
+  VisionAlignCMD(VisionSub *pVisionSub, TurretSub *pTurretSub, double rotationSpeed = kVisionAlignSpeed);
 
   void Initialize() override;
 
@@ -33,19 +34,19 @@ class VisionAlignCMD : public frc2::CommandHelper<frc2::CommandBase, VisionAlign
   bool IsFinished() override;
 
   private:
+  void Align();  
+  void PIDAlign(); //Note: Currently not operational.
+
   //Subsystems:
   VisionSub* m_pVisionSub = nullptr;
   TurretSub* m_pTurretSub = nullptr;
-
-  //Pipeline:
-  VisionSub::Pipelines m_pipeline;
 
   //PIDs:
   frc::PIDController  m_pidController{kVisionP, kVisionI, kVisionD};
 
   //Command Variables:
-  double m_speed;
-  double m_stop = 0.0;
-  double kDeadzone = 5.0;
-  bool m_isFinished = false;
-};
+  double m_speed = 0.2;
+  double m_rotationSpeed = 0.0;
+  double m_yaw = 0.0;
+  int m_heartbeat = 0;
+  };

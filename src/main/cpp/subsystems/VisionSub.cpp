@@ -92,7 +92,7 @@ void VisionSub::ShowData()
             sprintf(message, "Target[%d] Yaw", i);
             frc::SmartDashboard::PutNumber(message, target.GetYaw());
 
-            sprintf(message, "Target[%d] Corners Size");
+            sprintf(message, "Target[%d] Corners Size", i);
             frc::SmartDashboard::PutNumber(message, targetcorners.size());
 
             //If Target Size has Value:
@@ -102,27 +102,27 @@ void VisionSub::ShowData()
                 double x1 = targetcorners[0].first;
                 double y1 = targetcorners[0].second;
 
-                sprintf(message, "Target[%d] Corners x1");
+                sprintf(message, "Target[%d] Corners x1", i);
                 frc::SmartDashboard::PutNumber(message, x1);
-                sprintf(message, "Target[%d] Corners y1");
+                sprintf(message, "Target[%d] Corners y1", i);
                 frc::SmartDashboard::PutNumber(message, y1);
 
                 //Bottom Right of Blob (Possibly):
                 double x2 = targetcorners[1].first;
                 double y2 = targetcorners[1].second;
 
-                sprintf(message, "Target[%d] Corners x2");
+                sprintf(message, "Target[%d] Corners x2", i);
                 frc::SmartDashboard::PutNumber(message, x2);
-                sprintf(message, "Target[%d] Corners y2");
+                sprintf(message, "Target[%d] Corners y2", i);
                 frc::SmartDashboard::PutNumber(message, y2);
 
                 // center of blob
                 double x3 = x1 + 0.5 * (x2 - x1);
                 double y3 = y1 + 0.5 * (y2 - y1);
 
-                sprintf(message, "Target[%d] Corners x3");
+                sprintf(message, "Target[%d] Corners x3", i);
                 frc::SmartDashboard::PutNumber(message, x3);
-                sprintf(message, "Target[%d] Corners y3");
+                sprintf(message, "Target[%d] Corners y3", i);
                 frc::SmartDashboard::PutNumber(message, y3);
             }
         }

@@ -116,6 +116,8 @@ constexpr double kTurretI = 0.0;
 constexpr double kTurretD = 0.0;
 
 //VISION CONSTANTS:
+constexpr double kVisionDeadzone = 3.0;
 constexpr double kVisionP = 0.01;
 constexpr double kVisionI = 0.0;
 constexpr double kVisionD = 0.0;
+constexpr double kVisionAlignSpeed = 1.0;

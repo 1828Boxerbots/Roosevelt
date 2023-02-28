@@ -41,6 +41,9 @@ RobotContainer::RobotContainer()
   m_pTurretPIDRight = new TurretPIDCMD{&m_TurretSub, 90.0, &m_imuAngle, true, &m_pivotAngle};
   m_pTurretPIDBack = new TurretPIDCMD{&m_TurretSub, 180.0, &m_imuAngle, true, &m_pivotAngle};
 
+  // Vision Align CMD
+  m_pVisionAlignCMD = new VisionAlignCMD{&m_VisionSub, &m_TurretSub, kVisionAlignSpeed};
+
   // Configure the button bindings
   ConfigureBindings();
   Init();
@@ -88,6 +91,8 @@ void RobotContainer::ConfigureBindings()
   m_operatorController.Y().OnFalse(m_pArmPIDUp);
 
   //--Vision (Hold Back)
+  m_operatorController.Back().WhileTrue(m_pVisionAlignCMD);
+
   //--Switch LEDs (Right Bumper) 
 
   //--Field Oriented Turret PID Positions (D-Pad)
@@ -104,6 +109,7 @@ void RobotContainer::Init()
   m_ElevatorSub.Init();
   m_PivotSub.Init();
   m_TurretSub.Init();
+  m_VisionSub.Init();
 
   // Drive Default CMD
   m_DriveSub.SetDefaultCommand(*m_pDriveCMD);

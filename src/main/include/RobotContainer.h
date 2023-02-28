@@ -32,11 +32,14 @@
 #include "commands/ArmManCMD.h"
 #include "commands/ArmPIDCMD.h"
 
+#include "commands/VisionAlignCMD.h"
+
 #include "subsystems/DriveSub.h"
 #include "subsystems/IntakeSub.h"
 #include "subsystems/IntakeSub.h"
 #include "subsystems/ElevatorSub.h"
 #include "subsystems/TurretSub.h"
+#include "subsystems/VisionSub.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -80,6 +83,7 @@ class RobotContainer {
   PivotSub m_PivotSub{&m_pivotAngle};
   ElevatorSub m_ElevatorSub;
   TurretSub m_TurretSub{&m_turretAngle};
+  VisionSub m_VisionSub;
 
   // DRIVE CMD
   DriveCMD* m_pDriveCMD = nullptr;
@@ -127,4 +131,6 @@ class RobotContainer {
   TurretPIDCMD* m_pTurretPIDRight = nullptr;
   TurretPIDCMD* m_pTurretPIDBack = nullptr;
 
+  // VISION CMD
+  VisionAlignCMD* m_pVisionAlignCMD = nullptr;
 };
