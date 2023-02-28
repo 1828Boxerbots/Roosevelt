@@ -19,15 +19,6 @@
 class VisionSub : public frc2::SubsystemBase 
 {
  public:
- //Constructor:
-  VisionSub();
-
-  //Periodic:
-  void Periodic() override;
-
-  //Initialize:
-  void Init();
-
   //Pipeline:
   enum Pipelines
   {
@@ -38,6 +29,16 @@ class VisionSub : public frc2::SubsystemBase
     Cone, 
     Cube
   };
+
+  //Constructor:
+  VisionSub(VisionSub::Pipelines* pPipeline);
+
+  //Periodic:
+  void Periodic() override;
+
+  //Initialize:
+  void Init();
+
 
   void SetPipeline(Pipelines pipeline);
   
@@ -59,4 +60,7 @@ class VisionSub : public frc2::SubsystemBase
   const int kPipelineAprilTags = 3;
   const int kPipelineReflectiveTapeTop = 4;
   const int kPipelinePseudoRT = 5;
+
+  VisionSub::Pipelines* m_pPipeline;
+  VisionSub::Pipelines m_previousPipeline;
 };

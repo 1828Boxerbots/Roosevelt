@@ -8,6 +8,7 @@
 #include <frc2/command/CommandHelper.h>
 
 #include <frc/XboxController.h>
+#include <frc/controller/PIDController.h>
 
 #include "subsystems/PivotSub.h"
 #include "Util.h"
@@ -23,7 +24,7 @@
 class PivotManCMD
     : public frc2::CommandHelper<frc2::CommandBase, PivotManCMD> {
  public:
-  PivotManCMD(PivotSub* pPivot, frc::XboxController* pXbox, double (frc::XboxController::*input)() const, double* pTurretAngle, double scale);
+  PivotManCMD(PivotSub* pPivot, frc::XboxController* pXbox, double (frc::XboxController::*input)() const, double* pTurretAngle, bool usePID = false, double scale = 1.0);
 
   void Initialize() override;
 
@@ -38,5 +39,8 @@ class PivotManCMD
   frc::XboxController* m_pXbox;
   double (frc::XboxController::*m_Input)() const;
   double* m_pTurretAngle;
+  bool m_usePID;
   double m_scale;
+
+  frc::PIDController m_pid{kPivotP, kPivotI, kPivotD};
 };

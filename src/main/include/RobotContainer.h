@@ -10,6 +10,13 @@
 #include <frc2/command/ParallelCommandGroup.h>
 #include <frc2/command/Commands.h>
 
+#include "subsystems/DriveSub.h"
+#include "subsystems/IntakeSub.h"
+#include "subsystems/IntakeSub.h"
+#include "subsystems/ElevatorSub.h"
+#include "subsystems/TurretSub.h"
+#include "subsystems/VisionSub.h"
+
 #include "Constants.h"
 
 #include <frc/XboxController.h>
@@ -33,13 +40,7 @@
 #include "commands/ArmPIDCMD.h"
 
 #include "commands/VisionAlignCMD.h"
-
-#include "subsystems/DriveSub.h"
-#include "subsystems/IntakeSub.h"
-#include "subsystems/IntakeSub.h"
-#include "subsystems/ElevatorSub.h"
-#include "subsystems/TurretSub.h"
-#include "subsystems/VisionSub.h"
+#include "commands/VisionPipelineCMD.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -76,6 +77,7 @@ class RobotContainer {
   double m_pivotAngle = 0.0;
   double m_turretAngle = 0.0;
   double m_imuAngle = 0.0;
+  VisionSub::Pipelines m_pipeline;
 
   // SUBSYSTEMS
   DriveSub m_DriveSub{&m_imuAngle};
@@ -83,7 +85,7 @@ class RobotContainer {
   PivotSub m_PivotSub{&m_pivotAngle};
   ElevatorSub m_ElevatorSub;
   TurretSub m_TurretSub{&m_turretAngle};
-  VisionSub m_VisionSub;
+  VisionSub m_VisionSub{&m_pipeline};
 
   // DRIVE CMD
   DriveCMD* m_pDriveCMD = nullptr;
@@ -133,4 +135,5 @@ class RobotContainer {
 
   // VISION CMD
   VisionAlignCMD* m_pVisionAlignCMD = nullptr;
+  VisionPipelineCMD* m_pVisionPipelineCMD = nullptr;
 };

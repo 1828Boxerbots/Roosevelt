@@ -16,7 +16,7 @@ RobotContainer::RobotContainer()
   m_pSlowDriveCMD = new DriveCMD(&m_DriveSub, &m_XboxOne, kSlowDriveScale);
 
   // Intake CMD
-  m_pIntake = new IntakeCMD(&m_IntakeSub);
+  m_pIntake = new IntakeCMD(&m_IntakeSub, &m_pipeline);
   
   // Arm and Turret Man (Pivot-Up, Pivot-Down, Elevator, Turret)
   m_pPivotManUp = new PivotManCMD(&m_PivotSub, &m_XboxTwo, &frc::XboxController::GetLeftTriggerAxis, &m_turretAngle, 1.0);
@@ -43,6 +43,7 @@ RobotContainer::RobotContainer()
 
   // Vision Align CMD
   m_pVisionAlignCMD = new VisionAlignCMD{&m_VisionSub, &m_TurretSub, kVisionAlignSpeed};
+  m_pVisionPipelineCMD = new VisionPipelineCMD(&m_pipeline);
 
   // Configure the button bindings
   ConfigureBindings();
@@ -61,6 +62,9 @@ void RobotContainer::ConfigureBindings()
 
   //--Slow Drive Speed (Hold Left Trigger)
   m_driverController.LeftTrigger().WhileTrue(m_pSlowDriveCMD);
+
+  //--Switch LEDs (Right Bumper) 
+  m_driverController.RightBumper().WhileTrue(m_pVisionPipelineCMD);
 
   // OPERATOR CONTROLLER--------
   //--Toggle Grabber (Left Bumper)
@@ -96,6 +100,7 @@ void RobotContainer::ConfigureBindings()
   m_operatorController.Back().WhileTrue(m_pVisionAlignCMD);
 
   //--Switch LEDs (Right Bumper) 
+  m_operatorController.RightBumper().WhileTrue(m_pVisionPipelineCMD);
 
   //--Field Oriented Turret PID Positions (D-Pad)
   m_operatorController.POVUp(frc2::CommandScheduler::GetInstance().GetDefaultButtonLoop()).CastTo<frc2::Trigger>().OnTrue(m_pTurretPIDFront);

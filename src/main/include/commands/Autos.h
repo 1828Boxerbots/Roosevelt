@@ -31,21 +31,21 @@ namespace autos {
     frc2::CommandPtr ForwardAuto(DriveSub* pDrive);
 
     frc2::CommandPtr ScoreForwardAuto(DriveSub* pDrive, TurretSub* pTurret, PivotSub* pPivot, ElevatorSub* pElevator, IntakeSub* pIntake, VisionSub* pVision, 
-                                        double* pPivotAngle, double* pTurretAngle, double* pIMUAngle);
+                                        double* pPivotAngle, double* pTurretAngle, double* pIMUAngle, VisionSub::Pipelines* pPipeline);
 
     frc2::CommandPtr BalanceAuto(DriveSub* pDrive);
 
     frc2::CommandPtr BalanceMobilityAuto(DriveSub* pDrive);
 
     frc2::CommandPtr ScoreBalanceAuto(DriveSub* pDrive, TurretSub* pTurret, PivotSub* pPivot, ElevatorSub* pElevator, IntakeSub* pIntake, VisionSub* pVision,
-                                        double* pPivotAngle, double* pTurretAngle,double* pIMUAngle);
+                                        double* pPivotAngle, double* pTurretAngle,double* pIMUAngle, VisionSub::Pipelines* pPipeline);
     
     //Ideal Autos
     frc2::CommandPtr DoubleScoreAuto(DriveSub* pDrive, TurretSub* pTurret, PivotSub* pPivot, ElevatorSub* pElevator, IntakeSub* pIntake, VisionSub* pVision,
-                                        double* pPivotAngle, double* pTurretAngle, double* pIMUAngle);
+                                        double* pPivotAngle, double* pTurretAngle, double* pIMUAngle, VisionSub::Pipelines* pPipeline);
     frc2::CommandPtr DoubleScoreChargingStationAuto(DriveSub* pDrive, TurretSub* pTurret, PivotSub* pPivot, ElevatorSub* pElevator, IntakeSub* pIntake, VisionSub* pVision,
-                                                    double* pPivotAngle, double* pTurretAngle, double* pIMUAngle);
+                                                    double* pPivotAngle, double* pTurretAngle, double* pIMUAngle, VisionSub::Pipelines* pPipeline);
     frc2::CommandPtr DoubleScoreBalanceAuto(DriveSub* pDrive, TurretSub* pTurret, PivotSub* pPivot, ElevatorSub* pElevator, IntakeSub* pIntake, VisionSub* pVision,
-                                                double* pPivotAngle, double* pTurretAngle, double* pIMUAngle);
+                                                double* pPivotAngle, double* pTurretAngle, double* pIMUAngle, VisionSub::Pipelines* pPipeline);
 
 }  // namespace autos

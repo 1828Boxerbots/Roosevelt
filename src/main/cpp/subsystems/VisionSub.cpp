@@ -4,13 +4,21 @@
 
 #include "subsystems/VisionSub.h"
 
-VisionSub::VisionSub() = default;
+VisionSub::VisionSub(VisionSub::Pipelines* pPipeline)
+{
+    m_pPipeline = pPipeline;
+}
 
 //Periodic:
 // This method will be called once per scheduler run
 void VisionSub::Periodic() 
 {
-   ShowData();
+    if(m_previousPipeline != *m_pPipeline)
+    {
+        SetPipeline(*m_pPipeline);
+        m_previousPipeline = *m_pPipeline;
+    }
+   //ShowData();
 }
 
 //Initialize:

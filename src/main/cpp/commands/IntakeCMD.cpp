@@ -4,9 +4,10 @@
 
 #include "commands/IntakeCMD.h"
 
-IntakeCMD::IntakeCMD(IntakeSub* pIntake, bool useIsFinished, double holdtime, bool choseOpen, bool isOpen)
+IntakeCMD::IntakeCMD(IntakeSub* pIntake, VisionSub::Pipelines* pPipeline, bool useIsFinished, double holdtime, bool choseOpen, bool isOpen)
 {
   m_pIntake = pIntake;
+  m_pPipeline = pPipeline;
   m_useIsFinished = useIsFinished;
   m_holdTime = holdtime;
   m_choseOpen = choseOpen;
@@ -32,6 +33,18 @@ void IntakeCMD::Execute()
   else
   {
     m_pIntake->SetIntake(!m_pIntake->IsIntakeOpen());
+  }
+
+  if(!m_pIntake->IsIntakeOpen())
+  {
+    if(*m_pPipeline == VisionSub::Pipelines::Cone)
+    {
+      *m_pPipeline = VisionSub::Pipelines::PseudoReflectiveTape;
+    }
+    else if(*m_pPipeline == VisionSub::Pipelines::Cube)
+    {
+      *m_pPipeline = VisionSub::Pipelines::AprilTags;
+    }
   }
 }
 

@@ -7,10 +7,7 @@
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
 
-#include "subsystems/IntakeSub.h"
 #include "subsystems/VisionSub.h"
-
-#include <frc/Timer.h>
 #include "Constants.h"
 #include "Util.h"
 
@@ -21,10 +18,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class IntakeCMD
-    : public frc2::CommandHelper<frc2::CommandBase, IntakeCMD> {
+class VisionPipelineCMD
+    : public frc2::CommandHelper<frc2::CommandBase, VisionPipelineCMD> {
  public:
-  IntakeCMD(IntakeSub* pIntake, VisionSub::Pipelines* pPipeline, bool useIsFinished = false, double holdtime = 0.5, bool choseOpen = false, bool isOpen = false);
+  VisionPipelineCMD(VisionSub::Pipelines* pPipeline, bool setPipeline = false, VisionSub::Pipelines pipeline = VisionSub::Pipelines::Cube);
 
   void Initialize() override;
 
@@ -35,12 +32,9 @@ class IntakeCMD
   bool IsFinished() override;
 
  private:
-  IntakeSub* m_pIntake;
   VisionSub::Pipelines* m_pPipeline;
-  bool m_useIsFinished;
-  double m_holdTime;
-  bool m_choseOpen;
-  bool m_isOpen;
+  bool m_setPipeline;
+  VisionSub::Pipelines m_pipeline;
 
-  frc::Timer m_timer;
+  bool m_isFinished = false;
 };
