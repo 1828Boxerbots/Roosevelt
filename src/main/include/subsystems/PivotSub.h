@@ -29,5 +29,5 @@ class PivotSub : public frc2::SubsystemBase {
 
   double* m_pPivotAngle = nullptr;
 
-  frc::Encoder m_encoder{kPivotEncoderA, kPivotEncoderB};
+  frc::Encoder m_encoder{kPivotEncoderA, kPivotEncoderB, true};
 };

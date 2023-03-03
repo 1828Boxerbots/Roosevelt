@@ -24,5 +24,5 @@ class ElevatorSub : public frc2::SubsystemBase {
   void ResetElevatorEncoder();
 
   ctre::phoenix::motorcontrol::can::WPI_VictorSPX m_elevator {kElevatorMotor};
-  frc::Encoder m_encoder {kElevatorEncoderA, kElevatorEncoderB};
+  frc::Encoder m_encoder {kElevatorEncoderA, kElevatorEncoderB, true};
 };

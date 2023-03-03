@@ -29,6 +29,7 @@ class ArmManCMD
             double (frc::XboxController::*pPivotFunctionUp)()const,
             double (frc::XboxController::*pPivotFunctionDown)()const,
             double (frc::XboxController::*pElevatorFunction)()const,
+            bool useLimits = false,
             double pivotScale = 1.0, double elevateScale = 1.0);
 
   void Initialize() override;
@@ -47,6 +48,7 @@ class ArmManCMD
   double (frc::XboxController::*m_pPivotFunctionUp)()const;
   double (frc::XboxController::*m_pPivotFunctionDown)()const;
   double (frc::XboxController::*m_pElevatorFunction)()const;
+  bool m_useLimits;
   double m_pivotScale;
   double m_elevateScale;
 };

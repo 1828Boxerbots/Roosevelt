@@ -63,6 +63,6 @@ class DriveSub : public frc2::SubsystemBase {
   frc::Encoder m_leftEncoder{kLeftEncoderA, kLeftEncoderB};
   frc::Encoder m_rightEncoder{kRightEncoderA, kRightEncoderB};
 
-  frc::ADIS16470_IMU m_imu;
+  frc::ADIS16448_IMU m_imu;
   double* m_pIMUAngle;
 };

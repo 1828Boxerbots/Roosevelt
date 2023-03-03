@@ -8,9 +8,8 @@ IntakeSub::IntakeSub() = default;
 
 void IntakeSub::Init()
 {
-    m_compressor.EnableDigital();
     m_isIntakeOpen = true;
-    //SetIntake(false);
+    SetIntake(true);
 }
 
 void IntakeSub::SetIntake(bool setOpen)
@@ -37,20 +36,20 @@ IntakeSub::ColorTargets IntakeSub::GetHeldObject()
 {
     IntakeSub::ColorTargets object = IntakeSub::NOTHING;
 
-    frc::Color currentColor = m_colorSensor.GetColor();
+//     frc::Color currentColor = m_colorSensor.GetColor();
 
-    if(((m_ConeTarget.red - m_ConeDead) < currentColor.red) and ((m_ConeTarget.red + m_ConeDead) > currentColor.red) and
-      ((m_ConeTarget.blue -m_ConeDead)<currentColor.blue) and ((m_ConeTarget.blue +m_ConeDead)>currentColor.blue) and
-      ((m_ConeTarget.green-m_ConeDead)<currentColor.green) and ((m_ConeTarget.green+m_ConeDead)>currentColor.green))
-  {
-    object = IntakeSub::CONE;
-  }
-  else if(((m_CubeTarget.red - m_CubeDead) < currentColor.red) and ((m_CubeTarget.red + m_CubeDead) > currentColor.red) and
-      ((m_CubeTarget.blue -m_CubeDead)<currentColor.blue) and ((m_CubeTarget.blue +m_CubeDead)>currentColor.blue) and
-      ((m_CubeTarget.green-m_CubeDead)<currentColor.green) and ((m_CubeTarget.green+m_CubeDead)>currentColor.green))
-  {
-    object = IntakeSub::CUBE;
-  }
+//     if(((m_ConeTarget.red - m_ConeDead) < currentColor.red) and ((m_ConeTarget.red + m_ConeDead) > currentColor.red) and
+//       ((m_ConeTarget.blue -m_ConeDead)<currentColor.blue) and ((m_ConeTarget.blue +m_ConeDead)>currentColor.blue) and
+//       ((m_ConeTarget.green-m_ConeDead)<currentColor.green) and ((m_ConeTarget.green+m_ConeDead)>currentColor.green))
+//   {
+//     object = IntakeSub::CONE;
+//   }
+//   else if(((m_CubeTarget.red - m_CubeDead) < currentColor.red) and ((m_CubeTarget.red + m_CubeDead) > currentColor.red) and
+//       ((m_CubeTarget.blue -m_CubeDead)<currentColor.blue) and ((m_CubeTarget.blue +m_CubeDead)>currentColor.blue) and
+//       ((m_CubeTarget.green-m_CubeDead)<currentColor.green) and ((m_CubeTarget.green+m_CubeDead)>currentColor.green))
+//   {
+//     object = IntakeSub::CUBE;
+//   }
   
-  return object;
+   return object;
 }

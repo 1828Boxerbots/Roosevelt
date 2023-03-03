@@ -8,11 +8,15 @@
 constexpr int kDriverControllerPort = 0;
 constexpr int kOperatorControllerPort = 1;
 
-constexpr int kDriveScale = 1.0;
-constexpr int kSlowDriveScale = 0.5;
+constexpr double kDriveScale = .25;
+constexpr double kSlowDriveScale = 0.10;
 
-constexpr int kTopDPDT = 9;
-constexpr int kBottomDPDT = 10;
+constexpr double kPivotScale = 0.25;
+constexpr double kElevatorScale = 0.25;
+constexpr double kTurretScale = 0.25;
+
+constexpr int kTopDPDT = 10;
+constexpr int kBottomDPDT = 11;
 
 //------------Arm PID PivotAngle and ElevatorLength Values
 constexpr double kPivotDegUp = 0.0;
@@ -46,8 +50,8 @@ constexpr double kElevatorLengthToMidObj = 7.1; // sqrt( pow2(24in (vertical dis
 // DRIVE CONSTANTS
 constexpr int kLeftDrive1 = 1;
 constexpr int kLeftDrive2 = 3;
-constexpr int kRightDrive1 = 2;
-constexpr int kRightDrive2 = 4;
+constexpr int kRightDrive1 = 0;
+constexpr int kRightDrive2 = 2;
 
 constexpr int kLeftEncoderA = 0;
 constexpr int kLeftEncoderB = 1;
@@ -58,19 +62,19 @@ constexpr int kRightEncoderB = 3;
 constexpr double kDriveDistancePerPulse = 360.0 / (6.0*M_PI);
 
 // INTAKE CONSTANTS
-constexpr int kForwardChannel = 0;
-constexpr int kBackwardChannel = 1;
+constexpr int kForwardChannel = 4;
+constexpr int kBackwardChannel = 5;
 
 constexpr double kIntakeFinishedTime = 0.5;
 
 // PIVOT CONSTANTS
-constexpr int kPivotMotor = 13;
+constexpr int kPivotMotor = 14;
 
 constexpr int kPivotEncoderA = 4;
 constexpr int kPivotEncoderB = 5;
 
 //------------Equation/Method to get number: CPR(2048.0 on REV Bore Encoder) / 360.0 Degrees (Encoder revolution is 1:1 with Pivot angle)
-constexpr double kPivotDistancePerPulse = 2048.0 / 360.0;
+constexpr double kPivotDistancePerPulse = 530.0 / 90.0;
 
 constexpr double kBatteryPivotAngleLimit = 60.0;
 
@@ -79,10 +83,10 @@ constexpr double kPivotI = 0.0;
 constexpr double kPivotD = 0.0;
     
 // ELEVATOR CONSTANTS
-constexpr int kElevatorMotor = 12;
+constexpr int kElevatorMotor = 13;
 
-constexpr int kElevatorEncoderA = 6;
-constexpr int kElevatorEncoderB = 7;
+constexpr int kElevatorEncoderA = 8;
+constexpr int kElevatorEncoderB = 9;
 
 //------------Equation/Method to get number: CPR (1024.0 on VersaPlanetary Integrated Encoder) / Circumfrence of shaft (0.5 inches)
 constexpr double kElevatorDistancePerPulse = 1024.0/ (0.5*M_PI);
@@ -100,10 +104,10 @@ constexpr double kElevatorI = 0.0;
 constexpr double kElevatorD = 0.0;
 
 // TURRET CONSTANTS
-constexpr int kTurretMotor = 14;
+constexpr int kTurretMotor = 12;
 
-constexpr int kTurretEncoderA = 8;
-constexpr int kTurretEncoderB = 9;
+constexpr int kTurretEncoderA = 6;
+constexpr int kTurretEncoderB = 7;
 
 //------------Equation/Method to get number: CPR(2048.0 on REV Bore Encoder) / 360.0 Degrees (Encoder revolution is 1:1 with Turret angle)
 constexpr double kTurretDistancePerPulse = 2048.0 / 360.0;

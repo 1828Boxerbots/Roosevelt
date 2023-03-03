@@ -24,7 +24,7 @@
 class IntakeCMD
     : public frc2::CommandHelper<frc2::CommandBase, IntakeCMD> {
  public:
-  IntakeCMD(IntakeSub* pIntake, VisionSub::Pipelines* pPipeline, bool useIsFinished = false, double holdtime = 0.5, bool choseOpen = false, bool isOpen = false);
+  IntakeCMD(IntakeSub* pIntake,/* VisionSub::Pipelines* pPipeline,*/ bool useIsFinished = false, double holdtime = 0.5, bool choseOpen = false, bool isOpen = false);
 
   void Initialize() override;
 
@@ -36,7 +36,7 @@ class IntakeCMD
 
  private:
   IntakeSub* m_pIntake;
-  VisionSub::Pipelines* m_pPipeline;
+  //VisionSub::Pipelines* m_pPipeline;
   bool m_useIsFinished;
   double m_holdTime;
   bool m_choseOpen;

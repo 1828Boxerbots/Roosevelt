@@ -36,7 +36,7 @@ class IntakeSub : public frc2::SubsystemBase {
 
  private:
   frc::DoubleSolenoid m_intake{0, frc::PneumaticsModuleType::CTREPCM, kForwardChannel, kBackwardChannel};
-  rev::ColorSensorV3 m_colorSensor{frc::I2C::kOnboard};
+  //rev::ColorSensorV3 m_colorSensor{frc::I2C::kOnboard};
   frc::Compressor m_compressor{0, frc::PneumaticsModuleType::CTREPCM};
 
   // Color Values

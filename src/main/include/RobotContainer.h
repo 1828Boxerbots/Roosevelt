@@ -70,22 +70,22 @@ class RobotContainer {
   int GetDPDT();
 
   // AUTO SWITCH
-  frc::DigitalInput m_topDPDT{kTopDPDT};
-  frc::DigitalInput m_bottomDPDT{kBottomDPDT};
+  //frc::DigitalInput m_topDPDT{kTopDPDT};
+  //frc::DigitalInput m_bottomDPDT{kBottomDPDT};
 
   // Pointer Variables
   double m_pivotAngle = 0.0;
   double m_turretAngle = 0.0;
   double m_imuAngle = 0.0;
-  VisionSub::Pipelines m_pipeline;
+  VisionSub::Pipelines m_pipeline = VisionSub::Pipelines::Cone;
 
   // SUBSYSTEMS
   DriveSub m_DriveSub{&m_imuAngle};
   IntakeSub m_IntakeSub;
   PivotSub m_PivotSub{&m_pivotAngle};
   ElevatorSub m_ElevatorSub;
-  TurretSub m_TurretSub{&m_turretAngle};
-  VisionSub m_VisionSub{&m_pipeline};
+  // TurretSub m_TurretSub{&m_turretAngle};
+  // VisionSub m_VisionSub{&m_pipeline};
 
   // DRIVE CMD
   DriveCMD* m_pDriveCMD = nullptr;
@@ -93,6 +93,9 @@ class RobotContainer {
 
   // INTAKE CMD
   IntakeCMD* m_pIntake = nullptr;
+
+  IntakeCMD* m_pOutIntake = nullptr;
+  IntakeCMD* m_pInIntake = nullptr;
 
   // AUTO CMDs
   BalanceCMD* m_pBalance = nullptr;

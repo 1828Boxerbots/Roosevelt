@@ -4,12 +4,13 @@
 
 #include "commands/TurretManCMD.h"
 
-TurretManCMD::TurretManCMD(TurretSub* pTurret, frc::XboxController* pXbox, double (frc::XboxController::*pInput)() const, double* pPivotAngle, double scale)
+TurretManCMD::TurretManCMD(TurretSub* pTurret, frc::XboxController* pXbox, double (frc::XboxController::*pInput)() const, double* pPivotAngle, bool useLimits, double scale)
 {
   m_pTurret = pTurret;
   m_pXbox = pXbox;
   m_pInput = pInput;
   m_pPivotAngle = pPivotAngle;
+  m_useLimits = useLimits;
   m_scale = scale;
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements(m_pTurret);
@@ -24,35 +25,39 @@ void TurretManCMD::Execute()
   double speed = (m_pXbox->*m_pInput)() * m_scale;
   double turretAngle = m_pTurret->GetTurretAngle();
 
-  if(speed > 0.0 and turretAngle >= kTurretAngleLimit)
+  if(speed > 0.0 and turretAngle >= kTurretAngleLimit and m_useLimits)
   {
     // Turn Turret to -135
-    m_pTurret->SetTurretMotor(0.0);
+    speed = 0.0;
   }
-  else if(speed < 0 and turretAngle <= -kTurretAngleLimit)
+  else if(speed < 0 and turretAngle <= -kTurretAngleLimit and m_useLimits)
   {
     // Turn Turret to 135
-    m_pTurret->SetTurretMotor(0.0);
+    speed = 0.0;
   }
 
-  if((speed > 0 and *m_pPivotAngle > kBatteryPivotAngleLimit and turretAngle > kBatteryTurretAngleLimit)
-      or (speed < 0 and *m_pPivotAngle > kBatteryPivotAngleLimit and turretAngle < -kBatteryTurretAngleLimit))
+  if(m_useLimits)
   {
-    m_pTurret->SetTurretMotor(0.0);
-    // Flash Red and yell at drivers
-  }
-  else
-  {
-    if(turretAngle > kTurretAngleLimit and speed > 0.0)
+    if((speed > 0 and *m_pPivotAngle > kBatteryPivotAngleLimit and turretAngle > kBatteryTurretAngleLimit)
+        or (speed < 0 and *m_pPivotAngle > kBatteryPivotAngleLimit and turretAngle < -kBatteryTurretAngleLimit))
     {
       speed = 0.0;
+      // Flash Red and yell at drivers
     }
-    else if(turretAngle < -kTurretAngleLimit and speed < 0.0)
+    else
     {
-      speed = 0.0;
+      if(turretAngle > kTurretAngleLimit and speed > 0.0)
+      {
+        speed = 0.0;
+      }
+      else if(turretAngle < -kTurretAngleLimit and speed < 0.0)
+      {
+        speed = 0.0;
+      }
     }
-    m_pTurret->SetTurretMotor(speed);
   }
+
+  m_pTurret->SetTurretMotor(speed);
 }
 
 // Called once the command ends or is interrupted.

@@ -80,29 +80,29 @@ void DriveSub::ResetEncoders()
 
 double DriveSub::GetXAngle()
 {
-    //Util::Log("IMU X Angle", (double)m_imu.GetGyroAngleX());
-    //return (double)m_imu.GetGyroAngleX();
+    Util::Log("IMU X Angle", (double)m_imu.GetGyroAngleX());
+    return (double)m_imu.GetGyroAngleX();
 
-    Util::Log("IMU X Angle", (double)m_imu.GetAngle());
-    return (double)m_imu.GetAngle();
+    // Util::Log("IMU X Angle", (double)m_imu.GetAngle());
+    // return (double)m_imu.GetAngle();
 }
 
 double DriveSub::GetYAngle()
 {
-    //Util::Log("IMU Y Angle", (double)m_imu.GetGyroAngleY());
-    //return (double)m_imu.GetGyroAngleY();
+    Util::Log("IMU Y Angle", (double)m_imu.GetGyroAngleY());
+    return (double)m_imu.GetGyroAngleY();
 
-    Util::Log("IMU Y Angle", (double)m_imu.GetYComplementaryAngle());
-    return (double)m_imu.GetYComplementaryAngle();
+    //Util::Log("IMU Y Angle", (double)m_imu.GetYComplementaryAngle());
+    //return (double)m_imu.GetYComplementaryAngle();
 }
 
 double DriveSub::GetZAngle()
 {
-    //Util::Log("IMU Z Angle", (double)m_imu.GetGyroAngleZ());
-    //return (double)m_imu.GetGyroAngleZ();
+    Util::Log("IMU Z Angle", (double)m_imu.GetGyroAngleZ());
+    return (double)m_imu.GetGyroAngleZ();
 
-    Util::Log("IMU Z Angle", (double)m_imu.GetXComplementaryAngle());
-    return (double)m_imu.GetXComplementaryAngle();
+    //Util::Log("IMU Z Angle", (double)m_imu.GetXComplementaryAngle());
+    //return (double)m_imu.GetXComplementaryAngle();
 }
 
 void DriveSub::ResetIMU()

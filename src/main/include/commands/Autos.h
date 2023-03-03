@@ -7,13 +7,6 @@
 #include <frc2/command/CommandPtr.h>
 #include <frc2/command/SequentialCommandGroup.h>
 
-#include "commands/IntakeCMD.h"
-#include "commands/ForwardFeetAbsolute.h"
-#include "commands/BalanceCMD.h"
-#include "commands/TurretPIDCMD.h"
-#include "commands/ArmPIDCMD.h"
-#include "commands/PivotPIDCMD.h"
-#include "commands/ElevatorPIDCMD.h"
 
 #include "subsystems/IntakeSub.h"
 #include "subsystems/DriveSub.h"
@@ -21,6 +14,16 @@
 #include "subsystems/TurretSub.h"
 #include "subsystems/PivotSub.h"
 #include "subsystems/VisionSub.h"
+
+#include "commands/IntakeCMD.h"
+#include "commands/ForwardFeetAbsolute.h"
+#include "commands/BalanceCMD.h"
+#include "commands/TurretPIDCMD.h"
+#include "commands/ArmPIDCMD.h"
+#include "commands/PivotPIDCMD.h"
+#include "commands/ElevatorPIDCMD.h"
+#include "commands/VisionAlignCMD.h"
+#include "commands/VisionPipelineCMD.h"
 
 #include "Constants.h"
 

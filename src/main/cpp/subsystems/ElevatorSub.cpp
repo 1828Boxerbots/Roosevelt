@@ -16,12 +16,16 @@ void ElevatorSub::Init()
 
 void ElevatorSub::SetElevatorMotor(double speed)
 {
+    Util::Log("Extend Speed", speed);
+    Util::Log("Extent Length", m_encoder.GetDistance());
+    Util::Log("Extent Get", m_encoder.Get());
     m_elevator.Set(speed);
 }
 
 double ElevatorSub::GetElevatorLength()
 {
-    return m_encoder.Get();
+    Util::Log("Extent Length", m_encoder.GetDistance());
+    return m_encoder.GetDistance();
 }
 
 void ElevatorSub::ResetElevatorEncoder()

@@ -20,19 +20,24 @@ void PivotSub::Periodic()
 void PivotSub::Init()
 {
     ResetPivotEncoder();
-    m_pivot.SetInverted(false);
+    m_pivot.SetInverted(true);
 
     m_encoder.SetDistancePerPulse(kPivotDistancePerPulse);
 }
 
 void PivotSub::SetPivotMotor(double speed)
 {
+    Util::Log("Pivot Speed", speed);
+    Util::Log("Pivot Encoder", m_encoder.GetDistance());
+    Util::Log("Pivot Get", m_encoder.Get());
     m_pivot.Set(speed);
 }
 
 double PivotSub::GetPivotAngle()
 {
-    return m_encoder.Get();
+    Util::Log("Pivot Encoder", m_encoder.GetDistance());
+    Util::Log("Pivot Get", m_encoder.Get());
+    return m_encoder.GetDistance();
 }
 
 void PivotSub::ResetPivotEncoder()
