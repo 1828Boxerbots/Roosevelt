@@ -37,18 +37,21 @@ void ForwardFeetAbsolute::Execute()
   Util::Log("AtSetPoint FFA", m_forwardPID.AtSetpoint());
 
   //m_allignPID.SetSetpoint(m_pDrive->GetLeftDist());
-  Util::Log("Difference between encoder", m_pDrive->GetLeftDist()-m_pDrive->GetRightDist());
+  //Util::Log("Difference between encoder", m_pDrive->GetLeftDist()-m_pDrive->GetRightDist());
 
-  m_pDrive->MoveRC(m_allignPID.Calculate(m_pDrive->GetXAngle()), m_forwardPID.Calculate(m_pDrive->GetRightDist()));
-  if(m_forwardPID.AtSetpoint() and m_allignPID.AtSetpoint())
-  {
-    m_timer.Start();
-  }
-  else
-  {
-    m_timer.Reset();
-    m_timer.Stop();
-  }
+  m_pDrive->MoveTank(0.5, 0.5);
+  m_timer.Start();
+
+  // m_pDrive->MoveRC(m_allignPID.Calculate(m_pDrive->GetXAngle()), m_forwardPID.Calculate(m_pDrive->GetRightDist()));
+  // if(m_forwardPID.AtSetpoint() and m_allignPID.AtSetpoint())
+  // {
+  //   m_timer.Start();
+  // }
+  // else
+  // {
+  //   m_timer.Reset();
+  //   m_timer.Stop();
+  // }
 
   Util::Log("FFA GetTimer", (double)m_timer.Get());
 }
@@ -62,7 +65,7 @@ void ForwardFeetAbsolute::End(bool interrupted)
 // Returns true when the command should end.
 bool ForwardFeetAbsolute::IsFinished() 
 {
-  if((double)m_timer.Get() > 0.5)
+  if((double)m_timer.Get() > 1.25)
   {
     return true;
   }

@@ -23,7 +23,7 @@ void IntakeSub::SetIntake(bool setOpen)
     {
         m_intake.Set(frc::DoubleSolenoid::kReverse);
     }
-    m_intake.Set(frc::DoubleSolenoid::kOff);
+    //m_intake.Set(frc::DoubleSolenoid::kOff);
     m_isIntakeOpen = setOpen;
 }
 

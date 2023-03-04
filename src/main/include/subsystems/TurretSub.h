@@ -32,7 +32,7 @@ class TurretSub : public frc2::SubsystemBase {
   void ResetTurretEncoder();
 
   ctre::phoenix::motorcontrol::can::WPI_VictorSPX m_turret{kTurretMotor};
-  frc::Encoder m_encoder {kTurretEncoderA, kTurretEncoderA};
+  frc::Encoder m_encoder {kTurretEncoderA, kTurretEncoderB};
 
   double* m_pTurretAngle = nullptr;
 };

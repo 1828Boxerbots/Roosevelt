@@ -14,6 +14,18 @@ void ElevatorSub::Init()
     m_encoder.SetDistancePerPulse(kElevatorDistancePerPulse);
 }
 
+void ElevatorSub::Periodic()
+{
+    Util::Log("Extent Length", m_encoder.GetDistance());
+    Util::Log("Extent Get", m_encoder.Get());
+    Util::Log("Extent GetRaw", m_encoder.GetRaw());
+
+    double shaftDiamater = ((0.39/-49.0)*m_encoder.GetDistance()) + 1.15;
+    m_encoder.SetDistancePerPulse(1.0/(1024.0/ (shaftDiamater*M_PI)));
+    Util::Log("Shaft Diameter", shaftDiamater);
+    Util::Log("Elevate DPP", 1.0/(1024.0/ (shaftDiamater*M_PI)));
+}
+
 void ElevatorSub::SetElevatorMotor(double speed)
 {
     Util::Log("Extend Speed", speed);
@@ -25,7 +37,15 @@ void ElevatorSub::SetElevatorMotor(double speed)
 double ElevatorSub::GetElevatorLength()
 {
     Util::Log("Extent Length", m_encoder.GetDistance());
+    Util::Log("Extent Get", m_encoder.Get());
     return m_encoder.GetDistance();
+    //return 0.0;
+}
+
+double ElevatorSub::GetElevatorEncoder()
+{
+    Util::Log("Extent Get", m_encoder.Get());
+    return m_encoder.Get();
 }
 
 void ElevatorSub::ResetElevatorEncoder()

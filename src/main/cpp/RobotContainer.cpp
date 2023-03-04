@@ -5,6 +5,7 @@
 #include "RobotContainer.h"
 
 #include <frc2/command/button/Trigger.h>
+#include "commands/ManuelIntake.h"
 
 #include "commands/Autos.h"
 
@@ -17,22 +18,22 @@ RobotContainer::RobotContainer()
 
   // Intake CMD
   //m_pIntake = new IntakeCMD(&m_IntakeSub);
-  m_pInIntake = new IntakeCMD(&m_IntakeSub, false, 0.5, true, true);
-  m_pInIntake = new IntakeCMD(&m_IntakeSub, false, 0.5, true, false);
+  // m_pInIntake = new IntakeCMD(&m_IntakeSub, false, 0.5, true, true);
+  // m_pInIntake = new IntakeCMD(&m_IntakeSub, false, 0.5, true, false);
   
   // Arm and Turret Man (Pivot-Up, Pivot-Down, Elevator, Turret)
   // m_pPivotManUp = new PivotManCMD(&m_PivotSub, &m_XboxTwo, &frc::XboxController::GetLeftTriggerAxis, &m_turretAngle, 1.0);
   // m_pPivotManDown = new PivotManCMD(&m_PivotSub, &m_XboxTwo, &frc::XboxController::GetRightTriggerAxis, &m_turretAngle, -1.0);
   // m_pElevatorMan = new ElevatorManCMD(&m_ElevatorSub, &m_XboxTwo, &frc::XboxController::GetLeftY, 1.0);
 
-  // m_pTurretMan = new TurretManCMD(&m_TurretSub, &m_XboxTwo, &frc::XboxController::GetRightX, &m_pivotAngle, true, kTurretScale);
+  m_pTurretMan = new TurretManCMD(&m_TurretSub, &m_XboxTwo, &frc::XboxController::GetRightX, &m_pivotAngle, false, kTurretScale);
 
   // Balance CMD
   //m_pBalance = new BalanceCMD(&m_DriveSub);
 
   // ARM CMDS
   m_pArmManCMD = new ArmManCMD{&m_PivotSub, &m_ElevatorSub, &m_turretAngle, &m_XboxTwo,
-                &frc::XboxController::GetLeftTriggerAxis, &frc::XboxController::GetRightTriggerAxis, &frc::XboxController::GetLeftY, true, kPivotScale, kElevatorScale};
+                &frc::XboxController::GetLeftTriggerAxis, &frc::XboxController::GetRightTriggerAxis, &frc::XboxController::GetLeftY, false, kPivotScale, kElevatorScale};
   // m_pArmPIDUp = new ArmPIDCMD{&m_PivotSub, &m_ElevatorSub, &m_turretAngle, kPivotDegUp, kElevatorInUp}; // Straight Up - In all the way
   // m_pArmPIDHigh = new ArmPIDCMD{&m_PivotSub, &m_ElevatorSub, &m_turretAngle, kPivotDegHigh, kElevatorInHigh}; // Goes for the high goal on the grid
   // m_pArmPIDMid = new ArmPIDCMD{&m_PivotSub, &m_ElevatorSub, &m_turretAngle, kPivotDegMid, kElevatorInMid}; // Goes for the mid goal on the grid
@@ -71,8 +72,17 @@ void RobotContainer::ConfigureBindings()
 
   // OPERATOR CONTROLLER--------
   //--Toggle Grabber (Left Bumper)
-  m_operatorController.LeftBumper().WhileTrue(m_pInIntake);
-  m_operatorController.RightBumper().WhileTrue(m_pOutIntake);
+  m_operatorController.LeftBumper().WhileTrue(new ManuelIntake(&m_IntakeSub, true));
+  m_operatorController.RightBumper().WhileTrue(new ManuelIntake(&m_IntakeSub, false));
+
+  // if(m_XboxTwo.GetLeftBumper())
+  // {
+  //   m_IntakeSub.SetIntake(false);
+  // }
+  // else if(m_XboxTwo.GetRightBumper())
+  // {
+  //   m_IntakeSub.SetIntake(true);
+  // }
 
   //--Pivot Manuel Down (Left Trigger) Up (Right Trigger)
   m_operatorController.LeftTrigger().OnTrue(m_pArmManCMD);
@@ -82,7 +92,7 @@ void RobotContainer::ConfigureBindings()
   m_operatorController.LeftStick().OnTrue(m_pArmManCMD);
 
   //--Turret Manuel (Right Stick X)
-  //m_operatorController.RightStick().WhileTrue(m_pTurretMan);
+  m_operatorController.RightStick().OnTrue(m_pTurretMan);
 
   //--Ground Arm Position (Hold A)
   //m_operatorController.A().OnTrue(new ArmPIDCMD{&m_PivotSub, &m_ElevatorSub, &m_turretAngle, kPivotDegGround, m_ElevatorSub.GetElevatorLength()});
@@ -117,9 +127,9 @@ void RobotContainer::Init()
 {
   m_DriveSub.Init();
   m_IntakeSub.Init();
-  //m_ElevatorSub.Init();
-  //m_PivotSub.Init();
-  //m_TurretSub.Init();
+  m_ElevatorSub.Init();
+  m_PivotSub.Init();
+  m_TurretSub.Init();
   //m_VisionSub.Init();
 
   // Drive Default CMD

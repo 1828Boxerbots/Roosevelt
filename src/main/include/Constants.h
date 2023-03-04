@@ -8,12 +8,12 @@
 constexpr int kDriverControllerPort = 0;
 constexpr int kOperatorControllerPort = 1;
 
-constexpr double kDriveScale = .25;
-constexpr double kSlowDriveScale = 0.10;
+constexpr double kDriveScale = .75;
+constexpr double kSlowDriveScale = 0.35;
 
-constexpr double kPivotScale = 0.25;
+constexpr double kPivotScale = 0.50;
 constexpr double kElevatorScale = 0.25;
-constexpr double kTurretScale = 0.25;
+constexpr double kTurretScale = 0.5;
 
 constexpr int kTopDPDT = 10;
 constexpr int kBottomDPDT = 11;
@@ -53,13 +53,13 @@ constexpr int kLeftDrive2 = 3;
 constexpr int kRightDrive1 = 0;
 constexpr int kRightDrive2 = 2;
 
-constexpr int kLeftEncoderA = 0;
-constexpr int kLeftEncoderB = 1;
-constexpr int kRightEncoderA = 2;
-constexpr int kRightEncoderB = 3;
+constexpr int kLeftEncoderA = 2;
+constexpr int kLeftEncoderB = 3;
+constexpr int kRightEncoderA = 0;
+constexpr int kRightEncoderB = 1;
 
 //------------ CPR (360.0 on E4T-360 Encoder) / Circumfrence (6.0 inches)
-constexpr double kDriveDistancePerPulse = 360.0 / (6.0*M_PI);
+constexpr double kDriveDistancePerPulse = 1.0/(360.0 / (6.0*M_PI));
 
 // INTAKE CONSTANTS
 constexpr int kForwardChannel = 4;
@@ -74,7 +74,7 @@ constexpr int kPivotEncoderA = 4;
 constexpr int kPivotEncoderB = 5;
 
 //------------Equation/Method to get number: CPR(2048.0 on REV Bore Encoder) / 360.0 Degrees (Encoder revolution is 1:1 with Pivot angle)
-constexpr double kPivotDistancePerPulse = 530.0 / 90.0;
+constexpr double kPivotDistancePerPulse = 1.0/(530.0 / 90.0);
 
 constexpr double kBatteryPivotAngleLimit = 60.0;
 
@@ -89,7 +89,7 @@ constexpr int kElevatorEncoderA = 8;
 constexpr int kElevatorEncoderB = 9;
 
 //------------Equation/Method to get number: CPR (1024.0 on VersaPlanetary Integrated Encoder) / Circumfrence of shaft (0.5 inches)
-constexpr double kElevatorDistancePerPulse = 1024.0/ (0.5*M_PI);
+constexpr double kElevatorDistancePerPulse = 1.0/(1024.0/ (1.15*M_PI));
 
 //------------Max height is 78 inches, robot base to turret is ~9in, 43 inch long arm by default (when GetLength = 0)
   // 78 - 9 - 43 = 26 - 5 (buffer) = 21.0
@@ -110,7 +110,7 @@ constexpr int kTurretEncoderA = 6;
 constexpr int kTurretEncoderB = 7;
 
 //------------Equation/Method to get number: CPR(2048.0 on REV Bore Encoder) / 360.0 Degrees (Encoder revolution is 1:1 with Turret angle)
-constexpr double kTurretDistancePerPulse = 2048.0 / 360.0;
+constexpr double kTurretDistancePerPulse = 1.0/(2048.0 / 360.0);
 
 constexpr double kTurretAngleLimit = 225.0;
 constexpr double kTurretRotateAround = 360.0;

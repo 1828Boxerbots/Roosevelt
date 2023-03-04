@@ -38,6 +38,7 @@ double PivotSub::GetPivotAngle()
     Util::Log("Pivot Encoder", m_encoder.GetDistance());
     Util::Log("Pivot Get", m_encoder.Get());
     return m_encoder.GetDistance();
+    //return 0;
 }
 
 void PivotSub::ResetPivotEncoder()

@@ -23,39 +23,39 @@ void TurretManCMD::Initialize() {}
 void TurretManCMD::Execute()
 {
   double speed = (m_pXbox->*m_pInput)() * m_scale;
-  double turretAngle = m_pTurret->GetTurretAngle();
+  // double turretAngle = m_pTurret->GetTurretAngle();
 
-  if(speed > 0.0 and turretAngle >= kTurretAngleLimit and m_useLimits)
-  {
-    // Turn Turret to -135
-    speed = 0.0;
-  }
-  else if(speed < 0 and turretAngle <= -kTurretAngleLimit and m_useLimits)
-  {
-    // Turn Turret to 135
-    speed = 0.0;
-  }
+  // if(speed > 0.0 and turretAngle >= kTurretAngleLimit and m_useLimits)
+  // {
+  //   // Turn Turret to -135
+  //   speed = 0.0;
+  // }
+  // else if(speed < 0 and turretAngle <= -kTurretAngleLimit and m_useLimits)
+  // {
+  //   // Turn Turret to 135
+  //   speed = 0.0;
+  // }
 
-  if(m_useLimits)
-  {
-    if((speed > 0 and *m_pPivotAngle > kBatteryPivotAngleLimit and turretAngle > kBatteryTurretAngleLimit)
-        or (speed < 0 and *m_pPivotAngle > kBatteryPivotAngleLimit and turretAngle < -kBatteryTurretAngleLimit))
-    {
-      speed = 0.0;
-      // Flash Red and yell at drivers
-    }
-    else
-    {
-      if(turretAngle > kTurretAngleLimit and speed > 0.0)
-      {
-        speed = 0.0;
-      }
-      else if(turretAngle < -kTurretAngleLimit and speed < 0.0)
-      {
-        speed = 0.0;
-      }
-    }
-  }
+  // if(m_useLimits)
+  // {
+  //   if((speed > 0 and *m_pPivotAngle > kBatteryPivotAngleLimit and turretAngle > kBatteryTurretAngleLimit)
+  //       or (speed < 0 and *m_pPivotAngle > kBatteryPivotAngleLimit and turretAngle < -kBatteryTurretAngleLimit))
+  //   {
+  //     speed = 0.0;
+  //     // Flash Red and yell at drivers
+  //   }
+  //   else
+  //   {
+  //     if(turretAngle > kTurretAngleLimit and speed > 0.0)
+  //     {
+  //       speed = 0.0;
+  //     }
+  //     else if(turretAngle < -kTurretAngleLimit and speed < 0.0)
+  //     {
+  //       speed = 0.0;
+  //     }
+  //   }
+  // }
 
   m_pTurret->SetTurretMotor(speed);
 }

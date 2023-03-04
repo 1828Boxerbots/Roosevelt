@@ -16,9 +16,12 @@ class ElevatorSub : public frc2::SubsystemBase {
  public:
   ElevatorSub();
 
+  void Periodic() override;
+
   void Init();
   void SetElevatorMotor(double speed);
   double GetElevatorLength();
+  double GetElevatorEncoder();
 
  private:
   void ResetElevatorEncoder();

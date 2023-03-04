@@ -84,7 +84,7 @@ class RobotContainer {
   IntakeSub m_IntakeSub;
   PivotSub m_PivotSub{&m_pivotAngle};
   ElevatorSub m_ElevatorSub;
-  // TurretSub m_TurretSub{&m_turretAngle};
+  TurretSub m_TurretSub{&m_turretAngle};
   // VisionSub m_VisionSub{&m_pipeline};
 
   // DRIVE CMD

@@ -27,12 +27,19 @@ void TurretSub::Init()
 
 void TurretSub::SetTurretMotor(double speed)
 {
+    Util::Log("Turret Speed", speed);
+    Util::Log("Turret Get", m_encoder.Get());
+    Util::Log("Turret Distance", m_encoder.GetDistance());
+
     m_turret.Set(speed);
 }
 
 double TurretSub::GetTurretAngle()
 {
+    Util::Log("Turret Get", m_encoder.Get());
+    Util::Log("Turret Distance", m_encoder.GetDistance());
     return m_encoder.Get();
+    return 0;
 }
 
 void TurretSub::ResetTurretEncoder()
