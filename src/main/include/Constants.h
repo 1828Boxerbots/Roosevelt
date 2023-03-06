@@ -8,12 +8,12 @@
 constexpr int kDriverControllerPort = 0;
 constexpr int kOperatorControllerPort = 1;
 
-constexpr double kDriveScale = .75;
+constexpr double kDriveScale = .90;
 constexpr double kSlowDriveScale = 0.35;
 
 constexpr double kPivotScale = 0.50;
 constexpr double kElevatorScale = 0.25;
-constexpr double kTurretScale = 0.5;
+constexpr double kTurretScale = 0.75;
 
 constexpr int kTopDPDT = 10;
 constexpr int kBottomDPDT = 11;
