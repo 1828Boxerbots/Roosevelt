@@ -24,7 +24,7 @@
 class PivotPIDCMD
     : public frc2::CommandHelper<frc2::CommandBase, PivotPIDCMD> {
  public:
-  PivotPIDCMD(PivotSub* pPivot, double setAngle, double* pTuretAngle, bool useIsFinished = false, double holdtime = 0.5, double threshold = 0.1);
+  PivotPIDCMD(PivotSub* pPivot, double setAngle, double* pTuretAngle, bool useLimits = false, bool useIsFinished = false, double holdtime = 0.5, double threshold = 0.1);
 
   void Initialize() override;
 
@@ -37,6 +37,7 @@ class PivotPIDCMD
   PivotSub* m_pPivot;
   double m_setAngle;
   double* m_pTurretAngle;
+  bool m_useLimits;
   bool m_useIsFinished;
   double m_holdTime;
   double m_threshold;

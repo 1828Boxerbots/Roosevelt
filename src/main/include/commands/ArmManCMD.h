@@ -8,6 +8,7 @@
 #include <frc2/command/CommandHelper.h>
 
 #include <frc/XboxController.h>
+#include <frc/controller/PIDController.h>
 
 #include "subsystems/PivotSub.h"
 #include "subsystems/ElevatorSub.h"
@@ -51,4 +52,7 @@ class ArmManCMD
   bool m_useLimits;
   double m_pivotScale;
   double m_elevateScale;
+
+  frc::PIDController m_pivotPID {kPivotP, kPivotI, kPivotD};
+  double m_pivotSetPoint = 0.0;
 };

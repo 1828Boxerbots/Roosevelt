@@ -27,30 +27,35 @@ ArmManCMD::ArmManCMD(PivotSub* pPivot, ElevatorSub* pElevate, double* pTurretAng
 }
 
 // Called when the command is initially scheduled.
-void ArmManCMD::Initialize() {Util::Log("ArmMan", "Init");}
+void ArmManCMD::Initialize()
+{
+  m_pivotPID.Reset();
+  m_pivotSetPoint = m_pPivot->GetPivotAngle();
+  Util::Log("ArmMan", "Init");
+}
 
 // Called repeatedly when this Command is scheduled to run
 void ArmManCMD::Execute()
 {
   double elevatorSpeed = ((m_pXbox->*m_pElevatorFunction)() * m_elevateScale);
   Util::Log("ArmCMD Elevatorspeed", elevatorSpeed);
-  double pivotSpeed = ((m_pXbox->*m_pPivotFunctionUp)() - (m_pXbox->*m_pPivotFunctionDown)()) * m_pivotScale;
-  Util::Log("ArmMan", "Speed");
+
+  double pivotSpeed = 0.0; //((m_pXbox->*m_pPivotFunctionUp)() - (m_pXbox->*m_pPivotFunctionDown)()) * m_pivotScale));
+
+  // Incrementally change PID Setpoint by adding the input to the previous setpoint
+  m_pivotSetPoint = m_pivotSetPoint + (((m_pXbox->*m_pPivotFunctionUp)() - (m_pXbox->*m_pPivotFunctionDown)()) * m_pivotScale);
+
+  // Set Pivot Setpoint
+  m_pivotPID.SetSetpoint(m_pivotSetPoint);
 
   double height = cos(m_pPivot->GetPivotAngle() * (M_PI/180.0)) * m_pElevate->GetElevatorLength();
   double distance = sin(m_pPivot->GetPivotAngle() * (M_PI/180.0)) * m_pElevate->GetElevatorLength();
 
+  // Logs
   Util::Log("Current Height", height);
   Util::Log("Current Distance", distance);
-
   Util::Log("kHeightLimit", kHeightLimit);
   Util::Log("kDistanceLimit", kDistanceLimit);
-
-  // if(m_pElevate->GetElevatorLength() >= 15.0 and elevatorSpeed < 0.0)
-  // {
-  //   elevatorSpeed = 0;
-  //   Util::Log("ArmMan", "Stop for extention");
-  // }
 
   // Max height is 78 inches, robot base to turret is ~9in, 43 inch long arm by default (when GetLength = 0)
   // 79 - 9 - 43 = 26 
@@ -67,7 +72,8 @@ void ArmManCMD::Execute()
 
   Util::Log("ArmMan", "Before elevate");
   m_pElevate->SetElevatorMotor(elevatorSpeed);
-  Util::Log("ArmMan", "After elevate");
+
+  pivotSpeed = m_pivotPID.Calculate(m_pPivot->GetPivotAngle());
 
   // Check for turret angle and pivot speed
   if(m_useLimits)
@@ -79,8 +85,9 @@ void ArmManCMD::Execute()
       // Flash Red and yell at drivers
     }
   }
-    Util::Log("ArmMan", "Pivot Speed");
-    m_pPivot->SetPivotMotor(pivotSpeed);
+
+  Util::Log("ArmMan", "Pivot Speed");
+  m_pPivot->SetPivotMotor(pivotSpeed);
 }
 
 // Called once the command ends or is interrupted.

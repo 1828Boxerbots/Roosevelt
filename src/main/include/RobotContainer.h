@@ -105,6 +105,7 @@ class RobotContainer {
   // MANUAL CMDS
   PivotManCMD* m_pPivotManUp = nullptr;
   PivotManCMD* m_pPivotManDown = nullptr;
+  PivotManCMD* m_pPivotMan = nullptr;
   ElevatorManCMD* m_pElevatorMan = nullptr;
   TurretManCMD* m_pTurretMan = nullptr;
 

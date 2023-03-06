@@ -49,14 +49,14 @@ void ArmPIDCMD::Execute()
   double height = cos(m_pPivot->GetPivotAngle() * (M_PI/180.0)) * m_pElevate->GetElevatorLength();
   double distance = sin(m_pPivot->GetPivotAngle() * (M_PI/180.0)) * m_pElevate->GetElevatorLength();
 
-  if(height > 26.0)
+  if(height > kHeightLimit)
   {
-    m_elevatePID.SetSetpoint(26.0/cos(m_pPivot->GetPivotAngle()*(M_PI/180.0)));
+    m_elevatePID.SetSetpoint(kHeightLimit/cos(m_pPivot->GetPivotAngle()*(M_PI/180.0)));
   }
   
-  if(distance > 19.125)
+  if(distance > kDistanceLimit)
   {
-    m_elevatePID.SetSetpoint(19.25/sin(m_pPivot->GetPivotAngle()*(M_PI/180.0)));
+    m_elevatePID.SetSetpoint(kDistanceLimit/sin(m_pPivot->GetPivotAngle()*(M_PI/180.0)));
   }
 
   double elevatorSpeed = m_elevatePID.Calculate(m_pElevate->GetElevatorLength());
@@ -64,7 +64,7 @@ void ArmPIDCMD::Execute()
  
   // Do Turret stuff
   if(((*m_pTurretAngle >= kBatteryTurretAngleLimit) or (*m_pTurretAngle <= -kBatteryTurretAngleLimit)) and
-      (m_pPivot->GetPivotAngle() > kBatteryPivotAngleLimit) and ((m_pivotAngle >= 80.0)))
+      (m_pPivot->GetPivotAngle() > kBatteryPivotAngleLimit) and ((m_pivotAngle >= kBatteryPivotAngleLimit)))
   {
     m_pivotPID.SetSetpoint(m_pPivot->GetPivotAngle());
     // Flash red and yell at drivers

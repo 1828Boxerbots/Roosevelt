@@ -24,7 +24,9 @@ RobotContainer::RobotContainer()
   // Arm and Turret Man (Pivot-Up, Pivot-Down, Elevator, Turret)
   // m_pPivotManUp = new PivotManCMD(&m_PivotSub, &m_XboxTwo, &frc::XboxController::GetLeftTriggerAxis, &m_turretAngle, 1.0);
   // m_pPivotManDown = new PivotManCMD(&m_PivotSub, &m_XboxTwo, &frc::XboxController::GetRightTriggerAxis, &m_turretAngle, -1.0);
-  // m_pElevatorMan = new ElevatorManCMD(&m_ElevatorSub, &m_XboxTwo, &frc::XboxController::GetLeftY, 1.0);
+  m_pElevatorMan = new ElevatorManCMD(&m_ElevatorSub, &m_XboxTwo, &frc::XboxController::GetLeftY, &m_pivotAngle, kElevatorScale);
+  m_pPivotMan = new PivotManCMD{&m_PivotSub, &m_turretAngle, &m_XboxTwo, &frc::XboxController::GetRightTriggerAxis, &frc::XboxController::GetLeftTriggerAxis, false, kPivotScale};
+  m_pPivotPIDSubstation = new PivotPIDCMD{&m_PivotSub, kPivotDegSubstation, &m_turretAngle, false, false};
 
   m_pTurretMan = new TurretManCMD(&m_TurretSub, &m_XboxTwo, &frc::XboxController::GetRightX, &m_pivotAngle, false, kTurretScale);
 
@@ -32,12 +34,12 @@ RobotContainer::RobotContainer()
   //m_pBalance = new BalanceCMD(&m_DriveSub);
 
   // ARM CMDS
-  m_pArmManCMD = new ArmManCMD{&m_PivotSub, &m_ElevatorSub, &m_turretAngle, &m_XboxTwo,
-                &frc::XboxController::GetLeftTriggerAxis, &frc::XboxController::GetRightTriggerAxis, &frc::XboxController::GetLeftY, false, kPivotScale, kElevatorScale};
+  // m_pArmManCMD = new ArmManCMD{&m_PivotSub, &m_ElevatorSub, &m_turretAngle, &m_XboxTwo,
+  //               &frc::XboxController::GetLeftTriggerAxis, &frc::XboxController::GetRightTriggerAxis, &frc::XboxController::GetLeftY, false, kPivotScale, kElevatorScale};
   // m_pArmPIDUp = new ArmPIDCMD{&m_PivotSub, &m_ElevatorSub, &m_turretAngle, kPivotDegUp, kElevatorInUp}; // Straight Up - In all the way
   // m_pArmPIDHigh = new ArmPIDCMD{&m_PivotSub, &m_ElevatorSub, &m_turretAngle, kPivotDegHigh, kElevatorInHigh}; // Goes for the high goal on the grid
   // m_pArmPIDMid = new ArmPIDCMD{&m_PivotSub, &m_ElevatorSub, &m_turretAngle, kPivotDegMid, kElevatorInMid}; // Goes for the mid goal on the grid
-  // m_pArmPIDSubstation = new ArmPIDCMD{&m_PivotSub, &m_ElevatorSub, &m_turretAngle, kPivotDegSubstation, kElevatorInSubstation}; // Arm for the Double Substation -Closest you can get is 1/2 inch
+  //m_pArmPIDSubstation = new ArmPIDCMD{&m_PivotSub, &m_ElevatorSub, &m_turretAngle, kPivotDegSubstation, kElevatorInSubstation}; // Arm for the Double Substation -Closest you can get is 1/2 inch
 
   // Turret PID CMD
   // m_pTurretPIDFront = new TurretPIDCMD{&m_TurretSub, 0.0, &m_imuAngle, true, &m_pivotAngle};
@@ -85,11 +87,11 @@ void RobotContainer::ConfigureBindings()
   // }
 
   //--Pivot Manuel Down (Left Trigger) Up (Right Trigger)
-  m_operatorController.LeftTrigger().OnTrue(m_pArmManCMD);
-  m_operatorController.RightTrigger().OnTrue(m_pArmManCMD);
+  m_operatorController.LeftTrigger().OnTrue(m_pPivotMan);
+  m_operatorController.RightTrigger().OnTrue(m_pPivotMan);
 
   //--Elevator Manuel (Left Stick Y)
-  m_operatorController.LeftStick().OnTrue(m_pArmManCMD);
+  m_operatorController.LeftStick().OnTrue(m_pElevatorMan);
 
   //--Turret Manuel (Right Stick X)
   m_operatorController.RightStick().OnTrue(m_pTurretMan);

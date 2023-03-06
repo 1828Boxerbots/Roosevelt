@@ -20,7 +20,7 @@
 class ElevatorManCMD
     : public frc2::CommandHelper<frc2::CommandBase, ElevatorManCMD> {
  public:
-  ElevatorManCMD(ElevatorSub* pElevator, frc::XboxController* pXbox, double (frc::XboxController::*pInput)() const, double scale = 1.0);
+  ElevatorManCMD(ElevatorSub* pElevator, frc::XboxController* pXbox, double (frc::XboxController::*pInput)() const, double* pPivotAngle, double scale = 1.0);
 
   void Initialize() override;
 
@@ -34,5 +34,6 @@ class ElevatorManCMD
   ElevatorSub* m_pElevator;
   frc::XboxController* m_pXbox;
   double (frc::XboxController::*m_pInput)() const;
+  double* m_pPivotAngle;
   double m_scale;
 };

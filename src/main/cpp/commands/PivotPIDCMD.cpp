@@ -4,11 +4,12 @@
 
 #include "commands/PivotPIDCMD.h"
 
-PivotPIDCMD::PivotPIDCMD(PivotSub* pPivot, double setAngle, double* pTurretAngle, bool useIsFinished, double holdtime, double threshold)
+PivotPIDCMD::PivotPIDCMD(PivotSub* pPivot, double setAngle, double* pTurretAngle, bool useLimits, bool useIsFinished, double holdtime, double threshold)
 {
   m_pPivot = pPivot;
   m_pTurretAngle = pTurretAngle;
   m_setAngle = setAngle;
+  m_useLimits = useLimits;
   m_useIsFinished = useIsFinished;
   m_holdTime = holdtime;
   m_threshold = threshold;
@@ -31,23 +32,29 @@ void PivotPIDCMD::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void PivotPIDCMD::Execute()
 {
-  if(((*m_pTurretAngle >= kBatteryTurretAngleLimit) or (*m_pTurretAngle <= -kBatteryTurretAngleLimit)) and
-      (m_pPivot->GetPivotAngle() > kBatteryPivotAngleLimit) and ((m_setAngle >= 80.0)))
+  if(m_useLimits)
   {
-    m_pid.SetSetpoint(m_pPivot->GetPivotAngle());
-    // Flash red and yell at drivers
+    if(((*m_pTurretAngle >= kBatteryTurretAngleLimit) or (*m_pTurretAngle <= -kBatteryTurretAngleLimit)) and
+        (m_pPivot->GetPivotAngle() > kBatteryPivotAngleLimit) and ((m_setAngle >= kBatteryPivotAngleLimit)))
+    {
+      m_pid.SetSetpoint(m_pPivot->GetPivotAngle());
+      // Flash red and yell at drivers
+    }
   }
   
   m_pPivot->SetPivotMotor(m_pid.Calculate(m_pPivot->GetPivotAngle()));
 
-  if(m_pid.AtSetpoint())
+  if(m_useIsFinished)
   {
-    m_timer.Start();
-  }
-  else
-  {
-    m_timer.Stop();
-    m_timer.Reset();
+    if(m_pid.AtSetpoint())
+    {
+      m_timer.Start();
+    }
+    else
+    {
+      m_timer.Stop();
+      m_timer.Reset();
+    }
   }
 }
 
@@ -61,7 +68,7 @@ void PivotPIDCMD::End(bool interrupted)
 bool PivotPIDCMD::IsFinished()
 {
   bool value = false;
-  if(((double)m_timer.Get() >= m_holdTime) and m_useIsFinished)
+  if(((double)m_timer.Get() >= m_holdTime))
   {
     value = true;
   }

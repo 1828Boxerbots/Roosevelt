@@ -24,7 +24,8 @@
 class PivotManCMD
     : public frc2::CommandHelper<frc2::CommandBase, PivotManCMD> {
  public:
-  PivotManCMD(PivotSub* pPivot, frc::XboxController* pXbox, double (frc::XboxController::*input)() const, double* pTurretAngle, bool usePID = false, double scale = 1.0);
+  PivotManCMD(PivotSub* pPivot, double* pTurretAngle, frc::XboxController* pXbox, double (frc::XboxController::*pUpInput)() const, double (frc::XboxController::*pDownInput)() const,
+               bool useLimits = false, double scale = 1.0);
 
   void Initialize() override;
 
@@ -37,10 +38,12 @@ class PivotManCMD
  private:
   PivotSub* m_pPivot = nullptr;
   frc::XboxController* m_pXbox;
-  double (frc::XboxController::*m_Input)() const;
+  double (frc::XboxController::*m_pUpInput)() const;
+  double (frc::XboxController::*m_pDownInput)() const;
   double* m_pTurretAngle;
-  bool m_usePID;
+  bool m_useLimits;
   double m_scale;
 
-  frc::PIDController m_pid{kPivotP, kPivotI, kPivotD};
+  frc::PIDController m_pivotPID{kPivotP, kPivotI, kPivotD};
+  double m_pivotSetPoint;
 };

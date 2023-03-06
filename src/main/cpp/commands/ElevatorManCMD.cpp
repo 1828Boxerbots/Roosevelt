@@ -4,11 +4,12 @@
 
 #include "commands/ElevatorManCMD.h"
 
-ElevatorManCMD::ElevatorManCMD(ElevatorSub* pElevator, frc::XboxController* pXbox, double (frc::XboxController::*pInput)() const, double scale)
+ElevatorManCMD::ElevatorManCMD(ElevatorSub* pElevator, frc::XboxController* pXbox, double (frc::XboxController::*pInput)() const, double* pPivotAngle, double scale)
 {
   m_pElevator = pElevator;
   m_pXbox = pXbox;
   m_pInput = pInput;
+  m_pPivotAngle = pPivotAngle;
   m_scale = scale;
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements(m_pElevator);
@@ -20,7 +21,24 @@ void ElevatorManCMD::Initialize() {}
 // Called repeatedly when this Command is scheduled to run
 void ElevatorManCMD::Execute()
 {
-  m_pElevator->SetElevatorMotor((m_pXbox->*m_pInput)() * m_scale);
+  // Get speed from input
+  double extendSpeed = (m_pXbox->*m_pInput)() * m_scale;
+
+  // Calculate the current height and distance of the arm using PivotAngle and Extention length
+  double height = cos(*m_pPivotAngle * (M_PI/180.0)) * m_pElevator->GetElevatorLength();
+  double distance = sin(*m_pPivotAngle * (M_PI/180.0)) * m_pElevator->GetElevatorLength();
+
+  // If we are above any limits retract the extension
+  if(height > kHeightLimit)
+  {
+    extendSpeed = m_scale;
+  }
+  if(distance > kDistanceLimit)
+  {
+    extendSpeed = m_scale;
+  }
+
+  m_pElevator->SetElevatorMotor(extendSpeed);
 }
 
 // Called once the command ends or is interrupted.
