@@ -18,7 +18,7 @@ void ManuelIntake::Initialize() {}
 // Called repeatedly when this Command is scheduled to run
 void ManuelIntake::Execute()
 {
-  m_pIntake->SetIntake(m_setopen);
+  m_pIntake->SetIntake(!m_pIntake->IsIntakeOpen());
 }
 
 // Called once the command ends or is interrupted.

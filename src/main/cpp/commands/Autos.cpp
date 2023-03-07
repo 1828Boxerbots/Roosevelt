@@ -11,6 +11,12 @@ frc2::CommandPtr autos::ForwardAuto(DriveSub* pDrive)
   return frc2::cmd::Sequence(ForwardFeetAbsolute(pDrive, kForwardDistFt, kForwardTolerance));
 }
 
+frc2::CommandPtr autos::BalanceMobilityTimerAuto(DriveSub* pDrive)
+{
+  return frc2::cmd::Sequence(ForwardTimerCMD(pDrive, kMobilityChargeSpeed, kMobilityChargeSec), ForwardTimerCMD(pDrive, kBackBalanceSpeed, kBackBalanceSec));
+}
+
+
 frc2::CommandPtr autos::ScoreForwardAuto(DriveSub* pDrive, TurretSub* pTurret, PivotSub* pPivot, ElevatorSub* pElevator, IntakeSub* pIntake, VisionSub* pVision,
                                           double* pPivotAngle, double* pTurretAngle, double* pIMUAngle, VisionSub::Pipelines* pPipeline)
 {

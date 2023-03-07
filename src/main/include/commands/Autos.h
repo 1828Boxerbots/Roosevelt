@@ -17,6 +17,7 @@
 
 #include "commands/IntakeCMD.h"
 #include "commands/ForwardFeetAbsolute.h"
+#include "commands/ForwardTimerCMD.h"
 #include "commands/BalanceCMD.h"
 #include "commands/TurretPIDCMD.h"
 #include "commands/ArmPIDCMD.h"
@@ -32,6 +33,8 @@ namespace autos {
  * Example static factory for an autonomous command.
  */
     frc2::CommandPtr ForwardAuto(DriveSub* pDrive);
+
+   frc2::CommandPtr BalanceMobilityTimerAuto(DriveSub* pDrive);
 
     frc2::CommandPtr ScoreForwardAuto(DriveSub* pDrive, TurretSub* pTurret, PivotSub* pPivot, ElevatorSub* pElevator, IntakeSub* pIntake, VisionSub* pVision, 
                                         double* pPivotAngle, double* pTurretAngle, double* pIMUAngle, VisionSub::Pipelines* pPipeline);

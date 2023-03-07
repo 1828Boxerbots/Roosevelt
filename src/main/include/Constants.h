@@ -46,6 +46,13 @@ constexpr double kElevatorTolerance = 1.0;
 constexpr double kElevatorDistToConeInch = 5.0; // 44in (dist from CONE) - 43in (default elevator length) + 4in (half ot grabber length) = 5.0
 constexpr double kElevatorLengthToMidObj = 7.1; // sqrt( pow2(24in (vertical dist from CONE)) + pow2(44in (horizontal dist from CONE)))
 
+constexpr double kForwardSpeed = 0.5;
+constexpr double kMobilitySec = 1.25;
+constexpr double kMobilityChargeSpeed = 0.5;
+constexpr double kMobilityChargeSec = 1.25;
+constexpr double kBackBalanceSpeed = -0.5;
+constexpr double kBackBalanceSec = 1.0;
+
 
 // DRIVE CONSTANTS
 constexpr int kLeftDrive1 = 1;
