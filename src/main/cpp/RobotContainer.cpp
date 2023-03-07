@@ -136,7 +136,8 @@ void RobotContainer::Init()
 
   // Drive Default CMD
   m_DriveSub.SetDefaultCommand(*m_pDriveCMD);
-  m_ElevatorSub.SetDefaultCommand(*m_pTurretMan);
+  m_ElevatorSub.SetDefaultCommand(*m_pElevatorMan);
+  m_TurretSub.SetDefaultCommand(*m_pTurretMan);
 }
 
 int RobotContainer::GetDPDT()
